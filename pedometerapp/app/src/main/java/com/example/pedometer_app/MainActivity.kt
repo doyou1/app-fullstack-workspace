@@ -1,0 +1,127 @@
+package com.example.pedometer_app
+
+import android.Manifest
+import android.app.ActivityManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.pedometer_app.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity(), SensorEventListener {
+
+    private lateinit var binding: ActivityMainBinding
+    private var isGranted = false
+
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (!granted) {
+            application.onTerminate()
+        }
+        this@MainActivity.isGranted = true
+    }
+
+    private lateinit var sensorManager: SensorManager
+    private lateinit var sensor: Sensor
+
+    private var isRun = false
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        init()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun init() {
+        initStepEvent()
+        checkActivityPermission()
+        binding.step = 0
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun checkActivityPermission() {
+        val activityPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+        if(activityPermission == PackageManager.PERMISSION_DENIED) {
+            launcher.launch(Manifest.permission.ACTIVITY_RECOGNITION)
+        }
+    }
+
+    private fun initStepEvent() {
+        // Create Sensor Manager
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        // Step Detect Sensor
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        if(isRun) {
+            sensorManager.unregisterListener(this)
+            runService()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onResume() {
+        super.onResume()
+        if(PedometerService.isRun) {
+            stopService(Intent(this, PedometerService::class.java))
+        }
+
+        if(!isRun) {
+            sensor.let {
+                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+                isRun = true
+            }
+        }
+    }
+
+    private fun runService() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            object: BroadcastReceiver() {
+                override fun onReceive(context: Context?, intent: Intent?) {
+                    val step = intent?.getIntExtra("step", -1)
+                    if (step != null) {
+                        binding.step = step
+                    }
+                }
+            }
+            , IntentFilter("PedometerService"))
+
+        val intent = Intent(this, PedometerService::class.java)
+        intent.putExtra("step", binding.step)
+        startService(intent)
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        event?.sensor?.let {
+            if(it.type == Sensor.TYPE_STEP_DETECTOR && event.values[0] == 1.0f) {
+                binding.step += 1
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+
+    }
+
+
+}

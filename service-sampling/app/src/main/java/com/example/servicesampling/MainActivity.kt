@@ -8,10 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.servicesampling.databinding.ActivityMainBinding
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,8 +43,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCounter() {
-        seconds += 1
-        binding.tvSeconds.text = seconds.toString()
+        binding.tvSeconds.text = seconds++.toString()
+        // add Counter handler infinite
         handler.postDelayed(::setCounter, 1000)
     }
 
@@ -59,9 +57,22 @@ class MainActivity : AppCompatActivity() {
     private fun stopCounter() {
         binding.btn.text = "Start"
         isRun = false
+        // remove Counter handler event
         handler.removeCallbacksAndMessages(null)
     }
 
+    // foreground -> background(isRun flag로 count event 실행 중인지 확인)
+    override fun onPause() {
+        super.onPause()
+        if(isRun) {
+            stopCounter()
+            runService()
+        }
+    }
+
+    // background로 foreground로 돌아올 때,
+    // 최초 Activity 진입시에도 onResume이 호출되기에
+    // isRun 플래그로 background -> foreground인지 체크
     override fun onResume() {
         super.onResume()
         if(!isRun) {
@@ -70,16 +81,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.e("onPause", "onPause")
-        if(isRun) {
-            stopCounter()
-            runService()
-        }
-    }
 
     private fun runService() {
+        // background -> foreground = service에서 activity로 돌아올 때,
+        // service의 seconds를 콜백받기 위한 broadcast listener
         LocalBroadcastManager.getInstance(this).registerReceiver(
             object: BroadcastReceiver() {
                 override fun onReceive(context: Context?, intent: Intent?) {
@@ -91,8 +96,11 @@ class MainActivity : AppCompatActivity() {
             }
         , IntentFilter("CounterService"))
 
+        // foreground -> background = activity에서 service로 진입할 때,
+        // activity의 seconds를 service로 보내기
         val intent = Intent(this, CounterService::class.java)
         intent.putExtra("seconds", seconds)
         startService(intent)
     }
+
 }

@@ -6,7 +6,6 @@ import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class CounterService : Service() {
@@ -23,8 +22,7 @@ class CounterService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    fun setCounter() {
-        Log.e("setCounter", "setCounter")
+    private fun setCounter() {
         this.seconds += 1
         handler.postDelayed(::setCounter, 1000)
     }
