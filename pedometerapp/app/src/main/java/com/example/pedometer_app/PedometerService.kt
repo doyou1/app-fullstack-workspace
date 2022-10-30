@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class PedometerService : Service(), SensorEventListener {
@@ -18,7 +19,7 @@ class PedometerService : Service(), SensorEventListener {
 
     override fun onCreate() {
         super.onCreate()
-
+        initStepEvent()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -27,7 +28,6 @@ class PedometerService : Service(), SensorEventListener {
         val step = intent?.getIntExtra("step", -1)
         if (step != null) {
             this.step = step
-            initStepEvent()
         }
         return super.onStartCommand(intent, flags, startId)
     }
@@ -37,13 +37,12 @@ class PedometerService : Service(), SensorEventListener {
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         // Step Detect Sensor
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
-
-        sensorManager.unregisterListener(this)
 
         val intent = Intent("PedometerService")
         intent.putExtra("step", step);

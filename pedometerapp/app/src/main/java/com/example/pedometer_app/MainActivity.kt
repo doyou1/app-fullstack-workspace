@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.pedometer_app.databinding.ActivityMainBinding
+import java.util.*
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -37,7 +38,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private lateinit var sensor: Sensor
-
     private var isRun = false
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -52,7 +52,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun init() {
         initStepEvent()
         checkActivityPermission()
-        binding.step = 0
+        setStepFromSharedPreferences()
+    }
+
+    private fun initStepEvent() {
+        // Create Sensor Manager
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        // Step Detect Sensor
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -63,19 +70,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    private fun initStepEvent() {
-        // Create Sensor Manager
-        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        // Step Detect Sensor
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
-    }
-
     override fun onPause() {
         super.onPause()
-
         if(isRun) {
             sensorManager.unregisterListener(this)
             runService()
+            isRun = false
         }
     }
 
@@ -85,12 +85,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         if(PedometerService.isRun) {
             stopService(Intent(this, PedometerService::class.java))
         }
-
         if(!isRun) {
-            sensor.let {
-                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
-                isRun = true
-            }
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+            isRun = true
         }
     }
 
@@ -119,9 +116,31 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    private fun setStepFromSharedPreferences() {
+        val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
+        val step = prefs.getInt("value", -1);
+
+        if(step != -1) {
+            binding.step = step
+        }
+    }
+
+
+    private fun saveStepInSharedPreferences() {
+        val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+
+        editor.putInt("value", binding.step);
+        editor.apply()
+    }
+
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
 
     }
 
+    override fun onDestroy() {
+        saveStepInSharedPreferences()
+        super.onDestroy()
+    }
 
 }
