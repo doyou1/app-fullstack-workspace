@@ -1,6 +1,7 @@
 package com.example.pedometer_app
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -23,13 +24,14 @@ class PedometerService : Service(), SensorEventListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        isRun = true;
 
         val step = intent?.getIntExtra("step", -1)
         if (step != null) {
             this.step = step
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+            isRun = true;
         }
-        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 
     private fun initStepEvent() {
@@ -53,10 +55,30 @@ class PedometerService : Service(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         event?.sensor?.let {
             if(it.type == Sensor.TYPE_STEP_DETECTOR && event.values[0] == 1.0f) {
+                Log.e("service", "onSensorChanged")
                 step += 1
+
+                saveStepLog()
             }
         }
     }
+
+    private fun saveStepLog() {
+        val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
+        val log = prefs.getString("log", "empty");
+        val editor = prefs.edit()
+        val strNow = DateUtil.getStrNow()
+
+        if(log.equals("empty")) {
+            editor.putString("log", "$strNow\n")
+        } else {
+            editor.putString("log", "$log$strNow\n")
+        }
+
+        editor.apply()
+    }
+
+
 
     override fun onBind(intent: Intent): IBinder {
         return PedometerServiceBinder();

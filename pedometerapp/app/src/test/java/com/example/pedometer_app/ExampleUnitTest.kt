@@ -1,5 +1,6 @@
 package com.example.pedometer_app
 
+import android.preference.PreferenceManager
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +14,8 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    fun resetLog() {
     }
 }

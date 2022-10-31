@@ -1,13 +1,12 @@
 package com.example.servicesampling
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.servicesampling.databinding.ActivityMainBinding
 
@@ -19,44 +18,51 @@ class MainActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var isRun = true
 
+    private var counterService: CounterService? = null
+
+    private val conn = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, binder: IBinder?) {
+            counterService = (binder as CounterService.CounterServiceBinder)?.getService()
+        }
+        override fun onServiceDisconnected(arg0: ComponentName) {
+        }
+    }
+
+    private lateinit var _application: BaseApplication
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        _application = application as BaseApplication
         init()
     }
 
     private fun init() {
-        setClickEvent()
+        initCounter()
+    }
+
+    private fun initCounter() {
+        isRun = true
+        seconds = _application.get()
         setCounter()
     }
 
-    private fun setClickEvent() {
-        binding.btn.setOnClickListener {
-            val btnText = binding.btn.text
-
-            // Counter Running
-            if(btnText.equals("Stop")) stopCounter()
-            // Counter Stopped
-            else startCounter()
+        private fun setCounter() {
+            _application.set(++seconds)
+            binding.tvSeconds.text = seconds.toString()
+            // add Counter handler infinite
+            handler.postDelayed(::setCounter, 1000)
         }
-    }
-
-    private fun setCounter() {
-        binding.tvSeconds.text = seconds++.toString()
-        // add Counter handler infinite
-        handler.postDelayed(::setCounter, 1000)
-    }
 
     private fun startCounter() {
-        binding.btn.text = "Stop"
         isRun = true
         setCounter()
     }
 
     private fun stopCounter() {
-        binding.btn.text = "Start"
         isRun = false
+
         // remove Counter handler event
         handler.removeCallbacksAndMessages(null)
     }
@@ -66,7 +72,9 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         if(isRun) {
             stopCounter()
-            runService()
+            val intent = Intent(this, CounterService::class.java)
+            intent.putExtra("seconds", seconds)
+            bindService(intent, conn, Context.BIND_AUTO_CREATE)
         }
     }
 
@@ -76,31 +84,21 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if(!isRun) {
+            unbindService(conn)
+            counterService?.let {
+                seconds =  it.getSeconds()
+            }
             startCounter()
-            stopService(Intent(this, CounterService::class.java))
         }
     }
 
-
-    private fun runService() {
-        // background -> foreground = service에서 activity로 돌아올 때,
-        // service의 seconds를 콜백받기 위한 broadcast listener
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            object: BroadcastReceiver() {
-                override fun onReceive(context: Context?, intent: Intent?) {
-                    val seconds = intent?.getIntExtra("seconds", -1)
-                    if (seconds != null) {
-                        this@MainActivity.seconds = seconds
-                    }
-                }
-            }
-        , IntentFilter("CounterService"))
-
-        // foreground -> background = activity에서 service로 진입할 때,
-        // activity의 seconds를 service로 보내기
-        val intent = Intent(this, CounterService::class.java)
-        intent.putExtra("seconds", seconds)
-        startService(intent)
+    override fun onStop() {
+        stopCounter()
+        super.onStop()
     }
 
+    override fun onDestroy() {
+        unbindService(conn)
+        super.onDestroy()
+    }
 }

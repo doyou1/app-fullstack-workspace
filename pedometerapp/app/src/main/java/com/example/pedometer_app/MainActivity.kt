@@ -2,10 +2,7 @@ package com.example.pedometer_app
 
 import android.Manifest
 import android.app.ActivityManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -14,6 +11,7 @@ import android.hardware.SensorManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -46,13 +44,20 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun init() {
+//        reset()
         initStepEvent()
         checkActivityPermission()
         setStepFromSharedPreferences()
+    }
+
+    private fun reset() {
+        val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
+        prefs.edit().putString("log", "empty").putInt("value", 0).apply()
     }
 
     private fun initStepEvent() {
@@ -70,6 +75,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    private fun setStepFromSharedPreferences() {
+        val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
+        val step = prefs.getInt("value", -1);
+
+        if(step != -1) {
+            binding.step = step
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         if(isRun) {
@@ -81,7 +95,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onResume() {
+        val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
+        val log = prefs.getString("log", "empty");
+        Log.e("LOG", "log: $log")
+
         super.onResume()
+
         if(PedometerService.isRun) {
             stopService(Intent(this, PedometerService::class.java))
         }
@@ -112,19 +131,26 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         event?.sensor?.let {
             if(it.type == Sensor.TYPE_STEP_DETECTOR && event.values[0] == 1.0f) {
                 binding.step += 1
+
+                saveStepLog()
             }
         }
     }
 
-    private fun setStepFromSharedPreferences() {
+    private fun saveStepLog() {
         val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
-        val step = prefs.getInt("value", -1);
+        val log = prefs.getString("log", "empty");
+        val editor = prefs.edit()
+        val strNow = DateUtil.getStrNow()
 
-        if(step != -1) {
-            binding.step = step
+        if(log.equals("empty")) {
+            editor.putString("log", "$strNow\n")
+        } else {
+            editor.putString("log", "$log$strNow\n")
         }
-    }
 
+        editor.apply()
+    }
 
     private fun saveStepInSharedPreferences() {
         val prefs = getSharedPreferences("step", Context.MODE_PRIVATE)
