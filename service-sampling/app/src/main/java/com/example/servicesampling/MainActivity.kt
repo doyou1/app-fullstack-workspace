@@ -1,5 +1,6 @@
 package com.example.servicesampling
 
+import android.app.ActivityManager
 import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,92 +14,35 @@ import com.example.servicesampling.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private var seconds = 0
-    private val handler = Handler(Looper.getMainLooper())
-    private var isRun = true
-
-    private var counterService: CounterService? = null
-
-    private val conn = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName, binder: IBinder?) {
-            counterService = (binder as CounterService.CounterServiceBinder)?.getService()
-        }
-        override fun onServiceDisconnected(arg0: ComponentName) {
-        }
-    }
-
-    private lateinit var _application: BaseApplication
+    private val TAG: String = this::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        _application = application as BaseApplication
-        init()
     }
 
-    private fun init() {
-        initCounter()
-    }
-
-    private fun initCounter() {
-        isRun = true
-        seconds = _application.get()
-        setCounter()
-    }
-
-        private fun setCounter() {
-            _application.set(++seconds)
-            binding.tvSeconds.text = seconds.toString()
-            // add Counter handler infinite
-            handler.postDelayed(::setCounter, 1000)
-        }
-
-    private fun startCounter() {
-        isRun = true
-        setCounter()
-    }
-
-    private fun stopCounter() {
-        isRun = false
-
-        // remove Counter handler event
-        handler.removeCallbacksAndMessages(null)
-    }
-
-    // foreground -> background(isRun flag로 count event 실행 중인지 확인)
-    override fun onPause() {
-        super.onPause()
-        if(isRun) {
-            stopCounter()
-            val intent = Intent(this, CounterService::class.java)
-            intent.putExtra("seconds", seconds)
-            bindService(intent, conn, Context.BIND_AUTO_CREATE)
-        }
-    }
-
-    // background로 foreground로 돌아올 때,
-    // 최초 Activity 진입시에도 onResume이 호출되기에
-    // isRun 플래그로 background -> foreground인지 체크
     override fun onResume() {
         super.onResume()
-        if(!isRun) {
-            unbindService(conn)
-            counterService?.let {
-                seconds =  it.getSeconds()
+        resetCounterService()
+        resetSharedPreferencesChangeListener()
+    }
+
+    private fun resetCounterService() {
+        val intent = Intent(this, CounterService::class.java)
+        stopService(intent)
+        startService(intent)
+    }
+
+    private fun resetSharedPreferencesChangeListener() {
+        val prefs = getSharedPreferences("seconds", Context.MODE_PRIVATE)
+        prefs.unregisterOnSharedPreferenceChangeListener(null)
+        prefs.registerOnSharedPreferenceChangeListener { prefs, key ->
+            key?.let {
+                if (it == "value") {
+                    binding.tvSeconds.text = prefs?.getInt("value", 0).toString()
+                }
             }
-            startCounter()
         }
-    }
-
-    override fun onStop() {
-        stopCounter()
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        unbindService(conn)
-        super.onDestroy()
     }
 }
