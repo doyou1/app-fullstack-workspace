@@ -1,4 +1,4 @@
-package com.example.pedometer_app
+package com.example.pedometer_app.service
 
 import android.app.Service
 import android.content.Context
@@ -7,10 +7,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Binder
 import android.os.IBinder
 import android.util.Log
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.pedometer_app.BaseApplication
 
 class PedometerService : Service(), SensorEventListener {
 

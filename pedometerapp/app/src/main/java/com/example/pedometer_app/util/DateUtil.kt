@@ -1,4 +1,4 @@
-package com.example.pedometer_app
+package com.example.pedometer_app.util
 
 import java.util.*
 
