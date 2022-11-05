@@ -2,6 +2,7 @@ package com.example.accountbookuisampling
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.accountbookuisampling.adapter.ViewPagerAdapter
 import com.example.accountbookuisampling.databinding.ActivityMainBinding
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when(position) {
+            when (position) {
                 0 -> {
                     tab.text = DAY
                 }

@@ -1,9 +1,10 @@
-package com.example.accountbookuisampling.util
+package com.example.accountbookuisampling.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.accountbookuisampling.fragment.*
+import com.example.accountbookuisampling.util.FRAGMENT_COUNT
 
 class ViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
     override fun getItemCount(): Int {
