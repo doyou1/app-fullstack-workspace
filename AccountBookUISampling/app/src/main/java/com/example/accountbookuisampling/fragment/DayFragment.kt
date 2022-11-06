@@ -12,6 +12,7 @@ import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.adapter.RVAdapter
 import com.example.accountbookuisampling.databinding.FragmentDayBinding
 import com.example.accountbookuisampling.dataclass.History
+import com.example.accountbookuisampling.util.tempHistoryList
 
 class DayFragment : Fragment() {
 
@@ -31,6 +32,7 @@ class DayFragment : Fragment() {
         super.onResume()
 
         setRecyclerView()
+        setClickEvent()
     }
 
     private fun setRecyclerView() {
@@ -45,24 +47,20 @@ class DayFragment : Fragment() {
 
         binding.rvList.layoutManager = layoutManager
 
-        val list = ArrayList<History>()
-
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-        list.add(History("202009201511", "숙소비", "M카드", "1700000"))
-
-        val adapter = RVAdapter(list)
+//        val adapter = RVAdapter(tempHistoryList)
+        val adapter = RVAdapter(ArrayList<History>())
 
         binding.rvList.adapter = adapter
+    }
+
+    private fun setClickEvent() {
+        binding.btnAddHistory.setOnClickListener {
+            val _adapter: RVAdapter = binding.rvList.adapter as RVAdapter
+
+            val startIdx = _adapter.itemCount
+            _adapter.addHistory(History("202009201511", "숙소비", "M카드", "1700000"))
+            _adapter.notifyItemRangeChanged(startIdx, startIdx+1)
+        }
     }
 
     companion object {
