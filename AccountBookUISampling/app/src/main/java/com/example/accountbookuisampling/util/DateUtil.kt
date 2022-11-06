@@ -7,16 +7,16 @@ class DateUtil {
     companion object {
         fun getStringDayOfWeek(_year: String, _month: String, _day: String) : String {
             val calendar = Calendar.getInstance()
-            calendar.set(_year.toInt(), _month.toInt(), _day.toInt())
+            calendar.set(_year.toInt(), _month.toInt() - 1, _day.toInt())
 
             val dayOfWeek = when(calendar.get(Calendar.DAY_OF_WEEK)) {
-                1 -> "월요일"
-                2 -> "화요일"
-                3 -> "수요일"
-                4 -> "목요일"
-                5 -> "금요일"
-                6 -> "토요일"
-                7 -> "일요일"
+                1 -> "일요일"
+                2 -> "월요일"
+                3 -> "화요일"
+                4 -> "수요일"
+                5 -> "목요일"
+                6 -> "금요일"
+                7 -> "토요일"
                 else -> ""
             }
             return dayOfWeek

@@ -8,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.R
-import com.example.accountbookuisampling.adapter.RVAdapter
+import com.example.accountbookuisampling.adapter.HistoryRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentDayBinding
 import com.example.accountbookuisampling.dataclass.History
-import com.example.accountbookuisampling.util.tempHistoryList
 
 class DayFragment : Fragment() {
 
@@ -47,24 +45,30 @@ class DayFragment : Fragment() {
 
         binding.rvList.layoutManager = layoutManager
 
-//        val adapter = RVAdapter(tempHistoryList)
-        val adapter = RVAdapter(ArrayList<History>())
+        val adapter = HistoryRVAdapter(ArrayList<History>())
 
         binding.rvList.adapter = adapter
     }
 
     private fun setClickEvent() {
         binding.btnAddHistory.setOnClickListener {
-            val _adapter: RVAdapter = binding.rvList.adapter as RVAdapter
+            val _adapter: HistoryRVAdapter = binding.rvList.adapter as HistoryRVAdapter
 
             val startIdx = _adapter.itemCount
             _adapter.addHistory(History("202009201511", "숙소비", "M카드", "1700000"))
             _adapter.notifyItemRangeChanged(startIdx, startIdx+1)
         }
     }
-
     companion object {
+        private var instance: DayFragment? = null
         @JvmStatic
-        fun newInstance() = DayFragment()
+        fun newInstance() : DayFragment {
+            if(instance == null) {
+                instance = DayFragment()
+                return instance as DayFragment
+            }
+
+            return instance as DayFragment
+        }
     }
 }

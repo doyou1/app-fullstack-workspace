@@ -23,6 +23,16 @@ class CalendarFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        setRecyclerView()
+    }
+
+    private fun setRecyclerView() {
+
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = CalendarFragment()
