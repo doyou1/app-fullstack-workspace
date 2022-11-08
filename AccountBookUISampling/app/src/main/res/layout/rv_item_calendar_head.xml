@@ -12,17 +12,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_rv_item_calendar_head"
         >
 
         <TextView
+            android:id="@+id/tv_day_of_week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{strDayOfWeek}"
             tools:text="월"
             android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

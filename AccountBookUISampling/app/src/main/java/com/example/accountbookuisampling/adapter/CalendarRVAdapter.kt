@@ -1,5 +1,6 @@
 package com.example.accountbookuisampling.adapter
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.example.accountbookuisampling.viewmodel.CalendarItemViewModel
 import com.example.accountbookuisampling.dataclass.CalendarItem
 import com.example.accountbookuisampling.util.TYPE_CALENDAR_CONTENT
 import com.example.accountbookuisampling.util.TYPE_CALENDAR_HEAD
+import java.text.DecimalFormat
 
 class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -19,20 +21,28 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
     private var sequence = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val headHeight = parent.measuredHeight / 8
+        val headHeight = parent.measuredHeight / 20
         val contentHeight = (parent.measuredHeight - headHeight) / 5
 
         when (viewType) {
             TYPE_CALENDAR_HEAD -> {
-                val binding = RvItemCalendarHeadBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                val layoutParams =  binding.root.layoutParams
+                val binding = RvItemCalendarHeadBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                val layoutParams = binding.root.layoutParams
                 layoutParams.height = headHeight
                 binding.root.layoutParams = layoutParams
                 return HeadViewHolder(binding)
             }
             TYPE_CALENDAR_CONTENT -> {
-                val binding = RvItemCalendarContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                val layoutParams =  binding.root.layoutParams
+                val binding = RvItemCalendarContentBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                val layoutParams = binding.root.layoutParams
                 layoutParams.height = contentHeight
                 binding.root.layoutParams = layoutParams
                 return ContentViewHolder(binding)
@@ -69,21 +79,40 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
     inner class HeadViewHolder(private val binding: RvItemCalendarHeadBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(calendarItem: CalendarItem)
-        {
-            if(calendarItem.viewType == TYPE_CALENDAR_HEAD) {
-                binding.strDayOfWeek = when(sequence++) {
-                    0 -> "일"
-                    1 -> "월"
-                    2 -> "화"
-                    3 -> "수"
-                    4 -> "목"
-                    5 -> "금"
-                    6 -> "토"
-                    else -> ""
+        fun bind(calendarItem: CalendarItem) {
+            when (sequence++) {
+                0 -> {
+                    binding.strDayOfWeek = "일"
+                    binding.tvDayOfWeek.setTextColor(Color.RED)
                 }
-            } else {
-                binding.strDayOfWeek = ""
+                1 -> {
+                    binding.strDayOfWeek = "월"
+                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                }
+                2 -> {
+                    binding.strDayOfWeek = "화"
+                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                }
+                3 -> {
+                    binding.strDayOfWeek = "수"
+                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                }
+                4 -> {
+                    binding.strDayOfWeek = "목"
+                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                }
+                5 -> {
+                    binding.strDayOfWeek = "금"
+                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                }
+                6 -> {
+                    binding.strDayOfWeek = "토"
+                    binding.tvDayOfWeek.setTextColor(Color.BLUE)
+                }
+                else -> {
+                    binding.strDayOfWeek = ""
+                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                }
             }
         }
     }
@@ -97,8 +126,20 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
         }
 
         private fun formatToViewModel(calendarItem: CalendarItem): CalendarItemViewModel {
-            val day = calendarItem.date
-            return CalendarItemViewModel(day, calendarItem.consumption.toString(), calendarItem.income.toString(), calendarItem.result.toString())
+            // calendarItem.date = YYYYYYMMdd
+            var day = calendarItem.date.substring(6, 8)
+            if(day == "01") {
+                val month = calendarItem.date.substring(4, 6)
+                day = "$month.$day"
+            }
+
+            val df = DecimalFormat("#,###")
+            return CalendarItemViewModel(
+                day,
+                df.format(calendarItem.consumption),
+                df.format(calendarItem.income),
+                df.format(calendarItem.result)
+            )
         }
     }
 

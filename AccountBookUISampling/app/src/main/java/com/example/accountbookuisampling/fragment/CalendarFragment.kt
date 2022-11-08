@@ -63,7 +63,6 @@ class CalendarFragment : Fragment() {
         // 현재 달의 1일의 요일
         val dateList = DateUtil.getDateList()
         for (strDate in dateList) {
-            Log.e(TAG, strDate)
             val consumption = Random.nextInt(0, 100000)
             val income = Random.nextInt(0, 100000)
             val result = income - consumption
