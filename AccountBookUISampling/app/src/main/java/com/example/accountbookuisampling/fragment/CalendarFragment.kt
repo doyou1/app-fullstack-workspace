@@ -70,8 +70,8 @@ class CalendarFragment : Fragment() {
                 CalendarItem(
                     TYPE_CALENDAR_CONTENT,
                     strDate,
-                    consumption,
                     income,
+                    consumption,
                     result
                 )
             )
