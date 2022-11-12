@@ -44,19 +44,19 @@ class CalendarFragment : Fragment() {
 
     private fun setRecyclerView() {
 
-        // layout_content height =  전체 height - layout_summary height
-        val layoutContentHeight = binding.root.height - binding.layoutSummary.height - 1
-        binding.layoutContent.layoutParams.height = layoutContentHeight
+//        // layout_content height =  전체 height - layout_summary height
+//        val layoutContentHeight = binding.root.height - binding.layoutSummary.height - 1
+//        binding.layoutContent.layoutParams.height = layoutContentHeight
 
         // head(7) + content(35)
         val headList = arrayListOf<CalendarItem>(
-            CalendarItem(TYPE_CALENDAR_HEAD, "", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, "", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, "", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, "", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, "", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, "", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, "", 0, 0, 0)
+            CalendarItem(TYPE_CALENDAR_HEAD, 0,"", 0, 0, 0),
+            CalendarItem(TYPE_CALENDAR_HEAD, 1,"", 0, 0, 0),
+            CalendarItem(TYPE_CALENDAR_HEAD, 2,"", 0, 0, 0),
+            CalendarItem(TYPE_CALENDAR_HEAD, 3,"", 0, 0, 0),
+            CalendarItem(TYPE_CALENDAR_HEAD, 4,"", 0, 0, 0),
+            CalendarItem(TYPE_CALENDAR_HEAD, 5,"", 0, 0, 0),
+            CalendarItem(TYPE_CALENDAR_HEAD, 6,"", 0, 0, 0)
         )
 
         val contentList = arrayListOf<CalendarItem>()
@@ -69,6 +69,7 @@ class CalendarFragment : Fragment() {
             contentList.add(
                 CalendarItem(
                     TYPE_CALENDAR_CONTENT,
+                    -1,
                     strDate,
                     income,
                     consumption,

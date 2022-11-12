@@ -18,7 +18,6 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
 
     private val _list = list
     private val TAG = this::class.java.simpleName
-    private var sequence = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val headHeight = parent.measuredHeight / 20
@@ -31,9 +30,7 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
                     parent,
                     false
                 )
-                val layoutParams = binding.root.layoutParams
-                layoutParams.height = headHeight
-                binding.root.layoutParams = layoutParams
+                binding.root.layoutParams.height = headHeight
                 return HeadViewHolder(binding)
             }
             TYPE_CALENDAR_CONTENT -> {
@@ -42,9 +39,7 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
                     parent,
                     false
                 )
-                val layoutParams = binding.root.layoutParams
-                layoutParams.height = contentHeight
-                binding.root.layoutParams = layoutParams
+                binding.root.layoutParams.height = contentHeight
                 return ContentViewHolder(binding)
             }
             else -> {
@@ -80,7 +75,7 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(calendarItem: CalendarItem) {
-            when (sequence++) {
+            when (calendarItem.dayOfWeekSequence) {
                 0 -> {
                     binding.strDayOfWeek = "일"
                     binding.tvDayOfWeek.setTextColor(Color.RED)
