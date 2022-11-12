@@ -1,5 +1,6 @@
-package com.example.accountbookuisampling
+package com.example.accountbookuisampling.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.accountbookuisampling.adapter.ViewPagerAdapter
@@ -18,6 +19,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setTabLayout()
+        setClickEvent()
+    }
+
+    private fun setTabLayout() {
         adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -39,5 +45,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.attach()
+    }
+
+    private fun setClickEvent() {
+        binding.btnAddHistory.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 }

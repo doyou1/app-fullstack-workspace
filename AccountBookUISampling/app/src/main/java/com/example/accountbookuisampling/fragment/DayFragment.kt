@@ -51,13 +51,13 @@ class DayFragment : Fragment() {
     }
 
     private fun setClickEvent() {
-        binding.btnAddHistory.setOnClickListener {
-            val _adapter: HistoryRVAdapter = binding.rvList.adapter as HistoryRVAdapter
-
-            val startIdx = _adapter.itemCount
-            _adapter.addHistory(History("202009201511", "숙소비", "M카드", "1700000"))
-            _adapter.notifyItemRangeChanged(startIdx, startIdx+1)
-        }
+//        binding.btnAddHistory.setOnClickListener {
+//            val _adapter: HistoryRVAdapter = binding.rvList.adapter as HistoryRVAdapter
+//
+//            val startIdx = _adapter.itemCount
+//            _adapter.addHistory(History("202009201511", "숙소비", "M카드", "1700000"))
+//            _adapter.notifyItemRangeChanged(startIdx, startIdx+1)
+//        }
     }
     companion object {
         private var instance: DayFragment? = null
