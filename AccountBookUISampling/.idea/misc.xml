@@ -12,10 +12,13 @@
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/drawable/ic_icon_microsoft_excel.xml" value="0.1235" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/activity_register.xml" value="0.16799999999999998" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_calendar.xml" value="0.22832980972515857" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_consumption.xml" value="0.1125" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_day.xml" value="0.2" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_income.xml" value="0.264" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_month.xml" value="0.1" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_transfer.xml" value="0.1125" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_week.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_year.xml" value="0.264" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/layout_list_item.xml" value="0.11145833333333334" />
