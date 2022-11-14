@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="isImportant"
+            type="boolean" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -213,6 +220,22 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_default="percent"
                         app:layout_constraintWidth_percent="0.8" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_detail_onoff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        app:icon="@drawable/ic_baseline_exclamation_outline_24"
+                        app:iconTint="@{isImportant ? @color/orange : @android:color/tab_indicator_text}"
+                        app:iconGravity="end"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_detail"
+                        app:layout_constraintEnd_toEndOf="@+id/et_detail"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/et_detail"
+                        app:tint="@android:color/tab_indicator_text"/>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -268,10 +291,8 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_save"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
                         android:backgroundTint="#0047AB"
                         android:paddingVertical="10dp"
                         android:text="저장하기"
@@ -281,14 +302,13 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0"
-                        app:layout_constraintWidth_percent="0.8" />
+                        app:layout_constraintWidth_percent="0.7" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_continue"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:backgroundTint="@color/white"
                         android:paddingVertical="10dp"
                         android:text="계속"

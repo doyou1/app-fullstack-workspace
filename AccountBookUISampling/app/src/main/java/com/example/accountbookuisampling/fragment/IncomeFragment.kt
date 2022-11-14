@@ -30,36 +30,14 @@ class IncomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-//        setRecyclerView()
-//        setClickEvent()
+        setClickEvent()
     }
 
-//    private fun setRecyclerView() {
-//        val layoutManager = when (resources.configuration.orientation) {
-//            Configuration.ORIENTATION_PORTRAIT -> {
-//                GridLayoutManager(context, 2)
-//            }
-//            Configuration.ORIENTATION_LANDSCAPE -> {
-//                LinearLayoutManager(context)
-//            } else -> throw NotImplementedError()
-//        }
-//
-//        binding.rvList.layoutManager = layoutManager
-//
-//        val adapter = HistoryRVAdapter(ArrayList<History>())
-//
-//        binding.rvList.adapter = adapter
-//    }
-//
-//    private fun setClickEvent() {
-////        binding.btnAddHistory.setOnClickListener {
-////            val _adapter: HistoryRVAdapter = binding.rvList.adapter as HistoryRVAdapter
-////
-////            val startIdx = _adapter.itemCount
-////            _adapter.addHistory(History("202009201511", "숙소비", "M카드", "1700000"))
-////            _adapter.notifyItemRangeChanged(startIdx, startIdx+1)
-////        }
-//    }
+    private fun setClickEvent() {
+        binding.btnDetailOnoff.setOnClickListener {
+            binding.isImportant = !binding.isImportant
+        }
+    }
     companion object {
         private var instance: IncomeFragment? = null
         @JvmStatic
