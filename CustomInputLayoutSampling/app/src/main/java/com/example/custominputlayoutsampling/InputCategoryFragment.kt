@@ -15,6 +15,7 @@ class InputCategoryFragment(private val parentBinding: ActivityMainBinding) : Fr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        parentBinding.etCategory.requestFocus()
     }
 
     override fun onCreateView(
@@ -36,6 +37,7 @@ class InputCategoryFragment(private val parentBinding: ActivityMainBinding) : Fr
             fragmentTransaction.replace(parentBinding.layoutInputContent.id, InputAmountFragment.newInstance(parentBinding))
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
+            parentBinding.isShowCategory = false
         }
     }
     companion object {

@@ -41,8 +41,8 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    >
+                    android:fillViewport="true">
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_wrap"
                         android:layout_width="match_parent"
@@ -87,7 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@color/teal_700"
-                android:elevation="99dp"
+                android:elevation="1dp"
+                android:translationZ="1dp"
                 android:visibility="@{isShowAsset || isShowCategory || isShowAmount ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

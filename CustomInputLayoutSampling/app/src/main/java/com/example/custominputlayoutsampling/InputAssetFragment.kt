@@ -16,6 +16,8 @@ class InputAssetFragment(private val parentBinding: ActivityMainBinding) : Fragm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        parentBinding.etAsset.requestFocus()
+
     }
 
     override fun onCreateView(
@@ -37,6 +39,7 @@ class InputAssetFragment(private val parentBinding: ActivityMainBinding) : Fragm
             fragmentTransaction.replace(parentBinding.layoutInputContent.id, InputCategoryFragment.newInstance(parentBinding))
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
+            parentBinding.isShowAsset = false
         }
     }
 

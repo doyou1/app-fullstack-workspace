@@ -2,6 +2,7 @@ package com.example.custominputlayoutsampling
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.FragmentTransaction
 import com.example.custominputlayoutsampling.databinding.ActivityMainBinding
 
@@ -17,14 +18,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setInputLayout()
         disableKeyboard()
         setEditTextEvent()
         setClickEvent()
-    }
-
-    private fun setInputLayout() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
     }
 
     private fun disableKeyboard() {
@@ -35,7 +31,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setEditTextEvent() {
         binding.etAsset.setOnFocusChangeListener { view, hasFocus ->
-            binding.isShowAsset = hasFocus
+            clearFlag()
+            binding.isShowAsset = true
             if (hasFocus) {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 fragmentTransaction.replace(
@@ -47,7 +44,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.etCategory.setOnFocusChangeListener { view, hasFocus ->
-            binding.isShowCategory = hasFocus
+            clearFlag()
+            binding.isShowCategory = true
             if (hasFocus) {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 fragmentTransaction.replace(
@@ -59,7 +57,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.etAmount.setOnFocusChangeListener { view, hasFocus ->
-            binding.isShowAmount = hasFocus
+            clearFlag()
+            binding.isShowAmount = true
             if (hasFocus) {
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 fragmentTransaction.replace(
@@ -70,15 +69,28 @@ class MainActivity : AppCompatActivity() {
                 fragmentTransaction.commit()
             }
         }
+    }
 
+    fun clearFlag() {
+        binding.isShowAsset = false
+        binding.isShowCategory = false
+        binding.isShowAmount = false
+    }
+
+    private fun setClickEvent() {
         binding.layoutWrap.setOnClickListener {
+            // 순서에 따라 동작이 달라짐
+            /**
+             *  currentFocus?.clearFocus()
+             *  가 앞에 있으면 View.GONE 활성화
+             *  가 뒤에 있으면 View.GONE 비활성화
+             *
+             *  왜 일까?
+             */
+            currentFocus?.clearFocus()
             binding.isShowAsset = false
             binding.isShowCategory = false
             binding.isShowAmount = false
         }
-    }
-
-    private fun setClickEvent() {
-
     }
 }

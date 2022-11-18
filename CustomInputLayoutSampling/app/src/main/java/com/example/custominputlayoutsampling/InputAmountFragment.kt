@@ -1,6 +1,7 @@
 package com.example.custominputlayoutsampling
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,12 @@ import com.example.custominputlayoutsampling.databinding.FragmentInputAssetBindi
 class InputAmountFragment(private val parentBinding: ActivityMainBinding) : Fragment() {
 
     private lateinit var binding: FragmentInputAmountBinding
+    private val TAG = this::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        parentBinding.etAmount.requestFocus()
+
     }
 
     override fun onCreateView(
@@ -33,13 +37,7 @@ class InputAmountFragment(private val parentBinding: ActivityMainBinding) : Frag
 
     private fun setClickEvent() {
         binding.btnAmount.setOnClickListener {
-//            val fragmentTransaction = parentFragmentManager.beginTransaction()
-//            fragmentTransaction.replace(
-//                parentBinding.layoutInputContent.id,
-//                InputCategoryFragment.newInstance(parentBinding)
-//            )
-//            fragmentTransaction.addToBackStack(null)
-//            fragmentTransaction.commit()
+            parentBinding.etAmount.clearFocus()
             parentBinding.isShowAmount = false
         }
     }
