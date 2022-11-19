@@ -34,13 +34,13 @@ class InputAssetFragment(private val parentBinding: ActivityMainBinding) : Fragm
     }
 
     private fun setClickEvent() {
-        binding.btnAsset.setOnClickListener {
-            val fragmentTransaction = parentFragmentManager.beginTransaction()
-            fragmentTransaction.replace(parentBinding.layoutInputContent.id, InputCategoryFragment.newInstance(parentBinding))
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
-            parentBinding.isShowAsset = false
-        }
+//        binding.btnAsset.setOnClickListener {
+//            val fragmentTransaction = parentFragmentManager.beginTransaction()
+//            fragmentTransaction.replace(parentBinding.layoutInputContent.id, InputCategoryFragment.newInstance(parentBinding))
+//            fragmentTransaction.addToBackStack(null)
+//            fragmentTransaction.commit()
+//            parentBinding.isShowAsset = false
+//        }
     }
 
 
