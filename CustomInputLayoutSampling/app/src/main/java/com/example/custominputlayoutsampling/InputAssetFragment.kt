@@ -1,10 +1,13 @@
 package com.example.custominputlayoutsampling
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.custominputlayoutsampling.databinding.ActivityMainBinding
 import com.example.custominputlayoutsampling.databinding.FragmentInputAssetBinding
 import com.example.custominputlayoutsampling.databinding.FragmentInputCategoryBinding
@@ -17,7 +20,6 @@ class InputAssetFragment(private val parentBinding: ActivityMainBinding) : Fragm
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parentBinding.etAsset.requestFocus()
-
     }
 
     override fun onCreateView(
@@ -30,19 +32,34 @@ class InputAssetFragment(private val parentBinding: ActivityMainBinding) : Fragm
 
     override fun onResume() {
         super.onResume()
-        setClickEvent()
+        setRecyclerView()
     }
 
-    private fun setClickEvent() {
-//        binding.btnAsset.setOnClickListener {
-//            val fragmentTransaction = parentFragmentManager.beginTransaction()
-//            fragmentTransaction.replace(parentBinding.layoutInputContent.id, InputCategoryFragment.newInstance(parentBinding))
-//            fragmentTransaction.addToBackStack(null)
-//            fragmentTransaction.commit()
-//            parentBinding.isShowAsset = false
-//        }
-    }
+    private fun setRecyclerView() {
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                val layoutManager = GridLayoutManager(requireContext(), 3)
+                layoutManager.orientation =
+                    LinearLayoutManager.HORIZONTAL
+                binding.rvAsset.layoutManager = layoutManager
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                val layoutManager = GridLayoutManager(requireContext(), 3)
+                layoutManager.orientation =
+                    LinearLayoutManager.VERTICAL
+                binding.rvAsset.layoutManager = layoutManager
+            }
+            else -> throw NotImplementedError()
+        }
 
+        val list = arrayListOf(
+            "현금",
+            "은행",
+            "카드"
+        )
+
+        binding.rvAsset.adapter = AssetRVAdapter(list, parentBinding, parentFragmentManager)
+    }
 
     companion object {
 
