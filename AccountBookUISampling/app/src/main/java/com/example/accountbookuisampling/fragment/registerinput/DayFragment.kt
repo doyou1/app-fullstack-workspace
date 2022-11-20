@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.fragment
+package com.example.accountbookuisampling.fragment.registerinput
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -8,24 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.R
-import com.example.accountbookuisampling.adapter.CalendarRVAdapter
 import com.example.accountbookuisampling.adapter.HistoryRVAdapter
-import com.example.accountbookuisampling.adapter.WeekRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentDayBinding
-import com.example.accountbookuisampling.databinding.FragmentWeekBinding
-import com.example.accountbookuisampling.dataclass.CalendarItem
 import com.example.accountbookuisampling.dataclass.History
-import com.example.accountbookuisampling.dataclass.Week
-import com.example.accountbookuisampling.util.DateUtil
-import com.example.accountbookuisampling.util.TYPE_CALENDAR_CONTENT
-import com.example.accountbookuisampling.util.TYPE_CALENDAR_HEAD
-import java.util.ArrayList
-import kotlin.random.Random
 
-class WeekFragment : Fragment() {
+class DayFragment : Fragment() {
 
-    private lateinit var binding: FragmentWeekBinding
+    private lateinit var binding: FragmentDayBinding
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
@@ -33,7 +22,7 @@ class WeekFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentWeekBinding.inflate(inflater, container, false)
+        binding = FragmentDayBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,6 +30,7 @@ class WeekFragment : Fragment() {
         super.onResume()
 
         setRecyclerView()
+        setClickEvent()
     }
 
     private fun setRecyclerView() {
@@ -55,18 +45,30 @@ class WeekFragment : Fragment() {
 
         binding.rvList.layoutManager = layoutManager
 
-        val list : ArrayList<Week> = arrayListOf(
-            Week("12/25~12/31", 0, 0, 0),
-            Week("12/18~12/24", 0, 0, 0),
-            Week("12/11~12/17", 0, 0, 0),
-            Week("12/04~12/10", 0, 0, 0),
-            Week("11/27~12/03", 0, 0, 0)
-        )
-        binding.rvList.adapter = WeekRVAdapter(list)
+        val adapter = HistoryRVAdapter(ArrayList<History>())
+
+        binding.rvList.adapter = adapter
     }
 
+    private fun setClickEvent() {
+//        binding.btnAddHistory.setOnClickListener {
+//            val _adapter: HistoryRVAdapter = binding.rvList.adapter as HistoryRVAdapter
+//
+//            val startIdx = _adapter.itemCount
+//            _adapter.addHistory(History("202009201511", "숙소비", "M카드", "1700000"))
+//            _adapter.notifyItemRangeChanged(startIdx, startIdx+1)
+//        }
+    }
     companion object {
+        private var instance: DayFragment? = null
         @JvmStatic
-        fun newInstance() = WeekFragment()
+        fun newInstance() : DayFragment {
+            if(instance == null) {
+                instance = DayFragment()
+                return instance as DayFragment
+            }
+
+            return instance as DayFragment
+        }
     }
 }

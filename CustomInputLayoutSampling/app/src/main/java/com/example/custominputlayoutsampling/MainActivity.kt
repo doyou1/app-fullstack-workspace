@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager,
                 "InputFragment"
             )
-
         }
         binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) InputFragment(binding, FLAG_CATEGORY).show(

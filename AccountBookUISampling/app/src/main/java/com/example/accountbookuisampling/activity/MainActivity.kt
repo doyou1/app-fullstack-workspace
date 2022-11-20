@@ -60,6 +60,8 @@ class MainActivity : AppCompatActivity() {
         if (!tlm.isAttached) {
             tlm.attach()
         }
+
+        binding.btnAddHistory.performClick()
     }
 
     private fun setClickEvent() {

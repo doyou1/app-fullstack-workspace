@@ -28,3 +28,8 @@ val tempHistoryList = arrayListOf(
     History("202009201511", "숙소비", "M카드", "1700000"),
     History("202009201511", "숙소비", "M카드", "1700000")
 )
+
+const val FLAG_DATE = 1
+const val FLAG_ASSET = 2
+const val FLAG_CATEGORY = 3
+const val FLAG_AMOUNT = 4

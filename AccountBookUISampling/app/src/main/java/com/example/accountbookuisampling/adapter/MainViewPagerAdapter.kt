@@ -3,7 +3,7 @@ package com.example.accountbookuisampling.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.accountbookuisampling.fragment.*
+import com.example.accountbookuisampling.fragment.registerinput.*
 import com.example.accountbookuisampling.util.MAIN_FRAGMENT_COUNT
 
 class MainViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {

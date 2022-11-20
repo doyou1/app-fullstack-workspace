@@ -1,18 +1,11 @@
-package com.example.accountbookuisampling.fragment
+package com.example.accountbookuisampling.fragment.register
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.HistoryRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentConsumptionBinding
-import com.example.accountbookuisampling.databinding.FragmentDayBinding
-import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
-import com.example.accountbookuisampling.dataclass.History
 
 class ConsumptionFragment : Fragment() {
 
