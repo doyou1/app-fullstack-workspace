@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
         disableKeyboard()
         setEditTextEvent()
-        setClickEvent()
     }
 
     private fun disableKeyboard() {
@@ -30,67 +29,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setEditTextEvent() {
-        binding.etAsset.setOnFocusChangeListener { view, hasFocus ->
-            clearFlag()
-            binding.isShowAsset = true
-            if (hasFocus) {
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(
-                    binding.layoutInputContent.id,
-                    InputAssetFragment.newInstance(binding)
-                )
-                fragmentTransaction.addToBackStack(null)
-                fragmentTransaction.commit()
-            }
-        }
-        binding.etCategory.setOnFocusChangeListener { view, hasFocus ->
-            clearFlag()
-            binding.isShowCategory = true
-            if (hasFocus) {
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(
-                    binding.layoutInputContent.id,
-                    InputCategoryFragment.newInstance(binding)
-                )
-                fragmentTransaction.addToBackStack(null)
-                fragmentTransaction.commit()
-            }
-        }
-        binding.etAmount.setOnFocusChangeListener { view, hasFocus ->
-            clearFlag()
-            binding.isShowAmount = true
-            if (hasFocus) {
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.replace(
-                    binding.layoutInputContent.id,
-                    InputAmountFragment.newInstance(binding)
-                )
-                fragmentTransaction.addToBackStack(null)
-                fragmentTransaction.commit()
-            }
-        }
-    }
+        binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) InputFragment(binding, FLAG_ASSET).show(
+                supportFragmentManager,
+                "InputFragment"
+            )
 
-    fun clearFlag() {
-        binding.isShowAsset = false
-        binding.isShowCategory = false
-        binding.isShowAmount = false
-    }
+        }
+        binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) InputFragment(binding, FLAG_CATEGORY).show(
+                supportFragmentManager,
+                "InputFragment"
+            )
+        }
+        binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) InputFragment(binding, FLAG_AMOUNT).show(
+                supportFragmentManager,
+                "InputFragment"
+            )
 
-    private fun setClickEvent() {
-        binding.layoutWrap.setOnClickListener {
-            // 순서에 따라 동작이 달라짐
-            /**
-             *  currentFocus?.clearFocus()
-             *  가 앞에 있으면 View.GONE 활성화
-             *  가 뒤에 있으면 View.GONE 비활성화
-             *
-             *  왜 일까?
-             */
-            currentFocus?.clearFocus()
-            binding.isShowAsset = false
-            binding.isShowCategory = false
-            binding.isShowAmount = false
         }
     }
 }
