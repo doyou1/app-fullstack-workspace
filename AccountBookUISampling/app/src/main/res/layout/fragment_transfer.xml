@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="isImportant"
             type="boolean" />
@@ -22,8 +24,8 @@
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="@dimen/layout_content_safe_area_margin_horizontal"
+            android:layout_marginVertical="@dimen/layout_content_safe_area_margin_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,13 +49,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.9">
+                    app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                     <TextView
                         android:id="@+id/tv_label_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="날짜"
+                        android:text="@string/text_date"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/et_date"
                         app:layout_constraintHorizontal_bias="0"
@@ -69,14 +71,14 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_label_date"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent="0.8" />
+                        app:layout_constraintWidth_percent="@dimen/input_box_inner_width_percent" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_repeat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:text="반복/할부"
+                        android:text="@string/text_repeat"
                         android:textColor="@android:color/tab_indicator_text"
                         app:icon="@drawable/ic_baseline_repeat_24"
                         app:iconGravity="start"
@@ -99,13 +101,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layout_date"
-                    app:layout_constraintWidth_percent="0.9">
+                    app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                     <TextView
                         android:id="@+id/tv_label_asset"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="자산"
+                        android:text="@string/text_asset"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/et_asset"
                         app:layout_constraintHorizontal_bias="0"
@@ -121,7 +123,7 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_label_asset"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent="0.8" />
+                        app:layout_constraintWidth_percent="@dimen/input_box_inner_width_percent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,13 +135,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layout_asset"
-                    app:layout_constraintWidth_percent="0.9">
+                    app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                     <TextView
                         android:id="@+id/tv_label_category"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="분류"
+                        android:text="@string/text_category"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/et_category"
                         app:layout_constraintHorizontal_bias="0"
@@ -155,7 +157,7 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_label_category"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent="0.8" />
+                        app:layout_constraintWidth_percent="@dimen/input_box_inner_width_percent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,13 +169,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layout_category"
-                    app:layout_constraintWidth_percent="0.9">
+                    app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                     <TextView
                         android:id="@+id/tv_label_amount"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="금액"
+                        android:text="@string/text_amount"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/et_amount"
                         app:layout_constraintHorizontal_bias="0"
@@ -189,24 +191,24 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_label_amount"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent="0.8" />
+                        app:layout_constraintWidth_percent="@dimen/input_box_inner_width_percent" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_amount_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
-                        app:icon="@drawable/ic_icon_fee_svg"
-                        app:iconTint="@android:color/tab_indicator_text"
-                        app:iconGravity="end"
-                        android:padding="5dp"
+                        android:paddingHorizontal="@dimen/btn_padding_horizontal"
                         android:visibility="@{isShowFee ? View.GONE : View.VISIBLE}"
+                        app:icon="@drawable/ic_icon_fee_svg"
+                        app:iconGravity="end"
+                        app:iconTint="@android:color/tab_indicator_text"
                         app:layout_constraintBottom_toBottomOf="@+id/et_amount"
                         app:layout_constraintEnd_toEndOf="@+id/et_amount"
                         app:layout_constraintHorizontal_bias="1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/et_amount"
-                        app:tint="@android:color/tab_indicator_text"/>
+                        app:tint="@android:color/tab_indicator_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -216,20 +218,19 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_amount"
+                    android:visibility="@{isShowFee ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toTopOf="@+id/layout_detail"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/layout_detail"
-                    app:layout_constraintWidth_percent="0.9"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_amount"
                     app:layout_constraintVertical_bias="1"
-                    android:visibility="@{isShowFee ? View.VISIBLE : View.GONE}"
-                    >
+                    app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                     <TextView
                         android:id="@+id/tv_label_fee"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="수수료"
+                        android:text="@string/text_fee"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/et_fee"
                         app:layout_constraintHorizontal_bias="0"
@@ -245,7 +246,7 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_label_fee"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent="0.8" />
+                        app:layout_constraintWidth_percent="@dimen/input_box_inner_width_percent" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_close_fee"
@@ -253,14 +254,14 @@
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         app:icon="@drawable/ic_baseline_close_24"
-                        app:iconTint="@android:color/tab_indicator_text"
                         app:iconGravity="end"
+                        app:iconTint="@android:color/tab_indicator_text"
                         app:layout_constraintBottom_toBottomOf="@+id/et_fee"
                         app:layout_constraintEnd_toEndOf="@+id/et_fee"
                         app:layout_constraintHorizontal_bias="1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/et_fee"
-                        app:tint="@android:color/tab_indicator_text"/>
+                        app:tint="@android:color/tab_indicator_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -274,13 +275,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layout_fee"
-                    app:layout_constraintWidth_percent="0.9">
+                    app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                     <TextView
                         android:id="@+id/tv_label_detail"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="내용"
+                        android:text="@string/text_detail"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/et_detail"
                         app:layout_constraintHorizontal_bias="0"
@@ -296,7 +297,7 @@
                         app:layout_constraintStart_toEndOf="@+id/tv_label_detail"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent="0.8" />
+                        app:layout_constraintWidth_percent="@dimen/input_box_inner_width_percent" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_detail_onoff"
@@ -304,14 +305,14 @@
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         app:icon="@drawable/ic_baseline_exclamation_outline_24"
-                        app:iconTint="@{isImportant ? @color/orange : @android:color/tab_indicator_text}"
                         app:iconGravity="end"
+                        app:iconTint="@{isImportant ? @color/black : @android:color/tab_indicator_text}"
                         app:layout_constraintBottom_toBottomOf="@+id/et_detail"
                         app:layout_constraintEnd_toEndOf="@+id/et_detail"
                         app:layout_constraintHorizontal_bias="1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/et_detail"
-                        app:tint="@android:color/tab_indicator_text"/>
+                        app:tint="@android:color/tab_indicator_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -321,7 +322,7 @@
                 android:id="@+id/layout_save"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginVertical="15dp"
+                android:layout_marginVertical="@dimen/layout_content_safe_area_margin_vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -331,13 +332,13 @@
                     android:id="@+id/et_addition_detail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="추가입력"
+                    android:hint="@string/text_addition_detail"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0"
-                    app:layout_constraintWidth_percent="0.9" />
+                    app:layout_constraintWidth_percent="@dimen/input_box_inner_width_percent" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_image"
@@ -345,41 +346,41 @@
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     app:icon="@drawable/ic_baseline_camera_alt_24"
-                    app:iconTint="@android:color/tab_indicator_text"
                     app:iconGravity="end"
+                    app:iconTint="@android:color/tab_indicator_text"
                     app:layout_constraintBottom_toBottomOf="@+id/et_addition_detail"
                     app:layout_constraintEnd_toEndOf="@+id/et_addition_detail"
                     app:layout_constraintHorizontal_bias="1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/et_addition_detail"
-                    app:tint="@android:color/tab_indicator_text"/>
+                    app:tint="@android:color/tab_indicator_text" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/default_margin_top"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_addition_detail"
                     app:layout_constraintVertical_bias="0"
-                    app:layout_constraintWidth_percent="0.9">
+                    app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_save"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/cardview_dark_background"
-                        android:paddingVertical="10dp"
-                        android:text="저장하기"
+                        android:paddingVertical="@dimen/btn_padding_vertical"
+                        android:text="@string/text_save"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btn_continue"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0"
-                        app:layout_constraintWidth_percent="0.7" />
+                        app:layout_constraintWidth_percent="@dimen/horizontal_main_btn_width_percent" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_continue"
@@ -387,8 +388,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white"
-                        android:paddingVertical="10dp"
-                        android:text="계속"
+                        android:paddingVertical="@dimen/btn_padding_vertical"
+                        android:text="@string/text_continue"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -396,7 +397,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent="0.2" />
+                        app:layout_constraintWidth_percent="@dimen/horizontal_sub_btn_width_percent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

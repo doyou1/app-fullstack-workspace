@@ -71,7 +71,15 @@ class MonthFragment : Fragment() {
     }
 
     companion object {
+        private var instance: MonthFragment? = null
         @JvmStatic
-        fun newInstance() = MonthFragment()
+        fun getInstance() : MonthFragment {
+            if(instance == null) {
+                instance = MonthFragment()
+                return instance as MonthFragment
+            }
+
+            return instance as MonthFragment
+        }
     }
 }

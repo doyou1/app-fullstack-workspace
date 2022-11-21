@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.WeekRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.WeekRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentWeekBinding
 import com.example.accountbookuisampling.dataclass.Week
 import java.util.ArrayList
@@ -56,7 +56,17 @@ class WeekFragment : Fragment() {
     }
 
     companion object {
+        private var instance: WeekFragment? = null
         @JvmStatic
-        fun newInstance() = WeekFragment()
+        fun getInstance() : WeekFragment {
+            if(instance == null) {
+                instance = WeekFragment()
+                return instance as WeekFragment
+            }
+
+            return instance as WeekFragment
+        }
     }
+
+
 }

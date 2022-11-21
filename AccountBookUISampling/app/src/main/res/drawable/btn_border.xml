@@ -4,6 +4,6 @@
     android:shape="rectangle"
     android:tint="@color/white"
     >
-    <stroke android:width="3dp" android:color="#DDDDDD" />
+    <stroke android:width="@dimen/btn_border_width" android:color="@color/border_gray" />
     <solid android:color="@color/white" />
 </shape>

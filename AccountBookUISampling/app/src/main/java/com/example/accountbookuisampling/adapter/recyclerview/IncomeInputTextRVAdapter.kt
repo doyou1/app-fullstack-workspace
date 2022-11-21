@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.adapter
+package com.example.accountbookuisampling.adapter.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +8,7 @@ import com.example.accountbookuisampling.databinding.RvItemIncomeTextInputBindin
 import com.example.accountbookuisampling.fragment.registerinput.RegisterIncomeInputFragment
 import com.example.accountbookuisampling.util.FLAG_ASSET
 import com.example.accountbookuisampling.util.FLAG_CATEGORY
+import com.example.accountbookuisampling.util.TEXT_ADD
 
 class IncomeInputTextRVAdapter(
     list: ArrayList<String>,
@@ -43,7 +44,7 @@ class IncomeInputTextRVAdapter(
         fun bind(item: String) {
             binding.btnInput.text = item
             binding.btnInput.setOnClickListener {
-                if (item == "추가") {
+                if (item == TEXT_ADD) {
                     inputFragment.openAddTextInputActivityResultLauncher()
                 } else {
                     when (flag) {

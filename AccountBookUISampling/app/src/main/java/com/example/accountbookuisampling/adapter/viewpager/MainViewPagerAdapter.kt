@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.adapter
+package com.example.accountbookuisampling.adapter.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -14,22 +14,22 @@ class MainViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> {
-                DayFragment.newInstance()
+                DayFragment.getInstance()
             }
             1 -> {
-                CalendarFragment.newInstance()
+                CalendarFragment.getInstance()
             }
             2 -> {
-                WeekFragment.newInstance()
+                WeekFragment.getInstance()
             }
             3 -> {
-                MonthFragment.newInstance()
+                MonthFragment.getInstance()
             }
             4 -> {
-                YearFragment.newInstance()
+                YearFragment.getInstance()
             }
             else -> {
-                DayFragment.newInstance()
+                DayFragment.getInstance()
             }
         }
     }

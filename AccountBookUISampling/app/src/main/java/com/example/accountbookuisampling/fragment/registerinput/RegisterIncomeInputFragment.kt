@@ -14,12 +14,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.activity.AddTextInputActivity
-import com.example.accountbookuisampling.adapter.IncomeInputTextRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputTextRVAdapter
 import com.example.accountbookuisampling.databinding.*
-import com.example.accountbookuisampling.util.FLAG_AMOUNT
-import com.example.accountbookuisampling.util.FLAG_ASSET
-import com.example.accountbookuisampling.util.FLAG_CATEGORY
-import com.example.accountbookuisampling.util.FLAG_DATE
+import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -64,13 +61,6 @@ class RegisterIncomeInputFragment(
     // config layout full size
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
-//        dialog.setOnShowListener {
-//            val bottomSheetDialog = it as BottomSheetDialog
-//            val parentLayout = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-//            parentLayout?.let { pl ->
-//                BottomSheetBehavior.from(pl).setState(BottomSheetBehavior.STATE_EXPANDED)
-//            }
-//        }
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         return dialog
     }
@@ -105,7 +95,7 @@ class RegisterIncomeInputFragment(
         val _binding = binding as FragmentRegisterAssetInputBinding
 
         // set title text
-        _binding.tvTitle.text = "자산"
+        _binding.tvTitle.text = TEXT_ASSET
 
         // set click event
         _binding.btnClose.setOnClickListener {
@@ -118,13 +108,13 @@ class RegisterIncomeInputFragment(
         // set recyclerview layout like grid view
         when (resources.configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
-                val layoutManager = GridLayoutManager(requireContext(), 4)
+                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
                 layoutManager.orientation =
                     LinearLayoutManager.HORIZONTAL
                 _binding.recyclerView.layoutManager = layoutManager
             }
             Configuration.ORIENTATION_LANDSCAPE -> {
-                val layoutManager = GridLayoutManager(requireContext(), 4)
+                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
                 layoutManager.orientation =
                     LinearLayoutManager.VERTICAL
                 _binding.recyclerView.layoutManager = layoutManager

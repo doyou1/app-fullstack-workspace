@@ -10,13 +10,13 @@ class DateUtil {
             calendar.set(_year.toInt(), _month.toInt() - 1, _day.toInt())
 
             val dayOfWeek = when(calendar.get(Calendar.DAY_OF_WEEK)) {
-                1 -> "일요일"
-                2 -> "월요일"
-                3 -> "화요일"
-                4 -> "수요일"
-                5 -> "목요일"
-                6 -> "금요일"
-                7 -> "토요일"
+                1 -> TEXT_SUNDAY
+                2 -> TEXT_MONDAY
+                3 -> TEXT_TUESDAY
+                4 -> TEXT_WEDNESDAY
+                5 -> TEXT_THURSDAY
+                6 -> TEXT_FRIDAY
+                7 -> TEXT_SATURDAY
                 else -> ""
             }
             return dayOfWeek

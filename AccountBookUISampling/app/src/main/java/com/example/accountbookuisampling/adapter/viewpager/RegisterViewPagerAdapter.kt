@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.adapter
+package com.example.accountbookuisampling.adapter.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -16,16 +16,16 @@ class RegisterViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> {
-                IncomeFragment.newInstance()
+                IncomeFragment.getInstance()
             }
             1 -> {
-                ConsumptionFragment.newInstance()
+                ConsumptionFragment.getInstance()
             }
             2 -> {
-                TransferFragment.newInstance()
+                TransferFragment.getInstance()
             }
             else -> {
-                IncomeFragment.newInstance()
+                IncomeFragment.getInstance()
             }
         }
     }

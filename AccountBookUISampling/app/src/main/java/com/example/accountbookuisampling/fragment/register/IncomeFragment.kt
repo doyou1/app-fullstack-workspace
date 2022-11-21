@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
 import com.example.accountbookuisampling.fragment.registerinput.RegisterIncomeInputFragment
-import com.example.accountbookuisampling.util.FLAG_AMOUNT
-import com.example.accountbookuisampling.util.FLAG_ASSET
-import com.example.accountbookuisampling.util.FLAG_CATEGORY
-import com.example.accountbookuisampling.util.FLAG_DATE
+import com.example.accountbookuisampling.util.*
 
 class IncomeFragment : Fragment() {
 
@@ -41,7 +38,7 @@ class IncomeFragment : Fragment() {
         binding.etDate.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) RegisterIncomeInputFragment(binding, FLAG_DATE).show(
                 requireActivity().supportFragmentManager,
-                "InputFragment"
+                TAG_DATE
             )
         }
 
@@ -49,7 +46,7 @@ class IncomeFragment : Fragment() {
         binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) RegisterIncomeInputFragment(binding, FLAG_ASSET).show(
                 requireActivity().supportFragmentManager,
-                "InputFragment"
+                TAG_ASSET
             )
         }
 
@@ -57,7 +54,7 @@ class IncomeFragment : Fragment() {
         binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) RegisterIncomeInputFragment(binding, FLAG_CATEGORY).show(
                 requireActivity().supportFragmentManager,
-                "InputFragment"
+                TAG_CATEGORY
             )
         }
 
@@ -65,7 +62,7 @@ class IncomeFragment : Fragment() {
         binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) RegisterIncomeInputFragment(binding, FLAG_AMOUNT).show(
                 requireActivity().supportFragmentManager,
-                "InputFragment"
+                TAG_AMOUNT
             )
 
         }
@@ -113,7 +110,7 @@ class IncomeFragment : Fragment() {
         private var instance: IncomeFragment? = null
 
         @JvmStatic
-        fun newInstance(): IncomeFragment {
+        fun getInstance(): IncomeFragment {
             if (instance == null) {
                 instance = IncomeFragment()
                 return instance as IncomeFragment

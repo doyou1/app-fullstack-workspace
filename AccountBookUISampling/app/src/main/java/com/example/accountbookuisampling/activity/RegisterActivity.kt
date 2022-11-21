@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.accountbookuisampling.R
-import com.example.accountbookuisampling.adapter.RegisterViewPagerAdapter
+import com.example.accountbookuisampling.adapter.viewpager.RegisterViewPagerAdapter
 import com.example.accountbookuisampling.databinding.ActivityRegisterBinding
 import com.example.accountbookuisampling.util.CONSUMPTION
 import com.example.accountbookuisampling.util.INCOME
@@ -63,7 +63,6 @@ class RegisterActivity : AppCompatActivity() {
                     1 -> binding.title = CONSUMPTION
                     2 -> binding.title = TRANSFER
                 }
-
             }
         })
     }

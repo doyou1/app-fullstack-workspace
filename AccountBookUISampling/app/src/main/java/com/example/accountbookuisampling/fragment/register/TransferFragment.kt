@@ -46,7 +46,7 @@ class TransferFragment : Fragment() {
     companion object {
         private var instance: TransferFragment? = null
         @JvmStatic
-        fun newInstance() : TransferFragment {
+        fun getInstance() : TransferFragment {
             if(instance == null) {
                 instance = TransferFragment()
                 return instance as TransferFragment

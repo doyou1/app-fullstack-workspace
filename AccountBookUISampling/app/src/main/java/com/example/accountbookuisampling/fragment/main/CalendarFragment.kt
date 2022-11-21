@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.CalendarRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.CalendarRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentCalendarBinding
-import com.example.accountbookuisampling.util.DateUtil
-import com.example.accountbookuisampling.util.TYPE_CALENDAR_CONTENT
-import com.example.accountbookuisampling.util.TYPE_CALENDAR_HEAD
 import com.example.accountbookuisampling.dataclass.CalendarItem
+import com.example.accountbookuisampling.util.*
 import java.util.ArrayList
 import kotlin.random.Random
 
@@ -43,21 +41,6 @@ class CalendarFragment : Fragment() {
 
     private fun setRecyclerView() {
 
-//        // layout_content height =  전체 height - layout_summary height
-//        val layoutContentHeight = binding.root.height - binding.layoutSummary.height - 1
-//        binding.layoutContent.layoutParams.height = layoutContentHeight
-
-        // head(7) + content(35)
-        val headList = arrayListOf<CalendarItem>(
-            CalendarItem(TYPE_CALENDAR_HEAD, 0,"", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, 1,"", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, 2,"", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, 3,"", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, 4,"", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, 5,"", 0, 0, 0),
-            CalendarItem(TYPE_CALENDAR_HEAD, 6,"", 0, 0, 0)
-        )
-
         val contentList = arrayListOf<CalendarItem>()
         // 현재 달의 1일의 요일
         val dateList = DateUtil.getDateList()
@@ -68,7 +51,7 @@ class CalendarFragment : Fragment() {
             contentList.add(
                 CalendarItem(
                     TYPE_CALENDAR_CONTENT,
-                    -1,
+                    FLAG_NOT_CALENDAR_HEAD,
                     strDate,
                     income,
                     consumption,
@@ -79,13 +62,13 @@ class CalendarFragment : Fragment() {
 
         when (resources.configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
-                val layoutManager = GridLayoutManager(requireContext(), 7)
+                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
                 layoutManager.orientation =
                     LinearLayoutManager.HORIZONTAL
                 binding.rvList.layoutManager = layoutManager
             }
             Configuration.ORIENTATION_LANDSCAPE -> {
-                val layoutManager = GridLayoutManager(requireContext(), 7)
+                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
                 layoutManager.orientation =
                     LinearLayoutManager.VERTICAL
                 binding.rvList.layoutManager = layoutManager
@@ -94,13 +77,21 @@ class CalendarFragment : Fragment() {
         }
 
         val list = ArrayList<CalendarItem>()
-        list.addAll(headList)
+        list.addAll(CALENDAR_HEAD_LIST)
         list.addAll(contentList)
         binding.rvList.adapter = CalendarRVAdapter(list)
     }
 
     companion object {
+        private var instance: CalendarFragment? = null
         @JvmStatic
-        fun newInstance() = CalendarFragment()
+        fun getInstance() : CalendarFragment {
+            if(instance == null) {
+                instance = CalendarFragment()
+                return instance as CalendarFragment
+            }
+
+            return instance as CalendarFragment
+        }
     }
 }

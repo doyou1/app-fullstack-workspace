@@ -38,7 +38,7 @@ class ConsumptionFragment : Fragment() {
     companion object {
         private var instance: ConsumptionFragment? = null
         @JvmStatic
-        fun newInstance() : ConsumptionFragment {
+        fun getInstance() : ConsumptionFragment {
             if(instance == null) {
                 instance = ConsumptionFragment()
                 return instance as ConsumptionFragment

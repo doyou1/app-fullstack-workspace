@@ -22,7 +22,15 @@ class YearFragment : Fragment() {
     }
 
     companion object {
+        private var instance: YearFragment? = null
         @JvmStatic
-        fun newInstance() = YearFragment()
+        fun getInstance() : YearFragment {
+            if(instance == null) {
+                instance = YearFragment()
+                return instance as YearFragment
+            }
+
+            return instance as YearFragment
+        }
     }
 }

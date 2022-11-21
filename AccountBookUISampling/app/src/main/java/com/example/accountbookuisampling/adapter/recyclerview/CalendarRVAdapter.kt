@@ -1,7 +1,5 @@
-package com.example.accountbookuisampling.adapter
+package com.example.accountbookuisampling.adapter.recyclerview
 
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,8 +7,7 @@ import com.example.accountbookuisampling.databinding.RvItemCalendarContentBindin
 import com.example.accountbookuisampling.databinding.RvItemCalendarHeadBinding
 import com.example.accountbookuisampling.viewmodel.CalendarItemViewModel
 import com.example.accountbookuisampling.dataclass.CalendarItem
-import com.example.accountbookuisampling.util.TYPE_CALENDAR_CONTENT
-import com.example.accountbookuisampling.util.TYPE_CALENDAR_HEAD
+import com.example.accountbookuisampling.util.*
 import java.text.DecimalFormat
 
 class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
@@ -20,8 +17,8 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
     private val TAG = this::class.java.simpleName
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val headHeight = parent.measuredHeight / 20
-        val contentHeight = (parent.measuredHeight - headHeight) / 5
+        val headHeight = parent.measuredHeight / CALENDAR_HEAD_HEIGHT_RATIO
+        val contentHeight = (parent.measuredHeight - headHeight) / CALENDAR_CONTENT_HEIGHT_RATIO
 
         when (viewType) {
             TYPE_CALENDAR_HEAD -> {
@@ -77,36 +74,36 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
         fun bind(calendarItem: CalendarItem) {
             when (calendarItem.dayOfWeekSequence) {
                 0 -> {
-                    binding.strDayOfWeek = "일"
-                    binding.tvDayOfWeek.setTextColor(Color.RED)
+                    binding.strDayOfWeek = TEXT_SUNDAY
+                    binding.tvDayOfWeek.setTextColor(COLOR_SUNDAY)
                 }
                 1 -> {
-                    binding.strDayOfWeek = "월"
-                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                    binding.strDayOfWeek = TEXT_MONDAY
+                    binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
                 2 -> {
-                    binding.strDayOfWeek = "화"
-                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                    binding.strDayOfWeek = TEXT_TUESDAY
+                    binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
                 3 -> {
-                    binding.strDayOfWeek = "수"
-                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                    binding.strDayOfWeek = TEXT_WEDNESDAY
+                    binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
                 4 -> {
-                    binding.strDayOfWeek = "목"
-                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                    binding.strDayOfWeek = TEXT_THURSDAY
+                    binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
                 5 -> {
-                    binding.strDayOfWeek = "금"
-                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                    binding.strDayOfWeek = TEXT_FRIDAY
+                    binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
                 6 -> {
-                    binding.strDayOfWeek = "토"
-                    binding.tvDayOfWeek.setTextColor(Color.BLUE)
+                    binding.strDayOfWeek = TEXT_SATURDAY
+                    binding.tvDayOfWeek.setTextColor(COLOR_SATURDAY)
                 }
                 else -> {
                     binding.strDayOfWeek = ""
-                    binding.tvDayOfWeek.setTextColor(Color.GRAY)
+                    binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
             }
         }
@@ -123,7 +120,7 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
         private fun formatToViewModel(calendarItem: CalendarItem): CalendarItemViewModel {
             // calendarItem.date = YYYYYYMMdd
             var day = calendarItem.date.substring(6, 8)
-            if(day == "01") {
+            if(day == TEXT_FIRST_DAY_OF_MONTH) {
                 val month = calendarItem.date.substring(4, 6)
                 day = "$month.$day"
             }

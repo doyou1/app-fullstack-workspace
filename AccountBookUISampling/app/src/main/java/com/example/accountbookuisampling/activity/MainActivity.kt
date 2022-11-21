@@ -3,8 +3,7 @@ package com.example.accountbookuisampling.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.accountbookuisampling.adapter.MainViewPagerAdapter
+import com.example.accountbookuisampling.adapter.viewpager.MainViewPagerAdapter
 import com.example.accountbookuisampling.databinding.ActivityMainBinding
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.tabs.TabLayoutMediator
@@ -61,7 +60,8 @@ class MainActivity : AppCompatActivity() {
             tlm.attach()
         }
 
-        binding.btnAddHistory.performClick()
+        // for debug
+//        binding.btnAddHistory.performClick()
     }
 
     private fun setClickEvent() {
