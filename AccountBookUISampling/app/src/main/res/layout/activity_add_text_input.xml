@@ -5,15 +5,117 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:id="@+id/layout_input"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintBottom_toTopOf="@+id/btn_save"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           >
 
-        <TextView
-            android:layout_width="wrap_content"
+           <TextView
+               android:id="@+id/tv_group"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="그룹"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintBottom_toTopOf="@+id/tv_name"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toStartOf="@+id/et_group"
+               />
+
+           <TextView
+               android:id="@+id/tv_name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="이름"
+               app:layout_constraintTop_toBottomOf="@+id/tv_group"
+               app:layout_constraintBottom_toTopOf="@+id/tv_amount"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toStartOf="@+id/et_name"
+               />
+
+           <TextView
+               android:id="@+id/tv_amount"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="금액"
+               app:layout_constraintTop_toBottomOf="@+id/tv_name"
+               app:layout_constraintBottom_toTopOf="@+id/tv_memo"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toStartOf="@+id/et_amount"
+               />
+
+           <TextView
+               android:id="@+id/tv_memo"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="메모"
+               app:layout_constraintTop_toBottomOf="@+id/tv_amount"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toStartOf="@+id/et_memo"
+               />
+
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_group"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintBottom_toTopOf="@+id/et_name"
+               app:layout_constraintStart_toEndOf="@+id/tv_group"
+               app:layout_constraintEnd_toEndOf="parent"
+               />
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+               app:layout_constraintTop_toBottomOf="@+id/et_group"
+               app:layout_constraintBottom_toTopOf="@+id/et_amount"
+               app:layout_constraintStart_toEndOf="@+id/tv_name"
+               app:layout_constraintEnd_toEndOf="parent"
+               />
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_amount"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+               app:layout_constraintTop_toBottomOf="@+id/et_name"
+               app:layout_constraintBottom_toTopOf="@+id/et_memo"
+               app:layout_constraintStart_toEndOf="@+id/tv_amount"
+               app:layout_constraintEnd_toEndOf="parent"
+               />
+
+           <com.google.android.material.textfield.TextInputEditText
+               android:id="@+id/et_memo"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+               app:layout_constraintTop_toBottomOf="@+id/et_amount"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintStart_toEndOf="@+id/tv_memo"
+               app:layout_constraintEnd_toEndOf="parent"
+               />
+
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TEXT_VIEW"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="저장"
+            app:layout_constraintTop_toBottomOf="@+id/layout_input"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.8"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

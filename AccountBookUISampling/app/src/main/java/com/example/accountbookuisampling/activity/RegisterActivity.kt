@@ -1,7 +1,6 @@
 package com.example.accountbookuisampling.activity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.accountbookuisampling.R
@@ -37,7 +36,6 @@ class RegisterActivity : AppCompatActivity() {
         adapter = RegisterViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
         tlm = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            Log.e(TAG, "position: $position")
             when (position) {
                 0 -> {
                     tab.text = INCOME

@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.fragment.registerinput
+package com.example.accountbookuisampling.fragment.main
 
 import android.content.res.Configuration
 import android.os.Bundle
