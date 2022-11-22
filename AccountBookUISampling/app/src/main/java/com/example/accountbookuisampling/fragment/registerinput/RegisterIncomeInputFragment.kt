@@ -31,7 +31,14 @@ class RegisterIncomeInputFragment(
 
     private val addTextInputActivityResultLauncher = getAddTextInputActivityResultLauncher()
 
-    val assetList = arrayListOf(
+    private val assetList = arrayListOf(
+        "현금",
+        "은행",
+        "카드",
+        "추가"
+    )
+
+    private val categoryList = arrayListOf(
         "현금",
         "은행",
         "카드",
@@ -127,12 +134,38 @@ class RegisterIncomeInputFragment(
     }
 
     private fun setCategoryView() {
-//        val _binding = binding as FragmentRegisterCategoryInputBinding
-//        _binding.tvTitle.text = "분류"
+        val _binding = binding as FragmentRegisterCategoryInputBinding
 
-//        _binding.btnClose.setOnClickListener {
-//            dismiss()
-//        }
+        // set title text
+        _binding.tvTitle.text = TEXT_CATEGORY
+
+        // set click event
+        _binding.btnClose.setOnClickListener {
+            parentBinding.etCategory.clearFocus()
+            dismiss()
+        }
+
+        // set recycler view
+
+        // set recyclerview layout like grid view
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
+                layoutManager.orientation =
+                    LinearLayoutManager.HORIZONTAL
+                _binding.recyclerView.layoutManager = layoutManager
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
+                layoutManager.orientation =
+                    LinearLayoutManager.VERTICAL
+                _binding.recyclerView.layoutManager = layoutManager
+            }
+            else -> throw NotImplementedError()
+        }
+
+        _binding.recyclerView.adapter =
+            IncomeInputTextRVAdapter(categoryList, parentBinding, this, flag)
     }
 
     private fun setAmountView() {
@@ -145,11 +178,14 @@ class RegisterIncomeInputFragment(
     }
 
     fun openAddTextInputActivityResultLauncher() {
+        val intent = Intent(
+            requireContext(),
+            AddTextInputActivity::class.java
+        )
+        intent.putExtra("flag", flag)
+
         addTextInputActivityResultLauncher.launch(
-            Intent(
-                requireContext(),
-                AddTextInputActivity::class.java
-            )
+           intent
         )
     }
 
@@ -160,11 +196,23 @@ class RegisterIncomeInputFragment(
 
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    val _binding = binding as FragmentRegisterAssetInputBinding
-                    val _adapter = _binding.recyclerView.adapter as IncomeInputTextRVAdapter
+                    when(flag) {
+                        FLAG_ASSET -> {
+                            val _binding = binding as FragmentRegisterAssetInputBinding
+                            val _adapter = _binding.recyclerView.adapter as IncomeInputTextRVAdapter
 
-                    assetList.add(assetList.size - 1, data.getStringExtra("item")!!)
-                    _adapter.notifyDataSetChanged()
+                            assetList.add(assetList.size - 1, data.getStringExtra("item")!!)
+                            _adapter.notifyDataSetChanged()
+                        }
+                        FLAG_CATEGORY -> {
+                            val _binding = binding as FragmentRegisterCategoryInputBinding
+                            val _adapter = _binding.recyclerView.adapter as IncomeInputTextRVAdapter
+
+                            categoryList.add(categoryList.size - 1, data.getStringExtra("item")!!)
+                            _adapter.notifyDataSetChanged()
+                        }
+                    }
+
                 }
             }
         }

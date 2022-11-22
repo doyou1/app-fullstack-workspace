@@ -18,4 +18,5 @@
     <string name="text_continue">계속</string>
     <string name="text_fee">수수료</string>
     <string name="text_consumption_sum">지출 (현금, 은행)</string>
+    <string name="text_category_name">분류 이름</string>
 </resources>
