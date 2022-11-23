@@ -1,5 +1,6 @@
 package com.example.accountbookuisampling.util
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DateUtil {
@@ -59,6 +60,25 @@ class DateUtil {
                 calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1)
             }
             return dateList
+        }
+
+        fun getTodayText() : String {
+            val calendar = Calendar.getInstance()
+            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            val date = sdf.format(calendar.time)
+
+            val dayOfWeek = when(calendar.get(Calendar.DAY_OF_WEEK)) {
+                1 -> TEXT_SUNDAY
+                2 -> TEXT_MONDAY
+                3 -> TEXT_TUESDAY
+                4 -> TEXT_WEDNESDAY
+                5 -> TEXT_THURSDAY
+                6 -> TEXT_FRIDAY
+                7 -> TEXT_SATURDAY
+                else -> ""
+            }
+
+            return "$date ($dayOfWeek)"
         }
     }
 }

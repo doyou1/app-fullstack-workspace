@@ -30,6 +30,10 @@ class IncomeFragment : Fragment() {
         setFocusChangeEvent()
         setClickEvent()
         disableKeyboard()
+
+        val dateText = DateUtil.getTodayText()
+        binding.etDate.setText(dateText)
+        binding.etAsset.requestFocus()
     }
 
     private fun setFocusChangeEvent() {
