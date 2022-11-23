@@ -50,13 +50,14 @@ class IncomeInputTextRVAdapter(
                     when (flag) {
                         FLAG_ASSET -> {
                             parentBinding.etAsset.setText(item)
-//                            parentBinding.etAsset.clearFocus()
-                            parentBinding.etCategory.requestFocus()
+                            if(parentBinding.etCategory.text.toString().isEmpty()) parentBinding.etCategory.requestFocus()
+                            else if(parentBinding.etAmount.text.toString().isEmpty()) parentBinding.etAmount.requestFocus()
+                            else if(parentBinding.etDetail.text.toString().isEmpty()) parentBinding.etDetail.requestFocus()
                         }
                         FLAG_CATEGORY -> {
                             parentBinding.etCategory.setText(item)
-//                            parentBinding.etCategory.clearFocus()
-                            parentBinding.etAmount.requestFocus()
+                            if(parentBinding.etAmount.text.toString().isEmpty()) parentBinding.etAmount.requestFocus()
+                            else if(parentBinding.etDetail.text.toString().isEmpty()) parentBinding.etDetail.requestFocus()
                         }
                     }
                     inputFragment.dismiss()

@@ -83,4 +83,47 @@ const val TAG_ASSET = "ASSET"
 const val TAG_CATEGORY = "CATEGORY"
 const val TAG_AMOUNT = "AMOUNT"
 
+const val TEXT_DIVIDE = "÷"
+const val TEXT_MULTIPLICATION = "×"
+const val TEXT_SUBTRACTION = "－"
+const val TEXT_ADDITION = "＋"
+const val TEXT_SEVEN = "7"
+const val TEXT_EIGHT = "8"
+const val TEXT_NINE = "9"
+const val TEXT_EQUAL = "＝"
+const val TEXT_FOUR = "4"
+const val TEXT_FIVE = "5"
+const val TEXT_SIX = "6"
+const val TEXT_DOT = "."
+const val TEXT_ONE = "1"
+const val TEXT_TWO = "2"
+const val TEXT_THREE = "3"
+const val TEXT_REMOVE = "←"
+const val TEXT_EMPTY = ""
+const val TEXT_ZERO = "0"
+const val TEXT_CONFIRM = "확인"
 
+val CALCULATOR_ITEM_LIST = arrayOf(
+    TEXT_DIVIDE,
+    TEXT_MULTIPLICATION,
+    TEXT_SUBTRACTION,
+    TEXT_ADDITION,
+    TEXT_SEVEN,
+    TEXT_EIGHT,
+    TEXT_NINE,
+    TEXT_EQUAL,
+    TEXT_FOUR,
+    TEXT_FIVE,
+    TEXT_SIX,
+    TEXT_DOT,
+    TEXT_ONE,
+    TEXT_TWO,
+    TEXT_THREE,
+    TEXT_REMOVE,
+    TEXT_EMPTY,
+    TEXT_ZERO,
+    TEXT_EMPTY,
+    TEXT_CONFIRM
+)
+
+const val TEXT_ENN = "￥"

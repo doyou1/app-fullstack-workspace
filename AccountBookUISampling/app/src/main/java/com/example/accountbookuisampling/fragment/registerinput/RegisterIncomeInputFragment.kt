@@ -14,6 +14,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.activity.AddTextInputActivity
+import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputCalculateRVAdapter
 import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputTextRVAdapter
 import com.example.accountbookuisampling.databinding.*
 import com.example.accountbookuisampling.util.*
@@ -87,14 +88,38 @@ class RegisterIncomeInputFragment(
             }
             FLAG_AMOUNT -> {
                 setAmountView()
-
             }
         }
     }
 
     private fun setDateView() {
-//        val _binding = binding as FragmentRegisterDateInputBinding
-//        _binding.tvTitle.text = "날짜"
+        val _binding = binding as FragmentRegisterDateInputBinding
+        // set title text
+        _binding.tvTitle.text = TEXT_DATE
+
+        // set click event
+        _binding.btnClose.setOnClickListener {
+            dismiss()
+        }
+
+        // set recyclerview layout like grid view
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
+                layoutManager.orientation =
+                    LinearLayoutManager.HORIZONTAL
+                _binding.recyclerView.layoutManager = layoutManager
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
+                layoutManager.orientation =
+                    LinearLayoutManager.VERTICAL
+                _binding.recyclerView.layoutManager = layoutManager
+            }
+            else -> throw NotImplementedError()
+        }
+//        _binding.recyclerView.adapter =
+//            IncomeInputCalendarRVAdapter(assetList, parentBinding, this, flag)
 
     }
 
@@ -106,7 +131,6 @@ class RegisterIncomeInputFragment(
 
         // set click event
         _binding.btnClose.setOnClickListener {
-            parentBinding.etAsset.clearFocus()
             dismiss()
         }
 
@@ -141,7 +165,6 @@ class RegisterIncomeInputFragment(
 
         // set click event
         _binding.btnClose.setOnClickListener {
-            parentBinding.etCategory.clearFocus()
             dismiss()
         }
 
@@ -169,12 +192,35 @@ class RegisterIncomeInputFragment(
     }
 
     private fun setAmountView() {
-//        val _binding = binding as FragmentRegisterAmountInputBinding
-//        _binding.tvTitle.text = "금액"
+        val _binding = binding as FragmentRegisterAmountInputBinding
+        _binding.tvTitle.text = TEXT_AMOUNT
+        _binding.etInput.setText(parentBinding.etAmount.text.toString())
+        _binding.etInput.showSoftInputOnFocus = false
 
-//        _binding.btnClose.setOnClickListener {
-//            dismiss()
-//        }
+        _binding.btnClose.setOnClickListener {
+            dismiss()
+        }
+
+        // set recyclerview layout like grid view
+        when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
+                layoutManager.orientation =
+                    LinearLayoutManager.HORIZONTAL
+                _binding.recyclerView.layoutManager = layoutManager
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
+                layoutManager.orientation =
+                    LinearLayoutManager.VERTICAL
+                _binding.recyclerView.layoutManager = layoutManager
+            }
+            else -> throw NotImplementedError()
+        }
+
+        _binding.recyclerView.adapter =
+            IncomeInputCalculateRVAdapter(CALCULATOR_ITEM_LIST, parentBinding, _binding, this)
+
     }
 
     fun openAddTextInputActivityResultLauncher() {
@@ -185,7 +231,7 @@ class RegisterIncomeInputFragment(
         intent.putExtra("flag", flag)
 
         addTextInputActivityResultLauncher.launch(
-           intent
+            intent
         )
     }
 
@@ -193,10 +239,9 @@ class RegisterIncomeInputFragment(
         return registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
-
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    when(flag) {
+                    when (flag) {
                         FLAG_ASSET -> {
                             val _binding = binding as FragmentRegisterAssetInputBinding
                             val _adapter = _binding.recyclerView.adapter as IncomeInputTextRVAdapter
@@ -217,7 +262,6 @@ class RegisterIncomeInputFragment(
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

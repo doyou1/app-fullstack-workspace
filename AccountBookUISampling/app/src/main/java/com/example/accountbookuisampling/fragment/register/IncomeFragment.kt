@@ -27,13 +27,12 @@ class IncomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-        disableKeyboard()
+        setFocusChangeEvent()
         setClickEvent()
+        disableKeyboard()
     }
 
-
-    private fun setClickEvent() {
+    private fun setFocusChangeEvent() {
         // 날짜, Date, 日付
         binding.etDate.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) RegisterIncomeInputFragment(binding, FLAG_DATE).show(
@@ -64,21 +63,14 @@ class IncomeFragment : Fragment() {
                 requireActivity().supportFragmentManager,
                 TAG_AMOUNT
             )
-
         }
 
-        // 내용, Detail, 内容
-        // not need Custom Input
-//        binding.etDetail.setOnClickListener {
-//
-//        }
+        binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) showKeyboard()
+        }
+    }
 
-        //  추가내용, Detail, 追加内容
-        // not need Custom Input
-//        binding.etAdditionDetail.setOnFocusChangeListener { _, hasFocus ->
-//
-//        }
-
+    private fun setClickEvent() {
         binding.btnDetailOnoff.setOnClickListener {
             binding.isImportant = !binding.isImportant
         }
@@ -94,9 +86,12 @@ class IncomeFragment : Fragment() {
         binding.etAsset.showSoftInputOnFocus = false
         binding.etCategory.showSoftInputOnFocus = false
         binding.etAmount.showSoftInputOnFocus = false
+    }
 
-        // not need Custom Input
-//        binding.etDetail.showSoftInputOnFocus = false
+    private fun showKeyboard() {
+        val im =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        im.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
     private fun hideKeyboard() {
