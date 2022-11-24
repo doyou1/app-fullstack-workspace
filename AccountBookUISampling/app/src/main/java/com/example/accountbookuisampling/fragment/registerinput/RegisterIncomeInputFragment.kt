@@ -15,12 +15,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.activity.AddTextInputActivity
 import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputCalculateRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputDateRVAdapter
 import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputTextRVAdapter
 import com.example.accountbookuisampling.databinding.*
+import com.example.accountbookuisampling.dataclass.CalendarItem
+import com.example.accountbookuisampling.dataclass.DateItem
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.util.ArrayList
 
 class RegisterIncomeInputFragment(
     private val parentBinding: FragmentIncomeBinding,
@@ -45,6 +49,9 @@ class RegisterIncomeInputFragment(
         "카드",
         "추가"
     )
+
+    // yyyy/MM/DD
+    private var date = parentBinding.etDate.text.toString().substring(0, 10)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,35 +99,48 @@ class RegisterIncomeInputFragment(
         }
     }
 
+    fun changeDate(value: String) {
+        date = value
+        parentBinding.etDate.setText(DateUtil.getDateText(date))
+        setDateView()
+    }
+
     private fun setDateView() {
         val _binding = binding as FragmentRegisterDateInputBinding
         // set title text
         _binding.tvTitle.text = TEXT_DATE
 
+        _binding.tvMonth.text = "${DateUtil.getMonth(date)}$TEXT_MONTH"
         // set click event
         _binding.btnClose.setOnClickListener {
             dismiss()
         }
+        _binding.btnLeft.setOnClickListener {
 
-        // set recyclerview layout like grid view
-        when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.HORIZONTAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.VERTICAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            else -> throw NotImplementedError()
         }
-//        _binding.recyclerView.adapter =
-//            IncomeInputCalendarRVAdapter(assetList, parentBinding, this, flag)
+        _binding.btnRight.setOnClickListener {
 
+        }
+        _binding.btnToday.setOnClickListener {
+            changeDate(DateUtil.getTodayText().substring(0, 10))
+        }
+
+        _binding.recyclerView.layoutManager = getLayoutManager(CALENDAR_VIEW_SPAN_COUNT)
+
+        val dateList = DateUtil.getDateList(date)
+        val contentList = ArrayList<DateItem>()
+        dateList.forEachIndexed { index, date ->
+            contentList.add(
+                DateItem(TYPE_CALENDAR_CONTENT,index % 7,date)
+            )
+        }
+
+        val list = ArrayList<DateItem>()
+        list.addAll(DATE_HEAD_LIST)
+        list.addAll(contentList)
+
+        _binding.recyclerView.adapter =
+            IncomeInputDateRVAdapter(date, list, parentBinding, this)
     }
 
     private fun setAssetView() {
@@ -135,23 +155,8 @@ class RegisterIncomeInputFragment(
         }
 
         // set recycler view
+        _binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
 
-        // set recyclerview layout like grid view
-        when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.HORIZONTAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.VERTICAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            else -> throw NotImplementedError()
-        }
 
         _binding.recyclerView.adapter =
             IncomeInputTextRVAdapter(assetList, parentBinding, this, flag)
@@ -159,34 +164,15 @@ class RegisterIncomeInputFragment(
 
     private fun setCategoryView() {
         val _binding = binding as FragmentRegisterCategoryInputBinding
-
         // set title text
         _binding.tvTitle.text = TEXT_CATEGORY
-
         // set click event
         _binding.btnClose.setOnClickListener {
             dismiss()
         }
 
         // set recycler view
-
-        // set recyclerview layout like grid view
-        when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.HORIZONTAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.VERTICAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            else -> throw NotImplementedError()
-        }
-
+        _binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
         _binding.recyclerView.adapter =
             IncomeInputTextRVAdapter(categoryList, parentBinding, this, flag)
     }
@@ -201,23 +187,7 @@ class RegisterIncomeInputFragment(
             dismiss()
         }
 
-        // set recyclerview layout like grid view
-        when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.HORIZONTAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                val layoutManager = GridLayoutManager(requireContext(), INPUT_ITEM_VIEW_SPAN_COUNT)
-                layoutManager.orientation =
-                    LinearLayoutManager.VERTICAL
-                _binding.recyclerView.layoutManager = layoutManager
-            }
-            else -> throw NotImplementedError()
-        }
-
+        _binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
         _binding.recyclerView.adapter =
             IncomeInputCalculateRVAdapter(CALCULATOR_ITEM_LIST, parentBinding, _binding, this)
 
@@ -260,6 +230,25 @@ class RegisterIncomeInputFragment(
 
                 }
             }
+        }
+    }
+
+    private fun getLayoutManager(span: Int): GridLayoutManager {
+        // set recyclerview layout like grid view
+        return when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                val layoutManager = GridLayoutManager(requireContext(), span)
+                layoutManager.orientation =
+                    LinearLayoutManager.HORIZONTAL
+                layoutManager
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                val layoutManager = GridLayoutManager(requireContext(), span)
+                layoutManager.orientation =
+                    LinearLayoutManager.VERTICAL
+                layoutManager
+            }
+            else -> throw NotImplementedError()
         }
     }
 

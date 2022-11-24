@@ -39,6 +39,9 @@
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_calendar_head.xml" value="0.1" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_history.xml" value="0.11145833333333334" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_income_calculate_input.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_income_calendar_input.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_income_date_input.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_income_date_input_head.xml" value="0.1125" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_income_input.xml" value="0.1125" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_income_text_input.xml" value="0.1125" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/rv_item_month.xml" value="0.28125" />

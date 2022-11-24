@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputTextRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentRegisterAssetInputBinding
 import com.example.accountbookuisampling.dataclass.CalendarItem
+import com.example.accountbookuisampling.dataclass.DateItem
 import com.example.accountbookuisampling.dataclass.History
 import com.example.accountbookuisampling.fragment.registerinput.RegisterIncomeInputFragment
 
@@ -74,6 +75,15 @@ val CALENDAR_HEAD_LIST = arrayOf(
     CalendarItem(TYPE_CALENDAR_HEAD, 6,"", 0, 0, 0)
 )
 
+val DATE_HEAD_LIST = arrayOf(
+    DateItem(TYPE_CALENDAR_HEAD, 0,""),
+    DateItem(TYPE_CALENDAR_HEAD, 1,""),
+    DateItem(TYPE_CALENDAR_HEAD, 2,""),
+    DateItem(TYPE_CALENDAR_HEAD, 3,""),
+    DateItem(TYPE_CALENDAR_HEAD, 4,""),
+    DateItem(TYPE_CALENDAR_HEAD, 5,""),
+    DateItem(TYPE_CALENDAR_HEAD, 6,""),
+)
 const val FLAG_NOT_CALENDAR_HEAD = -1
 const val CALENDAR_VIEW_SPAN_COUNT = 7
 const val INPUT_ITEM_VIEW_SPAN_COUNT = 4
@@ -127,3 +137,4 @@ val CALCULATOR_ITEM_LIST = arrayOf(
 )
 
 const val TEXT_ENN = "￥"
+const val TEXT_MONTH = "월"

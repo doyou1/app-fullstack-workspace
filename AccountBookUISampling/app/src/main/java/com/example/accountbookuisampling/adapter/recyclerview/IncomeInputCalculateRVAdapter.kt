@@ -137,7 +137,7 @@ class IncomeInputCalculateRVAdapter(
                 // 확인 경우(확인)
                 else if (item == TEXT_CONFIRM) {
 
-                    val result =
+                    var result =
                         // 연산이 다 된 경우
                         if (CalculatorUtil.getOperators(prev).isEmpty()) {
                             prev
@@ -148,7 +148,11 @@ class IncomeInputCalculateRVAdapter(
                             val rounded = calculated.toDouble().roundToInt().toString()
                             rounded
                         }
+
+
+                    if(result.isNotEmpty() && result[0].toString() != TEXT_ENN) result = "$TEXT_ENN$result"
                     parentBinding.etAmount.setText(result)
+
 
                     if (parentBinding.etDetail.text.toString().isEmpty()) parentBinding.etDetail.requestFocus()
                     inputFragment.dismiss()
