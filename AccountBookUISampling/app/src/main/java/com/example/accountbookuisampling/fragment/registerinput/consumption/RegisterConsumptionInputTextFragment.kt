@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.fragment.registerinput
+package com.example.accountbookuisampling.fragment.registerinput.consumption
 
 import android.app.Activity
 import android.app.Dialog
@@ -14,21 +14,17 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.activity.AddTextInputActivity
-import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputCalculateRVAdapter
-import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputDateRVAdapter
-import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputTextRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.registerinput.consumption.ConsumptionInputTextRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.registerinput.income.IncomeInputTextRVAdapter
 import com.example.accountbookuisampling.databinding.*
-import com.example.accountbookuisampling.dataclass.CalendarItem
-import com.example.accountbookuisampling.dataclass.DateItem
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.util.ArrayList
 
-class RegisterIncomeInputFragment(
-    private val parentBinding: FragmentIncomeBinding,
-    private val flag: Int
+class RegisterConsumptionInputTextFragment(
+    private val parentBinding: FragmentConsumptionBinding,
+    private val categoryFlag: Int,
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: ViewDataBinding
@@ -50,24 +46,19 @@ class RegisterIncomeInputFragment(
         "추가"
     )
 
-    // yyyy/MM/DD
-    private var date = parentBinding.etDate.text.toString().substring(0, 10)
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = when (flag) {
-            FLAG_DATE -> FragmentRegisterDateInputBinding.inflate(inflater, container, false)
+        binding = when (categoryFlag) {
             FLAG_ASSET -> FragmentRegisterAssetInputBinding.inflate(inflater, container, false)
             FLAG_CATEGORY -> FragmentRegisterCategoryInputBinding.inflate(
                 inflater,
                 container,
                 false
             )
-            FLAG_AMOUNT -> FragmentRegisterAmountInputBinding.inflate(inflater, container, false)
             else -> throw NotImplementedError()
         }
         return binding.root
@@ -83,64 +74,14 @@ class RegisterIncomeInputFragment(
 
     override fun onResume() {
         super.onResume()
-        when (flag) {
-            FLAG_DATE -> {
-                setDateView()
-            }
+        when (categoryFlag) {
             FLAG_ASSET -> {
                 setAssetView()
             }
             FLAG_CATEGORY -> {
                 setCategoryView()
             }
-            FLAG_AMOUNT -> {
-                setAmountView()
-            }
         }
-    }
-
-    fun changeDate(value: String) {
-        date = value
-        parentBinding.etDate.setText(DateUtil.getDateText(date))
-        setDateView()
-    }
-
-    private fun setDateView() {
-        val _binding = binding as FragmentRegisterDateInputBinding
-        // set title text
-        _binding.tvTitle.text = TEXT_DATE
-
-        _binding.tvMonth.text = "${DateUtil.getMonth(date)}$TEXT_MONTH"
-        // set click event
-        _binding.btnClose.setOnClickListener {
-            dismiss()
-        }
-        _binding.btnLeft.setOnClickListener {
-
-        }
-        _binding.btnRight.setOnClickListener {
-
-        }
-        _binding.btnToday.setOnClickListener {
-            changeDate(DateUtil.getTodayText().substring(0, 10))
-        }
-
-        _binding.recyclerView.layoutManager = getLayoutManager(CALENDAR_VIEW_SPAN_COUNT)
-
-        val dateList = DateUtil.getDateList(date)
-        val contentList = ArrayList<DateItem>()
-        dateList.forEachIndexed { index, date ->
-            contentList.add(
-                DateItem(TYPE_CALENDAR_CONTENT,index % 7,date)
-            )
-        }
-
-        val list = ArrayList<DateItem>()
-        list.addAll(DATE_HEAD_LIST)
-        list.addAll(contentList)
-
-        _binding.recyclerView.adapter =
-            IncomeInputDateRVAdapter(date, list, parentBinding, this)
     }
 
     private fun setAssetView() {
@@ -156,10 +97,7 @@ class RegisterIncomeInputFragment(
 
         // set recycler view
         _binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
-
-
-        _binding.recyclerView.adapter =
-            IncomeInputTextRVAdapter(assetList, parentBinding, this, flag)
+        _binding.recyclerView.adapter = ConsumptionInputTextRVAdapter(assetList, parentBinding, this, categoryFlag)
     }
 
     private fun setCategoryView() {
@@ -173,24 +111,7 @@ class RegisterIncomeInputFragment(
 
         // set recycler view
         _binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
-        _binding.recyclerView.adapter =
-            IncomeInputTextRVAdapter(categoryList, parentBinding, this, flag)
-    }
-
-    private fun setAmountView() {
-        val _binding = binding as FragmentRegisterAmountInputBinding
-        _binding.tvTitle.text = TEXT_AMOUNT
-        _binding.etInput.setText(parentBinding.etAmount.text.toString())
-        _binding.etInput.showSoftInputOnFocus = false
-
-        _binding.btnClose.setOnClickListener {
-            dismiss()
-        }
-
-        _binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
-        _binding.recyclerView.adapter =
-            IncomeInputCalculateRVAdapter(CALCULATOR_ITEM_LIST, parentBinding, _binding, this)
-
+        _binding.recyclerView.adapter = ConsumptionInputTextRVAdapter(categoryList, parentBinding, this, categoryFlag)
     }
 
     fun openAddTextInputActivityResultLauncher() {
@@ -198,7 +119,7 @@ class RegisterIncomeInputFragment(
             requireContext(),
             AddTextInputActivity::class.java
         )
-        intent.putExtra("flag", flag)
+        intent.putExtra("flag", categoryFlag)
 
         addTextInputActivityResultLauncher.launch(
             intent
@@ -211,7 +132,7 @@ class RegisterIncomeInputFragment(
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    when (flag) {
+                    when (categoryFlag) {
                         FLAG_ASSET -> {
                             val _binding = binding as FragmentRegisterAssetInputBinding
                             val _adapter = _binding.recyclerView.adapter as IncomeInputTextRVAdapter
@@ -255,18 +176,12 @@ class RegisterIncomeInputFragment(
     override fun onDestroy() {
         super.onDestroy()
 
-        when (flag) {
-            FLAG_DATE -> {
-                parentBinding.etDate.clearFocus()
-            }
+        when (categoryFlag) {
             FLAG_ASSET -> {
                 parentBinding.etAsset.clearFocus()
             }
             FLAG_CATEGORY -> {
                 parentBinding.etCategory.clearFocus()
-            }
-            FLAG_AMOUNT -> {
-                parentBinding.etAmount.clearFocus()
             }
         }
     }

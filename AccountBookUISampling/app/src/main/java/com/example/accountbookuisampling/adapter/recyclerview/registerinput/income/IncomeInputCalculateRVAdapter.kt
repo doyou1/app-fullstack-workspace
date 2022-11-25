@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.adapter.recyclerview
+package com.example.accountbookuisampling.adapter.recyclerview.registerinput.income
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
 import com.example.accountbookuisampling.databinding.FragmentRegisterAmountInputBinding
-import com.example.accountbookuisampling.databinding.RvItemIncomeCalculateInputBinding
-import com.example.accountbookuisampling.fragment.registerinput.RegisterIncomeInputFragment
+import com.example.accountbookuisampling.databinding.RvItemCalculateInputBinding
+import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputAmountFragment
 import com.example.accountbookuisampling.util.*
 import java.lang.NumberFormatException
 import kotlin.math.roundToInt
@@ -16,31 +16,31 @@ class IncomeInputCalculateRVAdapter(
     calculateList: Array<String>,
     private val parentBinding: FragmentIncomeBinding,
     private val inputBinding: FragmentRegisterAmountInputBinding,
-    private val inputFragment: RegisterIncomeInputFragment,
+    private val inputFragment: RegisterIncomeInputAmountFragment,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val _list = calculateList
     private val TAG = this::class.java.simpleName
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = RvItemIncomeCalculateInputBinding.inflate(
+        val binding = RvItemCalculateInputBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return IncomeCalculateInputViewHolder(binding)
+        return CalculateInputViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = _list[position]
-        (holder as IncomeCalculateInputViewHolder).bind(item)
+        (holder as CalculateInputViewHolder).bind(item)
     }
 
     override fun getItemCount(): Int {
         return _list.size
     }
 
-    inner class IncomeCalculateInputViewHolder(private val binding: RvItemIncomeCalculateInputBinding) :
+    inner class CalculateInputViewHolder(private val binding: RvItemCalculateInputBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: String) {
@@ -150,11 +150,14 @@ class IncomeInputCalculateRVAdapter(
                         }
 
 
-                    if(result.isNotEmpty() && result[0].toString() != TEXT_ENN) result = "$TEXT_ENN$result"
+                    if (result.isNotEmpty() && result[0].toString() != TEXT_ENN) result =
+                        "$TEXT_ENN$result"
                     parentBinding.etAmount.setText(result)
 
 
-                    if (parentBinding.etDetail.text.toString().isEmpty()) parentBinding.etDetail.requestFocus()
+                    if (parentBinding.etDetail.text.toString()
+                            .isEmpty()
+                    ) parentBinding.etDetail.requestFocus()
                     inputFragment.dismiss()
                 }
                 // TEXT_EMPTY 클릭 혹은 이외의 경우

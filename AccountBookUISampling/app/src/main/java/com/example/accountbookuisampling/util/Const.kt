@@ -1,31 +1,25 @@
 package com.example.accountbookuisampling.util
 
-import android.content.res.Configuration
 import android.graphics.Color
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.recyclerview.IncomeInputTextRVAdapter
-import com.example.accountbookuisampling.databinding.FragmentRegisterAssetInputBinding
 import com.example.accountbookuisampling.dataclass.CalendarItem
 import com.example.accountbookuisampling.dataclass.DateItem
 import com.example.accountbookuisampling.dataclass.History
-import com.example.accountbookuisampling.fragment.registerinput.RegisterIncomeInputFragment
 
 const val MAIN_FRAGMENT_COUNT = 5
 const val REGISTER_FRAGMENT_COUNT = 3
 
 
-const val DAY = "DAY"
-const val CALENDAR = "CALENDAR"
-const val WEEK = "WEEK"
-const val MONTH = "MONTH"
-const val YEAR = "YEAR"
+const val DAY = "일일"
+const val CALENDAR = "달력"
+const val WEEK = "주별"
+const val MONTH = "월별"
+const val SUMMARY = "요약"
 const val TYPE_CALENDAR_HEAD = 0
 const val TYPE_CALENDAR_CONTENT = 1
 
-const val INCOME = "INCOME"
-const val CONSUMPTION = "CONSUMPTION"
-const val TRANSFER = "TRANSFER"
+const val INCOME = "수입"
+const val CONSUMPTION = "지출"
+const val TRANSFER = "이체"
 
 val tempHistoryList = arrayListOf(
     History("202009201511", "숙소비", "M카드", "1700000"),
@@ -42,6 +36,10 @@ const val FLAG_DATE = 1
 const val FLAG_ASSET = 2
 const val FLAG_CATEGORY = 3
 const val FLAG_AMOUNT = 4
+
+const val FLAG_INCOME = 5
+const val FLAG_CONSUMPTION = 6
+const val FLAG_TRANSFER = 7
 
 const val TEXT_SUNDAY = "일"
 const val TEXT_MONDAY = "월"

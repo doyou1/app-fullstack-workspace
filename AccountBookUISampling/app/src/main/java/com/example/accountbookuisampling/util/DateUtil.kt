@@ -144,5 +144,38 @@ class DateUtil {
         fun getMonth(date: String) : String {
             return date.substring(5, 7)
         }
+
+        fun getPrevMonthDate(value: String) : String {
+            val yyyy = value.substring(0, 4).toInt()
+            val MM = value.substring(5, 7).toInt()
+            val dd = value.substring(8, 10).toInt()
+
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, yyyy)
+            calendar.set(Calendar.MONTH, MM - 2)
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            val date = sdf.format(calendar.time)
+
+            return date
+        }
+
+        fun getNextMonthDate(value: String) : String {
+            val yyyy = value.substring(0, 4).toInt()
+            val MM = value.substring(5, 7).toInt()
+            val dd = value.substring(8, 10).toInt()
+
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, yyyy)
+            calendar.set(Calendar.MONTH, MM)
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            val date = sdf.format(calendar.time)
+
+            return date
+        }
+
     }
 }

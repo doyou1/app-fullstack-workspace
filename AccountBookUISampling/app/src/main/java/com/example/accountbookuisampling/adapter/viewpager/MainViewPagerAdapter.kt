@@ -26,7 +26,7 @@ class MainViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
                 MonthFragment.getInstance()
             }
             4 -> {
-                YearFragment.getInstance()
+                SummaryFragment.getInstance()
             }
             else -> {
                 DayFragment.getInstance()

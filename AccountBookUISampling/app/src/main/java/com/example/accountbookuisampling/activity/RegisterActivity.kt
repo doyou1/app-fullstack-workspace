@@ -44,7 +44,6 @@ class RegisterActivity : AppCompatActivity() {
                     tab.text = CONSUMPTION
                 }
                 2 -> {
-                    binding.title = TRANSFER
                     tab.text = TRANSFER
                 }
             }

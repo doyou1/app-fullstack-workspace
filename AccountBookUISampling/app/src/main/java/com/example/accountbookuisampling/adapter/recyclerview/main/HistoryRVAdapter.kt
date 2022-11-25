@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.adapter.recyclerview
+package com.example.accountbookuisampling.adapter.recyclerview.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

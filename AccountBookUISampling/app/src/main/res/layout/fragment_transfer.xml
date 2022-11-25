@@ -17,6 +17,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_wrap"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -292,6 +293,8 @@
                         android:id="@+id/et_detail"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionSend"
+                        android:inputType="text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_label_detail"
@@ -333,6 +336,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/text_addition_detail"
+                    android:imeOptions="actionSend"
+                    android:inputType="text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -1,11 +1,11 @@
-package com.example.accountbookuisampling.adapter.recyclerview
+package com.example.accountbookuisampling.adapter.recyclerview.registerinput.income
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
-import com.example.accountbookuisampling.databinding.RvItemIncomeTextInputBinding
-import com.example.accountbookuisampling.fragment.registerinput.RegisterIncomeInputFragment
+import com.example.accountbookuisampling.databinding.RvItemTextInputBinding
+import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputTextFragment
 import com.example.accountbookuisampling.util.FLAG_ASSET
 import com.example.accountbookuisampling.util.FLAG_CATEGORY
 import com.example.accountbookuisampling.util.TEXT_ADD
@@ -13,7 +13,7 @@ import com.example.accountbookuisampling.util.TEXT_ADD
 class IncomeInputTextRVAdapter(
     list: ArrayList<String>,
     private val parentBinding: FragmentIncomeBinding,
-    private val inputFragment: RegisterIncomeInputFragment,
+    private val inputFragment: RegisterIncomeInputTextFragment,
     private val flag: Int
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -21,24 +21,24 @@ class IncomeInputTextRVAdapter(
     private val TAG = this::class.java.simpleName
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = RvItemIncomeTextInputBinding.inflate(
+        val binding = RvItemTextInputBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return IncomeTextInputViewHolder(binding)
+        return TextInputViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = _list[position]
-        (holder as IncomeTextInputViewHolder).bind(item)
+        (holder as TextInputViewHolder).bind(item)
     }
 
     override fun getItemCount(): Int {
         return _list.size
     }
 
-    inner class IncomeTextInputViewHolder(private val binding: RvItemIncomeTextInputBinding) :
+    inner class TextInputViewHolder(private val binding: RvItemTextInputBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: String) {

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.recyclerview.WeekRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.main.WeekRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentWeekBinding
 import com.example.accountbookuisampling.dataclass.Week
 import java.util.ArrayList

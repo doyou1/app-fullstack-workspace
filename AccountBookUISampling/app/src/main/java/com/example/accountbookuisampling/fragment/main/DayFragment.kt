@@ -8,9 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.recyclerview.HistoryRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.main.HistoryRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentDayBinding
-import com.example.accountbookuisampling.dataclass.History
 
 class DayFragment : Fragment() {
 

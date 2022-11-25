@@ -1,25 +1,21 @@
-package com.example.accountbookuisampling.adapter.recyclerview
+package com.example.accountbookuisampling.adapter.recyclerview.registerinput.transfer
 
-import android.content.res.Resources
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.databinding.*
 import com.example.accountbookuisampling.dataclass.DateItem
-import com.example.accountbookuisampling.fragment.registerinput.RegisterIncomeInputFragment
+import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputDateFragment
+import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputDateFragment
 import com.example.accountbookuisampling.util.*
-import java.lang.NumberFormatException
-import kotlin.math.roundToInt
 
-class IncomeInputDateRVAdapter(
+class TransferInputDateRVAdapter(
     private val date: String,
     list: ArrayList<DateItem>,
-    private val parentBinding: FragmentIncomeBinding,
-    private val inputFragment: RegisterIncomeInputFragment,
+    private val parentBinding: FragmentTransferBinding,
+    private val inputFragment: RegisterTransferInputDateFragment,
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val _list = list
@@ -32,7 +28,7 @@ class IncomeInputDateRVAdapter(
 
         when (viewType) {
             TYPE_CALENDAR_HEAD -> {
-                val binding = RvItemIncomeDateInputHeadBinding.inflate(
+                val binding = RvItemDateInputHeadBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -41,7 +37,7 @@ class IncomeInputDateRVAdapter(
                 return HeadViewHolder(binding)
             }
             TYPE_CALENDAR_CONTENT -> {
-                val binding = RvItemIncomeDateInputContentBinding.inflate(
+                val binding = RvItemDateInputContentBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -61,10 +57,10 @@ class IncomeInputDateRVAdapter(
 
         when (item.viewType) {
             TYPE_CALENDAR_HEAD -> {
-                (holder as IncomeInputDateRVAdapter.HeadViewHolder).bind(item)
+                (holder as HeadViewHolder).bind(item)
             }
             TYPE_CALENDAR_CONTENT -> {
-                (holder as IncomeInputDateRVAdapter.ContentViewHolder).bind(item)
+                (holder as ContentViewHolder).bind(item)
             }
             else -> throw NotImplementedError()
         }
@@ -79,7 +75,7 @@ class IncomeInputDateRVAdapter(
         return _list[position].viewType
     }
 
-    inner class HeadViewHolder(private val binding: RvItemIncomeDateInputHeadBinding) :
+    inner class HeadViewHolder(private val binding: RvItemDateInputHeadBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: DateItem) {
@@ -119,7 +115,7 @@ class IncomeInputDateRVAdapter(
             }
         }
     }
-    inner class ContentViewHolder(private val binding: RvItemIncomeDateInputContentBinding) :
+    inner class ContentViewHolder(private val binding: RvItemDateInputContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: DateItem) {

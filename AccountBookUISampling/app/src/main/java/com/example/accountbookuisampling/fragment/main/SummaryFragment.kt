@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.accountbookuisampling.databinding.FragmentYearBinding
+import com.example.accountbookuisampling.databinding.FragmentSummaryBinding
 
-class YearFragment : Fragment() {
+class SummaryFragment : Fragment() {
 
-    private lateinit var binding: FragmentYearBinding
+    private lateinit var binding: FragmentSummaryBinding
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
@@ -17,20 +17,20 @@ class YearFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentYearBinding.inflate(inflater, container, false)
+        binding = FragmentSummaryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     companion object {
-        private var instance: YearFragment? = null
+        private var instance: SummaryFragment? = null
         @JvmStatic
-        fun getInstance() : YearFragment {
+        fun getInstance() : SummaryFragment {
             if(instance == null) {
-                instance = YearFragment()
-                return instance as YearFragment
+                instance = SummaryFragment()
+                return instance as SummaryFragment
             }
 
-            return instance as YearFragment
+            return instance as SummaryFragment
         }
     }
 }

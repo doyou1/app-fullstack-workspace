@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     tab.text = MONTH
                 }
                 4 -> {
-                    tab.text = YEAR
+                    tab.text = SUMMARY
                 }
             }
         }
