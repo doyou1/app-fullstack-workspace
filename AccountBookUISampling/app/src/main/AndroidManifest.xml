@@ -29,6 +29,9 @@
         <activity
             android:name=".activity.SelectRepeatActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.SelectInstallmentActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

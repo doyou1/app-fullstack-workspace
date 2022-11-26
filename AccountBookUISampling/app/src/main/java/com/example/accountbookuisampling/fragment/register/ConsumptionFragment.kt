@@ -1,12 +1,19 @@
 package com.example.accountbookuisampling.fragment.register
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.accountbookuisampling.R
+import com.example.accountbookuisampling.activity.SelectInstallmentActivity
+import com.example.accountbookuisampling.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.FragmentConsumptionBinding
 import com.example.accountbookuisampling.fragment.registerinput.consumption.RegisterConsumptionInputAmountFragment
 import com.example.accountbookuisampling.fragment.registerinput.consumption.RegisterConsumptionInputDateFragment
@@ -19,6 +26,9 @@ class ConsumptionFragment : Fragment() {
     private lateinit var binding: FragmentConsumptionBinding
     private val TAG = this::class.java.simpleName
     private var inputFragment: BottomSheetDialogFragment? = null
+
+    private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
+    private val selectInstallmentActivityResultLauncher = getSelectInstallmentActivityResultLauncher()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,6 +108,25 @@ class ConsumptionFragment : Fragment() {
         binding.layoutWrap.setOnClickListener {
             hideKeyboard()
         }
+
+        binding.btnRepeat.setOnClickListener {
+            val popup = PopupMenu(requireContext(), binding.btnRepeat)
+            popup.setOnMenuItemClickListener { item ->
+                when(item.itemId) {
+                    R.id.select_repeat -> {
+                        openSelectRepeatActivityResultLauncher()
+                        true
+                    }
+                    R.id.select_installment -> {
+                        openSelectInstallmentActivityResultLauncher()
+                        true
+                    }
+                }
+                false
+            }
+            popup.menuInflater.inflate(R.menu.menu_select_repeat_and_installment, popup.menu)
+            popup.show()
+        }
     }
 
     private fun disableKeyboard() {
@@ -125,6 +154,53 @@ class ConsumptionFragment : Fragment() {
         super.onPause()
         inputFragment?.dismiss()
     }
+
+    private fun openSelectRepeatActivityResultLauncher() {
+        val intent = Intent(
+            requireContext(),
+            SelectRepeatActivity::class.java
+        )
+        selectRepeatActivityResultLauncher.launch(
+            intent
+        )
+    }
+
+    private fun getSelectRepeatActivityResultLauncher(): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { data ->
+                    Log.e(TAG, "data.getStringExtra(\"item\"): ${data.getStringExtra("item")}")
+                    
+
+                }
+            }
+        }
+    }
+
+    private fun openSelectInstallmentActivityResultLauncher() {
+        val intent = Intent(
+            requireContext(),
+            SelectInstallmentActivity::class.java
+        )
+        selectInstallmentActivityResultLauncher.launch(
+            intent
+        )
+    }
+
+    private fun getSelectInstallmentActivityResultLauncher(): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { data ->
+                    Log.e(TAG, "data.getStringExtra(\"item\"): ${data.getStringExtra("item")}")
+                }
+            }
+        }
+    }
+
 
     companion object {
         private var instance: ConsumptionFragment? = null

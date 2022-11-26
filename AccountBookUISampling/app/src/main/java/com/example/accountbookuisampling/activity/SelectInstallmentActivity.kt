@@ -4,29 +4,29 @@ import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.adapter.recyclerview.registerinput.income.IncomeInputTextRVAdapter
+import com.example.accountbookuisampling.adapter.recyclerview.select.SelectInstallmentNumberPlateRVAdapter
 import com.example.accountbookuisampling.adapter.recyclerview.select.SelectRepeatRVAdapter
 import com.example.accountbookuisampling.databinding.ActivityAddAssetTextInputBinding
 import com.example.accountbookuisampling.databinding.ActivityAddCategoryTextInputBinding
+import com.example.accountbookuisampling.databinding.ActivitySelectInstallmentBinding
 import com.example.accountbookuisampling.databinding.ActivitySelectRepeatBinding
-import com.example.accountbookuisampling.util.FLAG_ASSET
-import com.example.accountbookuisampling.util.FLAG_CATEGORY
-import com.example.accountbookuisampling.util.INPUT_ITEM_VIEW_SPAN_COUNT
-import com.example.accountbookuisampling.util.REPEAT_ITEM_LIST
+import com.example.accountbookuisampling.util.*
 
-class SelectRepeatActivity: AppCompatActivity() {
+class SelectInstallmentActivity: AppCompatActivity() {
 
-    private lateinit var binding: ActivitySelectRepeatBinding
+    private lateinit var binding: ActivitySelectInstallmentBinding
     private val TAG = this::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivitySelectRepeatBinding.inflate(layoutInflater)
+        binding = ActivitySelectInstallmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
@@ -43,12 +43,21 @@ class SelectRepeatActivity: AppCompatActivity() {
         binding.tvBack.setOnClickListener {
             onBackPressed()
         }
+        binding.btnComplete.setOnClickListener {
+            val result = binding.tvResult.text.toString()
+            if(result != TEXT_EMPTY) {
+                val intent = Intent()
+                intent.putExtra("item", result)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
     }
 
     private fun setRecyclerView() {
         // set recycler view
-        binding.recyclerView.layoutManager = getLayoutManager(1)
-        binding.recyclerView.adapter = SelectRepeatRVAdapter(REPEAT_ITEM_LIST, this)
+        binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
+        binding.recyclerView.adapter = SelectInstallmentNumberPlateRVAdapter(NUMBER_PLATE_LIST, binding)
     }
 
     private fun getLayoutManager(span: Int): GridLayoutManager {

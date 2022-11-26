@@ -110,6 +110,7 @@ const val TEXT_REMOVE = "←"
 const val TEXT_EMPTY = ""
 const val TEXT_ZERO = "0"
 const val TEXT_CONFIRM = "확인"
+const val TEXT_MONTHS = "개월"
 
 val CALCULATOR_ITEM_LIST = arrayOf(
     TEXT_DIVIDE,
@@ -160,6 +161,27 @@ val REPEAT_ITEM_LIST = arrayOf(
     TEXT_EVERY_FOUR_MONTHS,
     TEXT_EVERY_SIX_MONTHS,
     TEXT_EVERY_YEAR
+)
+
+const val TEXT_CLEAR = "C"
+const val TEXT_COMPLETE = "완료"
+val NUMBER_PLATE_LIST = arrayOf(
+    TEXT_ONE,
+    TEXT_TWO,
+    TEXT_THREE,
+    TEXT_REMOVE,
+    TEXT_FOUR,
+    TEXT_FIVE,
+    TEXT_SIX,
+    TEXT_CLEAR,
+    TEXT_SEVEN,
+    TEXT_EIGHT,
+    TEXT_NINE,
+    TEXT_EMPTY,
+    TEXT_EMPTY,
+    TEXT_ZERO,
+    TEXT_EMPTY,
+    TEXT_COMPLETE
 )
 
 const val TEXT_ENN = "￥"
