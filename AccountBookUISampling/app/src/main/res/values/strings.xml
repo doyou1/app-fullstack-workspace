@@ -10,6 +10,8 @@
     <string name="text_main">가계부</string>
     <string name="text_date">날짜</string>
     <string name="text_repeat">반복/할부</string>
+    <string name="text_select_repeat">반복</string>
+    <string name="text_select_installment">반복/할부</string>
     <string name="text_asset">자산</string>
     <string name="text_category">분류</string>
     <string name="text_detail">내용</string>

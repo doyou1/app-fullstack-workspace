@@ -70,6 +70,9 @@ class RegisterActivity : AppCompatActivity() {
         binding.ivBack.setOnClickListener {
             onBackPressed()
         }
+        binding.tvBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 

@@ -1,6 +1,8 @@
 package com.example.accountbookuisampling.fragment.register
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.accountbookuisampling.activity.AddTextInputActivity
+import com.example.accountbookuisampling.activity.SelectRepeatActivity
+import com.example.accountbookuisampling.adapter.recyclerview.registerinput.income.IncomeInputTextRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
+import com.example.accountbookuisampling.databinding.FragmentRegisterAssetInputBinding
+import com.example.accountbookuisampling.databinding.FragmentRegisterCategoryInputBinding
 import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputAmountFragment
 import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputDateFragment
 import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputTextFragment
@@ -20,6 +29,8 @@ class IncomeFragment : Fragment() {
     private lateinit var binding: FragmentIncomeBinding
     private val TAG = this::class.java.simpleName
     private var inputFragment: BottomSheetDialogFragment? = null
+    private val layoutFlag = FLAG_INCOME
+    private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,6 +105,10 @@ class IncomeFragment : Fragment() {
             binding.isImportant = !binding.isImportant
         }
 
+        binding.btnRepeat.setOnClickListener {
+            openSelectRepeatActivityResultLauncher()
+        }
+
         binding.layoutWrap.setOnClickListener {
             hideKeyboard()
         }
@@ -124,6 +139,29 @@ class IncomeFragment : Fragment() {
         super.onPause()
         inputFragment?.dismiss()
     }
+
+    private fun openSelectRepeatActivityResultLauncher() {
+        val intent = Intent(
+            requireContext(),
+            SelectRepeatActivity::class.java
+        )
+        selectRepeatActivityResultLauncher.launch(
+            intent
+        )
+    }
+
+    private fun getSelectRepeatActivityResultLauncher(): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { data ->
+                    Log.e(TAG, "data.getStringExtra(\"item\"): ${data.getStringExtra("item")}")
+                }
+            }
+        }
+    }
+
 
     companion object {
         private var instance: IncomeFragment? = null

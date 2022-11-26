@@ -18,8 +18,7 @@ class AddTextInputActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val flag = intent.getIntExtra("flag", -1)
-        when(flag) {
+        when(intent.getIntExtra("flag", -1)) {
             FLAG_ASSET -> {
                 binding = ActivityAddAssetTextInputBinding.inflate(layoutInflater)
                 setAssetClickEvent()

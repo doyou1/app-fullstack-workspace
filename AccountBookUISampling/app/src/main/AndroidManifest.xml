@@ -26,6 +26,9 @@
         <activity
             android:name=".activity.AddTextInputActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.SelectRepeatActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

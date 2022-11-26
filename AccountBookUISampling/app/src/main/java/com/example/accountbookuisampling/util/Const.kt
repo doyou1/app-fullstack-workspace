@@ -134,6 +134,34 @@ val CALCULATOR_ITEM_LIST = arrayOf(
     TEXT_CONFIRM
 )
 
+const val TEXT_NONE = "없음"
+const val TEXT_EVERY_DAY = "매일"
+const val TEXT_EVERY_WEEK = "매주"
+const val TEXT_EVERY_TWO_WEEKS = "2주마다"
+const val TEXT_EVERY_FOUR_WEEKS = "4주마다"
+const val TEXT_EVERY_MONTH = "매월"
+const val TEXT_THE_END_OF_THE_MONTH = "월말"
+const val TEXT_EVERY_TWO_MONTHS = "2개월마다"
+const val TEXT_EVERY_THREE_MONTHS = "3개월마다"
+const val TEXT_EVERY_FOUR_MONTHS = "4개월마다"
+const val TEXT_EVERY_SIX_MONTHS = "6개월마다"
+const val TEXT_EVERY_YEAR = "1년마다"
+
+val REPEAT_ITEM_LIST = arrayOf(
+    TEXT_NONE,
+    TEXT_EVERY_DAY,
+    TEXT_EVERY_WEEK,
+    TEXT_EVERY_TWO_WEEKS,
+    TEXT_EVERY_FOUR_WEEKS,
+    TEXT_EVERY_MONTH,
+    TEXT_THE_END_OF_THE_MONTH,
+    TEXT_EVERY_TWO_MONTHS,
+    TEXT_EVERY_THREE_MONTHS,
+    TEXT_EVERY_FOUR_MONTHS,
+    TEXT_EVERY_SIX_MONTHS,
+    TEXT_EVERY_YEAR
+)
+
 const val TEXT_ENN = "￥"
 const val TEXT_MONTH = "월"
 
