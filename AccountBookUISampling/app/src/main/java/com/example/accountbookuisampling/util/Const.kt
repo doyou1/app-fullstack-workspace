@@ -136,3 +136,6 @@ val CALCULATOR_ITEM_LIST = arrayOf(
 
 const val TEXT_ENN = "￥"
 const val TEXT_MONTH = "월"
+
+const val SWIPE_THRESHOLD = 50
+const val SWIPE_VELOCITY_THRESHOLD = 100
