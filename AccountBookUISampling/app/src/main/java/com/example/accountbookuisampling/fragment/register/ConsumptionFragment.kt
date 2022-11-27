@@ -172,7 +172,7 @@ class ConsumptionFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
                     Log.e(TAG, "data.getStringExtra(\"item\"): ${data.getStringExtra("item")}")
-                    
+
 
                 }
             }

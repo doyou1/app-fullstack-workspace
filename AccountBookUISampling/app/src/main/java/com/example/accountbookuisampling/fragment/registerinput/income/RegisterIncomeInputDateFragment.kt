@@ -1,5 +1,6 @@
 package com.example.accountbookuisampling.fragment.registerinput.income
 
+import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.content.res.Configuration
 import android.os.Bundle
@@ -56,6 +57,10 @@ class RegisterIncomeInputDateFragment(
     fun changeDate(value: String) {
         date = value
         parentBinding.etDate.setText(DateUtil.getDateText(date))
+        ObjectAnimator.ofFloat(binding.recyclerView, TEXT_ALPHA, 1f, 0.5f, 0f, 0.5f, 1f).apply {
+            duration = DURATION_ALPHA
+            start()
+        }
         setDateView()
     }
 

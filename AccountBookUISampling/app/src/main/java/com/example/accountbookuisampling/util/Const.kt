@@ -186,6 +186,8 @@ val NUMBER_PLATE_LIST = arrayOf(
 
 const val TEXT_ENN = "￥"
 const val TEXT_MONTH = "월"
+const val TEXT_ALPHA = "alpha"
 
 const val SWIPE_THRESHOLD = 50
 const val SWIPE_VELOCITY_THRESHOLD = 100
+const val DURATION_ALPHA = 500L
