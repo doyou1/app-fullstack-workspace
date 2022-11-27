@@ -12,8 +12,16 @@
             type="boolean" />
 
         <variable
+            name="isRepeat"
+            type="boolean" />
+
+        <variable
             name="isShowFee"
             type="boolean" />
+
+        <variable
+            name="textRepeat"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,11 +87,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:text="@string/text_repeat"
+                        android:text="@{isRepeat ? textRepeat : @string/text_repeat}"
                         android:textColor="@android:color/tab_indicator_text"
                         app:icon="@drawable/ic_baseline_repeat_24"
                         app:iconGravity="start"
-                        app:iconTint="@android:color/tab_indicator_text"
+                        app:iconTint="@{isRepeat ? @color/orange: @android:color/tab_indicator_text}"
                         app:layout_constraintBottom_toBottomOf="@+id/et_date"
                         app:layout_constraintEnd_toEndOf="@+id/et_date"
                         app:layout_constraintHorizontal_bias="1"
@@ -309,7 +317,7 @@
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         app:icon="@drawable/ic_baseline_exclamation_outline_24"
                         app:iconGravity="end"
-                        app:iconTint="@{isImportant ? @color/black : @android:color/tab_indicator_text}"
+                        app:iconTint="@{isImportant ? @color/orange : @android:color/tab_indicator_text}"
                         app:layout_constraintBottom_toBottomOf="@+id/et_detail"
                         app:layout_constraintEnd_toEndOf="@+id/et_detail"
                         app:layout_constraintHorizontal_bias="1"

@@ -38,6 +38,7 @@ class ConsumptionFragment : Fragment() {
         binding = FragmentConsumptionBinding.inflate(inflater, container, false)
 
         binding.isImportant = false
+        binding.isRepeatOrInstallment = false
 
         return binding.root
     }
@@ -105,27 +106,16 @@ class ConsumptionFragment : Fragment() {
             binding.isImportant = !binding.isImportant
         }
 
-        binding.layoutWrap.setOnClickListener {
-            hideKeyboard()
+        binding.btnRepeat.setOnClickListener {
+            if(binding.isRepeatOrInstallment) {
+                showRepeatAndInstallmentAndCancelPopup()
+            } else {
+                showRepeatAndInstallmentPopup()
+            }
         }
 
-        binding.btnRepeat.setOnClickListener {
-            val popup = PopupMenu(requireContext(), binding.btnRepeat)
-            popup.setOnMenuItemClickListener { item ->
-                when(item.itemId) {
-                    R.id.select_repeat -> {
-                        openSelectRepeatActivityResultLauncher()
-                        true
-                    }
-                    R.id.select_installment -> {
-                        openSelectInstallmentActivityResultLauncher()
-                        true
-                    }
-                }
-                false
-            }
-            popup.menuInflater.inflate(R.menu.menu_select_repeat_and_installment, popup.menu)
-            popup.show()
+        binding.layoutWrap.setOnClickListener {
+            hideKeyboard()
         }
     }
 
@@ -171,9 +161,14 @@ class ConsumptionFragment : Fragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    Log.e(TAG, "data.getStringExtra(\"item\"): ${data.getStringExtra("item")}")
-
-
+                    when (val value = data.getStringExtra("item")) {
+                        TEXT_EMPTY -> return@registerForActivityResult
+                        TEXT_NONE -> return@registerForActivityResult
+                        else -> {
+                            binding.isRepeatOrInstallment = true
+                            binding.textRepeatOrInstallment = value
+                        }
+                    }
                 }
             }
         }
@@ -195,12 +190,60 @@ class ConsumptionFragment : Fragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    Log.e(TAG, "data.getStringExtra(\"item\"): ${data.getStringExtra("item")}")
+                    when (val value = data.getStringExtra("item")) {
+                        TEXT_EMPTY -> return@registerForActivityResult
+                        TEXT_NONE -> return@registerForActivityResult
+                        else -> {
+                            binding.isRepeatOrInstallment = true
+                            binding.textRepeatOrInstallment = "$value $TEXT_INSTALLMENT"
+                        }
+                    }
                 }
             }
         }
     }
 
+    private fun showRepeatAndInstallmentAndCancelPopup() {
+        val popup = PopupMenu(requireContext(), binding.btnRepeat)
+        popup.setOnMenuItemClickListener { item ->
+            when(item.itemId) {
+                R.id.select_repeat -> {
+                    openSelectRepeatActivityResultLauncher()
+                    true
+                }
+                R.id.select_installment -> {
+                    openSelectInstallmentActivityResultLauncher()
+                    true
+                }
+                R.id.select_cancel -> {
+                    binding.isRepeatOrInstallment = false
+                    true
+                }
+            }
+            false
+        }
+        popup.menuInflater.inflate(R.menu.menu_select_repeat_and_installment_and_cancel, popup.menu)
+        popup.show()
+    }
+
+    private fun showRepeatAndInstallmentPopup() {
+        val popup = PopupMenu(requireContext(), binding.btnRepeat)
+        popup.setOnMenuItemClickListener { item ->
+            when(item.itemId) {
+                R.id.select_repeat -> {
+                    openSelectRepeatActivityResultLauncher()
+                    true
+                }
+                R.id.select_installment -> {
+                    openSelectInstallmentActivityResultLauncher()
+                    true
+                }
+            }
+            false
+        }
+        popup.menuInflater.inflate(R.menu.menu_select_repeat_and_installment, popup.menu)
+        popup.show()
+    }
 
     companion object {
         private var instance: ConsumptionFragment? = null

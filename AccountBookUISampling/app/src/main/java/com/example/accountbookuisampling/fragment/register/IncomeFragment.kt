@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.activity.AddTextInputActivity
 import com.example.accountbookuisampling.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.adapter.recyclerview.registerinput.income.IncomeInputTextRVAdapter
@@ -39,7 +41,7 @@ class IncomeFragment : Fragment() {
 
         binding = FragmentIncomeBinding.inflate(inflater, container, false)
         binding.isImportant = false
-
+        binding.isRepeat = false
         return binding.root
     }
 
@@ -106,7 +108,11 @@ class IncomeFragment : Fragment() {
         }
 
         binding.btnRepeat.setOnClickListener {
-            openSelectRepeatActivityResultLauncher()
+            if (binding.isRepeat) {
+                showRepeatAndCancelPopup()
+            } else {
+                openSelectRepeatActivityResultLauncher()
+            }
         }
 
         binding.layoutWrap.setOnClickListener {
@@ -156,12 +162,37 @@ class IncomeFragment : Fragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    Log.e(TAG, "data.getStringExtra(\"item\"): ${data.getStringExtra("item")}")
+                    when (val value = data.getStringExtra("item")) {
+                        TEXT_EMPTY -> return@registerForActivityResult
+                        TEXT_NONE -> return@registerForActivityResult
+                        else -> {
+                            binding.isRepeat = true
+                            binding.textRepeat = value
+                        }
+                    }
                 }
             }
         }
     }
 
+    private fun showRepeatAndCancelPopup() {
+        val popup = PopupMenu(requireContext(), binding.btnRepeat)
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.select_repeat -> {
+                    openSelectRepeatActivityResultLauncher()
+                    true
+                }
+                R.id.select_cancel -> {
+                    binding.isRepeat = false
+                    true
+                }
+            }
+            false
+        }
+        popup.menuInflater.inflate(R.menu.menu_select_repeat_and_cancel, popup.menu)
+        popup.show()
+    }
 
     companion object {
         private var instance: IncomeFragment? = null

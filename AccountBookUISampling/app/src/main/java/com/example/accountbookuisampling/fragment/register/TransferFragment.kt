@@ -1,12 +1,19 @@
 package com.example.accountbookuisampling.fragment.register
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.accountbookuisampling.R
+import com.example.accountbookuisampling.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.FragmentTransferBinding
 import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputAmountFragment
 import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputDateFragment
@@ -19,6 +26,7 @@ class TransferFragment : Fragment() {
     private lateinit var binding: FragmentTransferBinding
     private val TAG = this::class.java.simpleName
     private var inputFragment: BottomSheetDialogFragment? = null
+    private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +35,7 @@ class TransferFragment : Fragment() {
 
         binding = FragmentTransferBinding.inflate(inflater, container, false)
         binding.isImportant = false
+        binding.isRepeat = false
         binding.isShowFee = false
 
         return binding.root
@@ -34,7 +43,6 @@ class TransferFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         setFocusChangeEvent()
         setClickEvent()
         disableKeyboard()
@@ -99,6 +107,14 @@ class TransferFragment : Fragment() {
             binding.isShowFee = false
         }
 
+        binding.btnRepeat.setOnClickListener {
+            if (binding.isRepeat) {
+                showRepeatAndCancelPopup()
+            } else {
+                openSelectRepeatActivityResultLauncher()
+            }
+        }
+
         binding.btnDetailOnoff.setOnClickListener {
             binding.isImportant = !binding.isImportant
         }
@@ -133,11 +149,60 @@ class TransferFragment : Fragment() {
         inputFragment?.dismiss()
     }
 
+    private fun openSelectRepeatActivityResultLauncher() {
+        val intent = Intent(
+            requireContext(),
+            SelectRepeatActivity::class.java
+        )
+        selectRepeatActivityResultLauncher.launch(
+            intent
+        )
+    }
+
+    private fun getSelectRepeatActivityResultLauncher(): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { data ->
+                    when (val value = data.getStringExtra("item")) {
+                        TEXT_EMPTY -> return@registerForActivityResult
+                        TEXT_NONE -> return@registerForActivityResult
+                        else -> {
+                            binding.isRepeat = true
+                            binding.textRepeat = value
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showRepeatAndCancelPopup() {
+        val popup = PopupMenu(requireContext(), binding.btnRepeat)
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.select_repeat -> {
+                    openSelectRepeatActivityResultLauncher()
+                    true
+                }
+                R.id.select_cancel -> {
+                    binding.isRepeat = false
+                    true
+                }
+            }
+            false
+        }
+        popup.menuInflater.inflate(R.menu.menu_select_repeat_and_cancel, popup.menu)
+        popup.show()
+    }
+
     companion object {
         private var instance: TransferFragment? = null
+
         @JvmStatic
-        fun getInstance() : TransferFragment {
-            if(instance == null) {
+        fun getInstance(): TransferFragment {
+            if (instance == null) {
                 instance = TransferFragment()
                 return instance as TransferFragment
             }

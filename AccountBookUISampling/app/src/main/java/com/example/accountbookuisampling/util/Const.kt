@@ -111,6 +111,7 @@ const val TEXT_EMPTY = ""
 const val TEXT_ZERO = "0"
 const val TEXT_CONFIRM = "확인"
 const val TEXT_MONTHS = "개월"
+const val TEXT_INSTALLMENT = "할부"
 
 val CALCULATOR_ITEM_LIST = arrayOf(
     TEXT_DIVIDE,

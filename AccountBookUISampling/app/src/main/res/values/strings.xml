@@ -12,6 +12,7 @@
     <string name="text_repeat">반복/할부</string>
     <string name="text_select_repeat">반복</string>
     <string name="text_select_installment">반복/할부</string>
+    <string name="text_select_cancel">취소</string>
     <string name="text_select_installment_label">할부</string>
     <string name="text_complete">완료</string>
     <string name="text_asset">자산</string>
