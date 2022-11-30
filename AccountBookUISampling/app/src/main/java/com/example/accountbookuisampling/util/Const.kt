@@ -5,6 +5,8 @@ import com.example.accountbookuisampling.dataclass.CalendarItem
 import com.example.accountbookuisampling.dataclass.DateItem
 import com.example.accountbookuisampling.dataclass.History
 
+const val DB_NAME = "AccountBook"
+
 const val MAIN_FRAGMENT_COUNT = 5
 const val REGISTER_FRAGMENT_COUNT = 3
 
