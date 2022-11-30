@@ -5,3 +5,4 @@
 - "편한가계부" 앱을 클론하는 중.
 - 등록 화면에서 edittext focus시, 키보드같은 input 화면 구현에서 애먹는중.(221119 - BottomSheetDialogFragment 확인, 221120 구현 예정)
 - 레이아웃 작업 끝나면, 룸(로컬 DB)으로 구현 예정, 가능하다면 백엔드 공부를 위해 postgresql 도입 고려중
+- 221130 : https://www.figma.com/file/lbeiHZIfuF97k23i4r77rx/AccountBookUI?node-id=0%3A1&t=HT6nqBzqU1OE4UEb-1 figma 서류 작성 시작
