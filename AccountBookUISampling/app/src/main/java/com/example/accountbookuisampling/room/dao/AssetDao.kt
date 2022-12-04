@@ -10,7 +10,7 @@ interface AssetDao {
     fun getAll() : List<Asset>
 
     @Query("SELECT * FROM Asset WHERE id=:id")
-    fun getByid(uid: Int) : Asset
+    fun getByid(id: Int) : Asset
 
     @Insert
     fun insert(asset: Asset)

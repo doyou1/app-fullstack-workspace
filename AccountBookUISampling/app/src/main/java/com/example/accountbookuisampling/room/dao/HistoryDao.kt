@@ -9,7 +9,7 @@ interface HistoryDao {
     @Query("SELECT * FROM History")
     fun getAll(): List<History>
 
-    @Query("SELECT * FROM Asset WHERE id=:id")
+    @Query("SELECT * FROM History WHERE id=:id")
     fun getByid(id: Int): History
 
     @Insert

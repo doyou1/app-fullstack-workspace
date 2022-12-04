@@ -11,7 +11,15 @@ class BaseApplication : Application() {
         Room.databaseBuilder(applicationContext, AppDataBase::class.java, DB_NAME).build()
     }
 
-    val accountDao by lazy {
-        db.accountDao()
+    val assetDao by lazy {
+        db.assetDao()
+    }
+
+    val categoryDao by lazy {
+        db.categoryDao()
+    }
+
+    val historyDao by lazy {
+        db.historyDao()
     }
 }
