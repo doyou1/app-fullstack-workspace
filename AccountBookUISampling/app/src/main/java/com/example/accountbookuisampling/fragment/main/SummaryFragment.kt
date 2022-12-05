@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentSummaryBinding
+import com.example.accountbookuisampling.util.SharedPreferenceUtil
 
 class SummaryFragment : Fragment() {
 
@@ -19,6 +21,16 @@ class SummaryFragment : Fragment() {
 
         binding = FragmentSummaryBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+//        SharedPreferenceUtil.getDate()?.let {
+//            if(it.isNotEmpty()) {
+//                binding.btnExportExcel.text = it
+//            }
+//        }
     }
 
     companion object {

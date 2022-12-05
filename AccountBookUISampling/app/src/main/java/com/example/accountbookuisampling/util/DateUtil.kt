@@ -6,6 +6,23 @@ import java.util.*
 class DateUtil {
 
     companion object {
+
+        fun isThisMonth(targetYear: String, targetMonth: String): Boolean {
+
+            val calendar = Calendar.getInstance()
+            val yyyy = calendar.get(Calendar.YEAR).toString()
+            val mm = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
+
+            return targetYear == yyyy && targetMonth == mm
+        }
+
+        fun getThisDayOfMonth(): String {
+            val calendar = Calendar.getInstance()
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+            return String.format("%02d", dayOfMonth)
+        }
+
+
         fun getStringDayOfWeek(_year: String, _month: String, _day: String) : String {
             val calendar = Calendar.getInstance()
             calendar.set(_year.toInt(), _month.toInt() - 1, _day.toInt())
@@ -93,6 +110,12 @@ class DateUtil {
             }
             return dateList
         }
+        fun getToday() : String {
+            val calendar = Calendar.getInstance()
+            val sdf = SimpleDateFormat("yyyyMMdd")
+            return sdf.format(calendar.time)
+        }
+
 
         fun getTodayText() : String {
             val calendar = Calendar.getInstance()

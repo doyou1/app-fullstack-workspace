@@ -4,6 +4,7 @@ import android.graphics.Color
 import com.example.accountbookuisampling.dataclass.CalendarItem
 import com.example.accountbookuisampling.dataclass.DateItem
 import com.example.accountbookuisampling.dataclass.History
+import com.google.android.material.tabs.TabLayout
 
 const val DB_NAME = "AccountBook"
 
@@ -11,11 +12,18 @@ const val MAIN_FRAGMENT_COUNT = 5
 const val REGISTER_FRAGMENT_COUNT = 3
 
 
-const val DAY = "일일"
-const val CALENDAR = "달력"
-const val WEEK = "주별"
-const val MONTH = "월별"
-const val SUMMARY = "요약"
+const val TITLE_DAY = "일일"
+const val TITLE_CALENDAR = "달력"
+const val TITLE_WEEKS = "주별"
+const val TITLE_MONTHS = "월별"
+const val TITLE_SUMMARY = "요약"
+
+const val ID_DAY = 0
+const val ID_CALENDAR = 1
+const val ID_WEEKS = 2
+const val ID_MONTHS = 3
+const val ID_SUMMARY = 4
+
 const val TYPE_CALENDAR_HEAD = 0
 const val TYPE_CALENDAR_CONTENT = 1
 
@@ -194,3 +202,5 @@ const val TEXT_ALPHA = "alpha"
 const val SWIPE_THRESHOLD = 50
 const val SWIPE_VELOCITY_THRESHOLD = 100
 const val DURATION_ALPHA = 500L
+
+const val TEXT_CURRENT_ITEM = "CURRENT_ITEM"
