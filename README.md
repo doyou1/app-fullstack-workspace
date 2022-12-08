@@ -23,3 +23,9 @@
 - 楽な家計簿の全ての画面をグループ化し、流れを整理し、画面ごとのデータ定義を予想してみた。
 - 편한 가계부의 모든 화면을 그룹화해 흐름을 정리하고 화면별 데이터 정의를 예상해봤다.
 - We grouped all the screens in the comfortable household account book, organized the flow, and predicted the definition of data for each screen.
+
+# 221208_家計簿(가계부, AccountBook)_レイアウトに基づく修正
+- [Sample Project Link](https://github.com/doyou1/android-example-workspace/tree/master/MultiFragmentInSingleActivitySampling)
+- Fragment内のSwipe Eventを通じてActivityのState Change及び反映し、Fragment Refreshする機能、そしてTabLayoutを通じてFragment replaceを進め、Swipe Eventも統一感のある動作を実現するのに大変だった。 様々な方式でサンプリングし、TABLayout、FrameLayout、FrameLayoutにOnTouchListenerを付ける方式を採用した。 他の簡単できれいな方法もあるだろうが、今のところ私が自らコード動作を理解して具現できる最善の方法だ。 人は危機の中で強くなる。
+- Fragment내에서의 Swipe Event를 통해 Activity의 State Change 및 반영하고 Fragment Refresh하는 기능, 그리고 그 와중에 TabLayout을 통해 Fragment replace를 진행하며, Swipe Event 역시 통일감 있게 동작하는 Layout을 구현하는 데, 많이 힘들었다. 여러가지 방식으로 샘플링 해보며, TabLayout, FrameLayout, FrameLayout에 OnTouchListener를 다는 방식을 채택했다. 다른 쉽고, 깔끔한 방법도 있겠지만, 지금 내 선에선 내가 스스로 코드 동작을 이해하고 구현할 수 있는 최선의 방식이다. 사람은 위기 속에서 강해진다.
+- The function of changing the state of activity and reflecting and refreshing the fragment through the Sweep Event within the Fragment, and in the meantime, the Fragment Replace through TabLayout, and the Sweep Event was also very difficult to implement a layout that operates in a unified manner. By sampling in various ways, we adopted the method of attaching the OnTouch Listener to TabLayout, FrameLayout, and FrameLayout. There are other easy and neat ways, but at this point, it's the best way for me to understand and implement code behavior on my own. A man becomes strong in a crisis.
