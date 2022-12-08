@@ -2,40 +2,38 @@ package com.example.accountbookuisampling.fragment.main
 
 import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.adapter.recyclerview.main.CalendarRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentCalendarBinding
+import com.example.accountbookuisampling.databinding.FragmentDayBinding
 import com.example.accountbookuisampling.dataclass.CalendarItem
 import com.example.accountbookuisampling.util.*
 import java.util.ArrayList
 import kotlin.random.Random
 
-class CalendarFragment : Fragment() {
+class CalendarFragment(private val currentDate: String?) : Fragment() {
 
     private lateinit var binding: FragmentCalendarBinding
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
-
         setRecyclerView()
     }
 
@@ -83,15 +81,15 @@ class CalendarFragment : Fragment() {
     }
 
     companion object {
-        private var instance: CalendarFragment? = null
-        @JvmStatic
-        fun getInstance() : CalendarFragment {
-            if(instance == null) {
-                instance = CalendarFragment()
-                return instance as CalendarFragment
-            }
-
-            return instance as CalendarFragment
-        }
+//        private var instance: CalendarFragment? = null
+//        @JvmStatic
+//        fun getInstance() : CalendarFragment {
+//            if(instance == null) {
+//                instance = CalendarFragment()
+//                return instance as CalendarFragment
+//            }
+//
+//            return instance as CalendarFragment
+//        }
     }
 }

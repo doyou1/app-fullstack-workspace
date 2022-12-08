@@ -10,20 +10,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.adapter.recyclerview.main.HistoryRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentDayBinding
+import com.example.accountbookuisampling.util.tempHistoryList
 
-class DayFragment : Fragment() {
+class DayFragment(private val currentDate: String?) : Fragment() {
 
     private lateinit var binding: FragmentDayBinding
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentDayBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -39,29 +41,29 @@ class DayFragment : Fragment() {
             }
             Configuration.ORIENTATION_LANDSCAPE -> {
                 LinearLayoutManager(context)
-            } else -> throw NotImplementedError()
+            }
+            else -> throw NotImplementedError()
         }
 
         binding.rvList.layoutManager = layoutManager
-
-        val adapter = HistoryRVAdapter(ArrayList())
-
+        val adapter = HistoryRVAdapter(tempHistoryList)
         binding.rvList.adapter = adapter
     }
 
     private fun setClickEvent() {
 
     }
-    companion object {
-        private var instance: DayFragment? = null
-        @JvmStatic
-        fun getInstance() : DayFragment {
-            if(instance == null) {
-                instance = DayFragment()
-                return instance as DayFragment
-            }
 
-            return instance as DayFragment
-        }
+    companion object {
+//        private var instance: DayFragment? = null
+//        @JvmStatic
+//        fun getInstance() : DayFragment {
+//            if(instance == null) {
+//                instance = DayFragment()
+//                return instance as DayFragment
+//            }
+//
+//            return instance as DayFragment
+//        }
     }
 }

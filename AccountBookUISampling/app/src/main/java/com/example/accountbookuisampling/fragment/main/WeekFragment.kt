@@ -2,27 +2,29 @@ package com.example.accountbookuisampling.fragment.main
 
 import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.adapter.recyclerview.main.WeekRVAdapter
+import com.example.accountbookuisampling.databinding.FragmentSummaryBinding
 import com.example.accountbookuisampling.databinding.FragmentWeekBinding
 import com.example.accountbookuisampling.dataclass.Week
 import java.util.ArrayList
 
-class WeekFragment : Fragment() {
+class WeekFragment(private val currentDate: String?) : Fragment() {
 
     private lateinit var binding: FragmentWeekBinding
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentWeekBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,17 +58,16 @@ class WeekFragment : Fragment() {
     }
 
     companion object {
-        private var instance: WeekFragment? = null
-        @JvmStatic
-        fun getInstance() : WeekFragment {
-            if(instance == null) {
-                instance = WeekFragment()
-                return instance as WeekFragment
-            }
-
-            return instance as WeekFragment
-        }
+//        private var instance: WeekFragment? = null
+//        @JvmStatic
+//        fun getInstance() : WeekFragment {
+//            if(instance == null) {
+//                instance = WeekFragment()
+//                return instance as WeekFragment
+//            }
+//
+//            return instance as WeekFragment
+//        }
     }
-
 
 }

@@ -2,10 +2,10 @@ package com.example.accountbookuisampling.fragment.main
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.accountbookuisampling.databinding.FragmentMonthBinding
 import com.example.accountbookuisampling.dataclass.Month
 import com.example.accountbookuisampling.viewmodel.MonthViewModel
@@ -13,16 +13,16 @@ import java.time.YearMonth
 import kotlin.collections.HashMap
 import kotlin.random.Random
 
-class MonthFragment : Fragment() {
+class MonthFragment(private val currentDate: String?) : Fragment() {
 
     private lateinit var binding: FragmentMonthBinding
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentMonthBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,12 +35,12 @@ class MonthFragment : Fragment() {
 
     private fun setMonthList() {
         val map = HashMap<String, MonthViewModel>()
-        for(i in 1..12) {
+        for (i in 1..12) {
             val consumption = Random.nextInt(0, 100000)
             val income = Random.nextInt(0, 100000)
             val result = income - consumption
-            val month = if(i < 10) "0$i"
-                        else i.toString()
+            val month = if (i < 10) "0$i"
+            else i.toString()
             val model = Month("2022$month", consumption, income, result)
 
             map[month] = formatToViewModel(model)
@@ -71,15 +71,15 @@ class MonthFragment : Fragment() {
     }
 
     companion object {
-        private var instance: MonthFragment? = null
-        @JvmStatic
-        fun getInstance() : MonthFragment {
-            if(instance == null) {
-                instance = MonthFragment()
-                return instance as MonthFragment
-            }
-
-            return instance as MonthFragment
-        }
+//        private var instance: MonthFragment? = null
+//        @JvmStatic
+//        fun getInstance() : MonthFragment {
+//            if(instance == null) {
+//                instance = MonthFragment()
+//                return instance as MonthFragment
+//            }
+//
+//            return instance as MonthFragment
+//        }
     }
 }
