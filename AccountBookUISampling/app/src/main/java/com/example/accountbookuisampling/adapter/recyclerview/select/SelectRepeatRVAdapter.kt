@@ -2,17 +2,11 @@ package com.example.accountbookuisampling.adapter.recyclerview.select
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.accountbookuisampling.activity.SelectRepeatActivity
+import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.*
-import com.example.accountbookuisampling.fragment.registerinput.consumption.RegisterConsumptionInputAmountFragment
-import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputAmountFragment
-import com.example.accountbookuisampling.util.*
-import java.lang.NumberFormatException
-import kotlin.math.roundToInt
 
 class SelectRepeatRVAdapter(
     repeatList: Array<String>,

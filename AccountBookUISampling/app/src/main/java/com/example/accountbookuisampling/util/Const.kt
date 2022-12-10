@@ -1,10 +1,11 @@
 package com.example.accountbookuisampling.util
 
 import android.graphics.Color
-import android.graphics.Color.parseColor
-import com.example.accountbookuisampling.viewmodel.CalendarViewModel
-import com.example.accountbookuisampling.viewmodel.DayViewModel
-import com.example.accountbookuisampling.viewmodel.WeekViewModel
+import com.example.accountbookuisampling.main.viewmodel.CalendarViewModel
+import com.example.accountbookuisampling.main.viewmodel.DayViewModel
+import com.example.accountbookuisampling.main.viewmodel.MonthViewModel
+import com.example.accountbookuisampling.main.viewmodel.WeekViewModel
+import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
 
 const val DB_NAME = "AccountBook"
 
@@ -194,6 +195,93 @@ const val DURATION_ALPHA = 500L
 const val TEXT_CURRENT_ITEM = "CURRENT_ITEM"
 
 
+val MONTH_VIEW_MODEL_LIST = arrayListOf<MonthViewModel>(
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+    MonthViewModel(
+        "",
+        "",
+        "0",
+        "0",
+        "0",
+    ),
+)
+
 val TEMP_DAY_VIEW_MODEL_LIST = arrayListOf<DayViewModel>(
     DayViewModel(
         1,
@@ -261,4 +349,15 @@ val TEMP_WEEK_VIEW_MODEL_LIST = arrayListOf<WeekViewModel>(
         "200",
         "-100"
     ),
+)
+
+val INPUT_DATE_HEAD_LIST = arrayOf(
+    InputDateItem(TYPE_CALENDAR_HEAD, 0, ""),
+    InputDateItem(TYPE_CALENDAR_HEAD, 1, ""),
+    InputDateItem(TYPE_CALENDAR_HEAD, 2, ""),
+    InputDateItem(TYPE_CALENDAR_HEAD, 3, ""),
+    InputDateItem
+        (TYPE_CALENDAR_HEAD, 4, ""),
+    InputDateItem(TYPE_CALENDAR_HEAD, 5, ""),
+    InputDateItem(TYPE_CALENDAR_HEAD, 6, "")
 )

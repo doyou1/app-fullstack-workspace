@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <import type="java.util.HashMap"/>
-        <import type="com.example.accountbookuisampling.viewmodel.MonthViewModel" />
-        <variable name="map" type="HashMap&lt;String, MonthViewModel&gt;"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,61 +18,19 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:overScrollMode="never"
                 >
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`01`)}" />
+                    android:layout_height="match_parent">
 
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`02`)}" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
 
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`03`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`04`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`05`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`06`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`07`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`08`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`09`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`10`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`11`)}" />
-
-                    <include
-                        layout="@layout/lv_item_month"
-                        app:model="@{map.get(`12`)}" />
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

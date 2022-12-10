@@ -12,7 +12,7 @@
         android:theme="@style/Theme.AccountBookUISampling"
         tools:targetApi="31">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".main.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,13 +25,13 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.AddTextInputActivity"
+            android:name=".registerinput.activity.AddTextInputActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SelectRepeatActivity"
+            android:name=".registerinput.activity.SelectRepeatActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SelectInstallmentActivity"
+            android:name=".registerinput.activity.SelectInstallmentActivity"
             android:exported="false" />
     </application>
 

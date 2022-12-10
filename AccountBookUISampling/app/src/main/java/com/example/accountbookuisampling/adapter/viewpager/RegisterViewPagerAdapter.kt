@@ -3,9 +3,9 @@ package com.example.accountbookuisampling.adapter.viewpager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.accountbookuisampling.fragment.register.ConsumptionFragment
-import com.example.accountbookuisampling.fragment.register.IncomeFragment
-import com.example.accountbookuisampling.fragment.register.TransferFragment
+import com.example.accountbookuisampling.registerinput.fragment.ConsumptionFragment
+import com.example.accountbookuisampling.registerinput.fragment.IncomeFragment
+import com.example.accountbookuisampling.registerinput.fragment.TransferFragment
 import com.example.accountbookuisampling.util.REGISTER_FRAGMENT_COUNT
 
 class RegisterViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {

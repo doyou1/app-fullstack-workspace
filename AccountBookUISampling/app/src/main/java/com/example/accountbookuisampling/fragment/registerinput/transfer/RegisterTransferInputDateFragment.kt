@@ -7,8 +7,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.recyclerview.registerinput.transfer.TransferInputDateRVAdapter
+import com.example.accountbookuisampling.registerinput.adapter.transfer.TransferInputDateRVAdapter
 import com.example.accountbookuisampling.databinding.*
+import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -82,15 +83,15 @@ class RegisterTransferInputDateFragment(
         binding.recyclerView.layoutManager = getLayoutManager(CALENDAR_VIEW_SPAN_COUNT)
 
         val dateList = DateUtil.getDateList(date)
-        val contentList = ArrayList<DateItem>()
+        val contentList = ArrayList<InputDateItem>()
         dateList.forEachIndexed { index, date ->
             contentList.add(
-                DateItem(TYPE_CALENDAR_CONTENT, index % 7, date)
+                InputDateItem(TYPE_CALENDAR_CONTENT, index % 7, date)
             )
         }
 
-        val list = ArrayList<DateItem>()
-        list.addAll(DATE_HEAD_LIST)
+        val list = ArrayList<InputDateItem>()
+        list.addAll(INPUT_DATE_HEAD_LIST)
         list.addAll(contentList)
 
         binding.recyclerView.adapter =

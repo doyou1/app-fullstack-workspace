@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.example.accountbookuisampling.viewmodel.CalendarViewModel" />
+            type="com.example.accountbookuisampling.main.viewmodel.CalendarViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,7 +76,7 @@
                 android:text="@{model.consumption}"
                 android:textColor="@color/orange"
 
-                app:layout_constraintBottom_toTopOf="@+id/tv_result"
+                app:layout_constraintBottom_toTopOf="@+id/tv_sum"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,10 +86,10 @@
 
 
             <TextView
-                android:id="@+id/tv_result"
+                android:id="@+id/tv_sum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{model.result}"
+                android:text="@{model.sum}"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

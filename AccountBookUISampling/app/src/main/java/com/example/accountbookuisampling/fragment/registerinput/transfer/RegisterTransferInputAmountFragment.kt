@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.recyclerview.registerinput.transfer.TransferInputCalculateRVAdapter
+import com.example.accountbookuisampling.registerinput.adapter.transfer.TransferInputCalculateRVAdapter
 import com.example.accountbookuisampling.databinding.*
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior

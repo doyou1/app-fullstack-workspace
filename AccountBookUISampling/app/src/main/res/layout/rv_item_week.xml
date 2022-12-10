@@ -7,7 +7,7 @@
     <data>
         <variable
             name="model"
-            type="com.example.accountbookuisampling.viewmodel.WeekViewModel" />
+            type="com.example.accountbookuisampling.main.viewmodel.WeekViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

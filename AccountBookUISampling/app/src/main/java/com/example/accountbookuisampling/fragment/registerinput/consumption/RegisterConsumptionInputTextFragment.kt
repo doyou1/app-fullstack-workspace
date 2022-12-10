@@ -13,9 +13,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.activity.AddTextInputActivity
-import com.example.accountbookuisampling.adapter.recyclerview.registerinput.consumption.ConsumptionInputTextRVAdapter
-import com.example.accountbookuisampling.adapter.recyclerview.registerinput.income.IncomeInputTextRVAdapter
+import com.example.accountbookuisampling.registerinput.activity.AddTextInputActivity
+import com.example.accountbookuisampling.registerinput.adapter.consumption.ConsumptionInputTextRVAdapter
+import com.example.accountbookuisampling.registerinput.adapter.income.IncomeInputTextRVAdapter
 import com.example.accountbookuisampling.databinding.*
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
