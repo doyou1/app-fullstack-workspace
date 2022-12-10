@@ -2,7 +2,6 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +59,6 @@ class MonthFragment(private val currentDate: String?) : Fragment() {
     }
 
     private fun setRecyclerView() {
-        Log.e(TAG, "setRecyclerView")
         val list = ArrayList<MonthViewModel>()
         if (_list.isEmpty()) {
             list.addAll(getEmptyMonthViewModelList())

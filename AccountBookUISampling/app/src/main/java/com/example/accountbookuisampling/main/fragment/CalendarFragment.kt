@@ -2,7 +2,6 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,6 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
                     currentYearMonth
                 )
             lifecycleScope.launch(Dispatchers.Main) {
-                Log.e(TAG, "list: ${list}")
                 (requireActivity() as MainActivity).updateSummary(1500, 3000, 1500 - 3000)
             }
         }

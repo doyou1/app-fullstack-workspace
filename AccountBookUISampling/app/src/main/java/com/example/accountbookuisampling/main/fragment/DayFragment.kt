@@ -2,7 +2,6 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -45,7 +44,6 @@ class DayFragment(private val currentDate: String?) : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
              val list = (requireActivity().application as BaseApplication).historyDao.getByDate(currentDate)
             lifecycleScope.launch(Dispatchers.Main) {
-            Log.e(TAG, "list: ${list}")
             (requireActivity() as MainActivity).updateSummary(1000, 2000, 1000 - 2000)
             }
         }

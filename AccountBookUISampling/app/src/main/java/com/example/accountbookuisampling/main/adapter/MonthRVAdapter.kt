@@ -1,6 +1,5 @@
 package com.example.accountbookuisampling.main.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +33,6 @@ class MonthRVAdapter(private val list: ArrayList<MonthViewModel>) :
 
         fun bind(item: MonthViewModel) {
             binding.model = item
-            Log.e(TAG, "item: $item")
         }
     }
 }
