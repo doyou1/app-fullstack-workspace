@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.adapter.recyclerview.main.CalendarRVAdapter
 import com.example.accountbookuisampling.databinding.FragmentCalendarBinding
-import com.example.accountbookuisampling.databinding.FragmentDayBinding
 import com.example.accountbookuisampling.dataclass.CalendarItem
 import com.example.accountbookuisampling.util.*
 import java.util.ArrayList
@@ -38,7 +36,6 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
     }
 
     private fun setRecyclerView() {
-
         val contentList = arrayListOf<CalendarItem>()
         // 현재 달의 1일의 요일
         val dateList = DateUtil.getDateList()
@@ -60,24 +57,27 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
 
         when (resources.configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> {
-                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
+                val layoutManager = GridLayoutManager(context, CALENDAR_VIEW_SPAN_COUNT)
                 layoutManager.orientation =
-                    LinearLayoutManager.HORIZONTAL
+                    GridLayoutManager.HORIZONTAL
                 binding.rvList.layoutManager = layoutManager
             }
             Configuration.ORIENTATION_LANDSCAPE -> {
-                val layoutManager = GridLayoutManager(requireContext(), CALENDAR_VIEW_SPAN_COUNT)
+                val layoutManager = GridLayoutManager(context, CALENDAR_VIEW_SPAN_COUNT)
                 layoutManager.orientation =
                     LinearLayoutManager.VERTICAL
                 binding.rvList.layoutManager = layoutManager
             }
             else -> throw NotImplementedError()
         }
-
         val list = ArrayList<CalendarItem>()
         list.addAll(CALENDAR_HEAD_LIST)
         list.addAll(contentList)
-        binding.rvList.adapter = CalendarRVAdapter(list)
+        // waiting refresh for measuredHeight is 0
+        binding.rvList.post {
+            binding.rvList.minimumHeight = binding.rvList.measuredHeight
+            binding.rvList.adapter = CalendarRVAdapter(list)
+        }
     }
 
     companion object {

@@ -120,7 +120,7 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
         private fun formatToViewModel(calendarItem: CalendarItem): CalendarItemViewModel {
             // calendarItem.date = YYYYYYMMdd
             var day = calendarItem.date.substring(6, 8)
-            if(day == TEXT_FIRST_DAY_OF_MONTH) {
+            if (day == TEXT_FIRST_DAY_OF_MONTH) {
                 val month = calendarItem.date.substring(4, 6)
                 day = "$month.$day"
             }
