@@ -1,12 +1,16 @@
 package com.example.accountbookuisampling.viewmodel
 
-data class HistoryViewModel(
+import java.time.DayOfWeek
+
+data class DayViewModel(
+    val id: Int,
     val day: String,
     val yearMonth: String,
-    val week: String,
+    val dayOfWeek: String,
+    val asset: String,
     val category: String,
-    val detail: String,
     val time: String,
+    val historyType: Int,
     val amount: String
 )
 

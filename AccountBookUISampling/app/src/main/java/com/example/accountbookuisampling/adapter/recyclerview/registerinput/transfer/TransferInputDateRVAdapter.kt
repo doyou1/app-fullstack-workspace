@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.databinding.*
-import com.example.accountbookuisampling.dataclass.DateItem
-import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputDateFragment
 import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputDateFragment
 import com.example.accountbookuisampling.util.*
 

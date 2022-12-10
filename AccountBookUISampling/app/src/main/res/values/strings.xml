@@ -6,7 +6,7 @@
     <string name="text_memo">메모</string>
     <string name="text_income">수입</string>
     <string name="text_consumption">지출</string>
-    <string name="text_result">결과</string>
+    <string name="text_sum">결과</string>
     <string name="text_main">가계부</string>
     <string name="text_date">날짜</string>
     <string name="text_repeat">반복/할부</string>
@@ -30,4 +30,6 @@
     <string name="text_weeks">주별</string>
     <string name="text_months">월별</string>
     <string name="text_summary">요약</string>
+    <string name="text_list_is_empty">데이터가 없습니다.</string>
+
 </resources>

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.accountbookuisampling.databinding.FragmentMonthBinding
-import com.example.accountbookuisampling.dataclass.Month
+import com.example.accountbookuisampling.dataclass.Category
 import com.example.accountbookuisampling.viewmodel.MonthViewModel
 import java.time.YearMonth
 import kotlin.collections.HashMap
@@ -41,7 +41,7 @@ class MonthFragment(private val currentDate: String?) : Fragment() {
             val result = income - consumption
             val month = if (i < 10) "0$i"
             else i.toString()
-            val model = Month("2022$month", consumption, income, result)
+            val model = Category("2022$month", consumption, income, result)
 
             map[month] = formatToViewModel(model)
         }
@@ -49,7 +49,7 @@ class MonthFragment(private val currentDate: String?) : Fragment() {
         binding.map = map
     }
 
-    private fun formatToViewModel(month: Month): MonthViewModel {
+    private fun formatToViewModel(month: Category): MonthViewModel {
         val YYYY = month.month.substring(0, 4)
         val MM = month.month.substring(4, 6)
 

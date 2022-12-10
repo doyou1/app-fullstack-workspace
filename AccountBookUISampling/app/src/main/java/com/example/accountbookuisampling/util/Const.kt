@@ -1,10 +1,10 @@
 package com.example.accountbookuisampling.util
 
 import android.graphics.Color
-import com.example.accountbookuisampling.dataclass.CalendarItem
-import com.example.accountbookuisampling.dataclass.DateItem
-import com.example.accountbookuisampling.dataclass.History
-import com.google.android.material.tabs.TabLayout
+import android.graphics.Color.parseColor
+import com.example.accountbookuisampling.viewmodel.CalendarViewModel
+import com.example.accountbookuisampling.viewmodel.DayViewModel
+import com.example.accountbookuisampling.viewmodel.WeekViewModel
 
 const val DB_NAME = "AccountBook"
 
@@ -31,17 +31,6 @@ const val INCOME = "수입"
 const val CONSUMPTION = "지출"
 const val TRANSFER = "이체"
 
-val tempHistoryList = arrayListOf(
-    History("202009201511", "숙소비", "M카드", "1700000"),
-    History("202009201511", "숙소비", "M카드", "1700000"),
-    History("202009201511", "숙소비", "M카드", "1700000"),
-    History("202009201511", "숙소비", "M카드", "1700000"),
-    History("202009201511", "숙소비", "M카드", "1700000"),
-    History("202009201511", "숙소비", "M카드", "1700000"),
-    History("202009201511", "숙소비", "M카드", "1700000"),
-    History("202009201511", "숙소비", "M카드", "1700000")
-)
-
 const val FLAG_DATE = 1
 const val FLAG_ASSET = 2
 const val FLAG_CATEGORY = 3
@@ -62,6 +51,10 @@ const val TEXT_SATURDAY = "토"
 const val COLOR_SUNDAY = Color.RED
 const val COLOR_WEEKDAY = Color.GRAY
 const val COLOR_SATURDAY = Color.BLUE
+const val COLOR_INCOME = Color.BLUE
+
+// orange hex : #ce7e00
+val COLOR_CONSUMPTION = Color.rgb(206, 126, 0)
 
 const val CALENDAR_HEAD_HEIGHT_RATIO = 20
 const val CALENDAR_CONTENT_HEIGHT_RATIO = 5
@@ -73,24 +66,16 @@ const val TEXT_ASSET = "자산"
 const val TEXT_CATEGORY = "분류"
 const val TEXT_AMOUNT = "금액"
 
-val CALENDAR_HEAD_LIST = arrayOf(
-    CalendarItem(TYPE_CALENDAR_HEAD, 0,"", 0, 0, 0),
-    CalendarItem(TYPE_CALENDAR_HEAD, 1,"", 0, 0, 0),
-    CalendarItem(TYPE_CALENDAR_HEAD, 2,"", 0, 0, 0),
-    CalendarItem(TYPE_CALENDAR_HEAD, 3,"", 0, 0, 0),
-    CalendarItem(TYPE_CALENDAR_HEAD, 4,"", 0, 0, 0),
-    CalendarItem(TYPE_CALENDAR_HEAD, 5,"", 0, 0, 0),
-    CalendarItem(TYPE_CALENDAR_HEAD, 6,"", 0, 0, 0)
-)
+const val CALENDAR_CONTENT_SIZE = 35
 
-val DATE_HEAD_LIST = arrayOf(
-    DateItem(TYPE_CALENDAR_HEAD, 0,""),
-    DateItem(TYPE_CALENDAR_HEAD, 1,""),
-    DateItem(TYPE_CALENDAR_HEAD, 2,""),
-    DateItem(TYPE_CALENDAR_HEAD, 3,""),
-    DateItem(TYPE_CALENDAR_HEAD, 4,""),
-    DateItem(TYPE_CALENDAR_HEAD, 5,""),
-    DateItem(TYPE_CALENDAR_HEAD, 6,""),
+val CALENDAR_HEAD_LIST = arrayOf(
+    CalendarViewModel(TYPE_CALENDAR_HEAD, "0", "", "", ""),
+    CalendarViewModel(TYPE_CALENDAR_HEAD, "1", "", "", ""),
+    CalendarViewModel(TYPE_CALENDAR_HEAD, "2", "", "", ""),
+    CalendarViewModel(TYPE_CALENDAR_HEAD, "3", "", "", ""),
+    CalendarViewModel(TYPE_CALENDAR_HEAD, "4", "", "", ""),
+    CalendarViewModel(TYPE_CALENDAR_HEAD, "5", "", "", ""),
+    CalendarViewModel(TYPE_CALENDAR_HEAD, "6", "", "", ""),
 )
 const val FLAG_NOT_CALENDAR_HEAD = -1
 const val CALENDAR_VIEW_SPAN_COUNT = 7
@@ -122,6 +107,9 @@ const val TEXT_ZERO = "0"
 const val TEXT_CONFIRM = "확인"
 const val TEXT_MONTHS = "개월"
 const val TEXT_INSTALLMENT = "할부"
+
+const val TEXT_AM = "오전"
+const val TEXT_PM = "오후"
 
 val CALCULATOR_ITEM_LIST = arrayOf(
     TEXT_DIVIDE,
@@ -204,3 +192,73 @@ const val SWIPE_VELOCITY_THRESHOLD = 100
 const val DURATION_ALPHA = 500L
 
 const val TEXT_CURRENT_ITEM = "CURRENT_ITEM"
+
+
+val TEMP_DAY_VIEW_MODEL_LIST = arrayListOf<DayViewModel>(
+    DayViewModel(
+        1,
+        "10",
+        "2212",
+        "토",
+        "M카드",
+        "숙소비",
+        "오후 05:01",
+        0,  // income
+        "10000",
+    ),
+    DayViewModel(
+        2,
+        "10",
+        "2212",
+        "토",
+        "M카드",
+        "숙소비",
+        "오후 05:02",
+        1,  // consumption
+        "10000",
+    ),
+    DayViewModel(
+        3,
+        "10",
+        "2212",
+        "토",
+        "M카드",
+        "숙소비",
+        "오전 07:10",
+        0,  // income
+        "10000",
+    ),
+)
+
+val TEMP_WEEK_VIEW_MODEL_LIST = arrayListOf<WeekViewModel>(
+    WeekViewModel(
+        "11/28~12/04",
+        "100",
+        "200",
+        "-100"
+    ),
+    WeekViewModel(
+        "12/05~12/11",
+        "100",
+        "200",
+        "-100"
+    ),
+    WeekViewModel(
+        "12/12~12/18",
+        "100",
+        "200",
+        "-100"
+    ),
+    WeekViewModel(
+        "12/19~12/25",
+        "100",
+        "200",
+        "-100"
+    ),
+    WeekViewModel(
+        "12/26~01/01",
+        "100",
+        "200",
+        "-100"
+    ),
+)

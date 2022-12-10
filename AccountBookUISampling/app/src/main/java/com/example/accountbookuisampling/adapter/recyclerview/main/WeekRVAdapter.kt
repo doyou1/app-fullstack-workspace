@@ -4,21 +4,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.databinding.RvItemWeekBinding
-import com.example.accountbookuisampling.dataclass.Week
 import com.example.accountbookuisampling.viewmodel.WeekViewModel
 
-class WeekRVAdapter(private val list: ArrayList<Week>) :
+class WeekRVAdapter(private val list: ArrayList<WeekViewModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val _list = list
     private val TAG = this::class.java.simpleName
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return WeekViewHolder(RvItemWeekBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        ))
+        return WeekViewHolder(
+            RvItemWeekBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     }
 
@@ -34,13 +35,14 @@ class WeekRVAdapter(private val list: ArrayList<Week>) :
     inner class WeekViewHolder(private val binding: RvItemWeekBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(week: Week) {
-            val model = formatToViewModel(week)
+        fun bind(item: WeekViewModel) {
+            val model = formatToViewModel(item)
             binding.model = model
         }
 
-        private fun formatToViewModel(week: Week): WeekViewModel {
-            return WeekViewModel(week.period, week.income.toString(), week.consumption.toString(), week.result.toString())
+        private fun formatToViewModel(item: WeekViewModel): WeekViewModel {
+            return item
+//            return WeekViewModel(item.period, item.income.toString(), item.consumption.toString(), week.result.toString())
         }
     }
 

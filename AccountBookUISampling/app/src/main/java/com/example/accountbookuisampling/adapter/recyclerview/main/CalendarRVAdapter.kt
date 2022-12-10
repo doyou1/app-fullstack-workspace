@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.databinding.RvItemCalendarContentBinding
 import com.example.accountbookuisampling.databinding.RvItemCalendarHeadBinding
-import com.example.accountbookuisampling.viewmodel.CalendarItemViewModel
-import com.example.accountbookuisampling.dataclass.CalendarItem
+import com.example.accountbookuisampling.viewmodel.CalendarViewModel
 import com.example.accountbookuisampling.util.*
+import com.example.accountbookuisampling.viewmodel.DayViewModel
 import java.text.DecimalFormat
+import java.util.ArrayList
 
-class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
+class CalendarRVAdapter(private val list: ArrayList<CalendarViewModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val _list = list
@@ -48,7 +49,7 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val calendarItem = _list[position]
 
-        when (calendarItem.viewType) {
+        when (calendarItem.itemType) {
             TYPE_CALENDAR_HEAD -> {
                 (holder as HeadViewHolder).bind(calendarItem)
             }
@@ -65,44 +66,44 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return _list[position].viewType
+        return _list[position].itemType
     }
 
     inner class HeadViewHolder(private val binding: RvItemCalendarHeadBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(calendarItem: CalendarItem) {
-            when (calendarItem.dayOfWeekSequence) {
-                0 -> {
+        fun bind(item: CalendarViewModel) {
+            when (item.date) {
+                TEXT_ZERO -> {
                     binding.strDayOfWeek = TEXT_SUNDAY
                     binding.tvDayOfWeek.setTextColor(COLOR_SUNDAY)
                 }
-                1 -> {
+                TEXT_ONE -> {
                     binding.strDayOfWeek = TEXT_MONDAY
                     binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
-                2 -> {
+                TEXT_TWO -> {
                     binding.strDayOfWeek = TEXT_TUESDAY
                     binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
-                3 -> {
+                TEXT_THREE -> {
                     binding.strDayOfWeek = TEXT_WEDNESDAY
                     binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
-                4 -> {
+                TEXT_FOUR -> {
                     binding.strDayOfWeek = TEXT_THURSDAY
                     binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
-                5 -> {
+                TEXT_FIVE -> {
                     binding.strDayOfWeek = TEXT_FRIDAY
                     binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
-                6 -> {
+                TEXT_SIX -> {
                     binding.strDayOfWeek = TEXT_SATURDAY
                     binding.tvDayOfWeek.setTextColor(COLOR_SATURDAY)
                 }
                 else -> {
-                    binding.strDayOfWeek = ""
+                    binding.strDayOfWeek = TEXT_EMPTY
                     binding.tvDayOfWeek.setTextColor(COLOR_WEEKDAY)
                 }
             }
@@ -112,25 +113,26 @@ class CalendarRVAdapter(private val list: ArrayList<CalendarItem>) :
     inner class ContentViewHolder(private val binding: RvItemCalendarContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(calendarItem: CalendarItem) {
-            val model = formatToViewModel(calendarItem)
+        fun bind(item: CalendarViewModel) {
+            val model = formatToViewModel(item)
             binding.model = model
         }
 
-        private fun formatToViewModel(calendarItem: CalendarItem): CalendarItemViewModel {
-            // calendarItem.date = YYYYYYMMdd
-            var day = calendarItem.date.substring(6, 8)
+        private fun formatToViewModel(item: CalendarViewModel): CalendarViewModel {
+            // date = yyyyMMdd
+            var day = item.date.substring(6, 8)
             if (day == TEXT_FIRST_DAY_OF_MONTH) {
-                val month = calendarItem.date.substring(4, 6)
+                val month = item.date.substring(4, 6)
                 day = "$month.$day"
             }
 
             val df = DecimalFormat("#,###")
-            return CalendarItemViewModel(
+            return CalendarViewModel(
+                TYPE_CALENDAR_CONTENT,
                 day,
-                df.format(calendarItem.consumption),
-                df.format(calendarItem.income),
-                df.format(calendarItem.result)
+                df.format(item.consumption.toInt()),
+                df.format(item.income.toInt()),
+                df.format(item.result.toInt())
             )
         }
     }

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="model"
-            type="com.example.accountbookuisampling.viewmodel.HistoryViewModel" />
+            type="com.example.accountbookuisampling.viewmodel.DayViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,20 +50,20 @@
                 android:text="@{model.yearMonth}"
                 tools:text="2020.09"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_week"
+                app:layout_constraintBottom_toTopOf="@+id/tv_day_of_week"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/tv_day"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_week"
+                android:id="@+id/tv_day_of_week"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:background="@color/orange"
                 android:paddingHorizontal="3dp"
-                android:text="@{model.week}"
+                android:text="@{model.dayOfWeek}"
                 tools:text="월요일"
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -92,13 +92,13 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/layout_list_item_content_item_category"
+                    android:id="@+id/tv_category"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{model.category}"
                     tools:text="숙소비"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/layout_list_item_content_item_detail"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_asset"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -106,34 +106,34 @@
                     app:layout_constraintWidth_percent="0.2" />
 
                 <TextView
-                    android:id="@+id/layout_list_item_content_item_detail"
+                    android:id="@+id/tv_asset"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{model.detail}"
+                    android:text="@{model.asset}"
                     tools:text="M카드"
-                    app:layout_constraintBottom_toTopOf="@+id/layout_list_item_content_item_time"
-                    app:layout_constraintEnd_toStartOf="@+id/layout_list_item_content_item_amount"
-                    app:layout_constraintStart_toEndOf="@+id/layout_list_item_content_item_category"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_time"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_amount"
+                    app:layout_constraintStart_toEndOf="@+id/tv_category"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_default="percent"
                     app:layout_constraintWidth_percent="0.5" />
 
                 <TextView
-                    android:id="@+id/layout_list_item_content_item_time"
+                    android:id="@+id/tv_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{model.time}"
                     tools:text="오후 3:11"
                     android:textSize="9sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/layout_list_item_content_item_amount"
-                    app:layout_constraintStart_toEndOf="@+id/layout_list_item_content_item_category"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_list_item_content_item_detail"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_amount"
+                    app:layout_constraintStart_toEndOf="@+id/tv_category"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_asset"
                     app:layout_constraintWidth_default="percent"
                     app:layout_constraintWidth_percent="0.5" />
 
                 <TextView
-                    android:id="@+id/layout_list_item_content_item_amount"
+                    android:id="@+id/tv_amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@{model.amount}"
@@ -142,7 +142,7 @@
                     android:textColor="@color/orange"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/layout_list_item_content_item_detail"
+                    app:layout_constraintStart_toEndOf="@+id/tv_asset"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_default="percent"
                     app:layout_constraintWidth_percent="0.3" />

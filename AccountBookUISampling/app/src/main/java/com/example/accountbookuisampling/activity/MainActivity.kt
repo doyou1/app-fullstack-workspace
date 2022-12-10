@@ -57,6 +57,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    fun updateSummary(income: Int, consumption: Int, sum: Int) {
+        binding.tvIncome.text = income.toString()
+        binding.tvConsumption.text = consumption.toString()
+        binding.tvSum.text = sum.toString()
+    }
+
     private fun initFrameLayout() {
         setFragment(0)
 

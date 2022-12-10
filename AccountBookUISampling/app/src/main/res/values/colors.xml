@@ -15,7 +15,7 @@
     <color name="bg_gray">#EEEEEE</color>
     <color name="income_blue">#0047AB</color>
     <color name="consumption_orange">@color/orange</color>
-    <color name="result_black">@color/black</color>
+    <color name="sum_black">@color/black</color>
     <color name="transfer_dark_black">@color/cardview_dark_background</color>
     <color name="input_header_black">@color/black</color>
 

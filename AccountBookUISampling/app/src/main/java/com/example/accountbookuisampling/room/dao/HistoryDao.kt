@@ -12,6 +12,9 @@ interface HistoryDao {
     @Query("SELECT * FROM History WHERE id=:id")
     fun getByid(id: Int): History
 
+    @Query("SELECT * FROM History WHERE date like :date || '%'")
+    fun getByDate(date: String?): List<History>
+
     @Insert
     fun insert(history: History)
 
