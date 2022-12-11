@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.adapter.recyclerview.select
+package com.example.accountbookuisampling.registerinput.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

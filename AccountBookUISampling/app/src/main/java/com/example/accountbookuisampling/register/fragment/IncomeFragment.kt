@@ -33,12 +33,12 @@ class IncomeFragment : BaseRegisterFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentIncomeBinding.inflate(inflater, container, false)
-        disableKeyboard()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        disableKeyboard()
         binding.isImportant = false
         binding.isRepeat = false
         binding.etDate.setText(DateUtil.getTodayText())
@@ -46,14 +46,8 @@ class IncomeFragment : BaseRegisterFragment() {
 
     override fun onResume() {
         super.onResume()
-        disableKeyboard()
         setFocusChangeEvent()
         setClickEvent()
-//        binding.etAsset.post {
-//            if(!binding.etAsset.showSoftInputOnFocus) {
-//                binding.etAsset.requestFocus()
-//            }
-//        }
     }
 
     private fun setFocusChangeEvent() {
@@ -62,7 +56,6 @@ class IncomeFragment : BaseRegisterFragment() {
                 showInputFragment(FLAG_DATE)
             }
         }
-
         // Focusの際、またクリックすると
         binding.etDate.setOnClickListener {
             if (binding.etDate.hasFocus() && binding.frameLayout.visibility == View.GONE) {
@@ -84,14 +77,12 @@ class IncomeFragment : BaseRegisterFragment() {
                 showInputFragment(FLAG_AMOUNT)
             }
         }
-
         binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 if (binding.frameLayout.visibility == View.VISIBLE) binding.frameLayout.visibility =
                     View.GONE
             }
         }
-
     }
 
     private fun setClickEvent() {
@@ -149,7 +140,7 @@ class IncomeFragment : BaseRegisterFragment() {
     }
 
     override fun closeInputLayout() {
-        binding.frameLayout.visibility = View.GONE
+        hideCurrentInputView()
     }
 
     private fun disableKeyboard() {

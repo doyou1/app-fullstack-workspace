@@ -24,7 +24,7 @@
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_consumption.xml" value="0.1" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_day.xml" value="0.1" />
-        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_income.xml" value="0.1" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_income.xml" value="0.2" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_month.xml" value="0.1" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_register_amount_input.xml" value="0.136" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_register_asset_input.xml" value="0.1" />
@@ -35,7 +35,7 @@
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_register_input_date.xml" value="0.16" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_summary.xml" value="0.1125" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_test.xml" value="0.12284701114488349" />
-        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_transfer.xml" value="0.1125" />
+        <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_transfer.xml" value="0.1" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_week.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/fragment_year.xml" value="0.2" />
         <entry key="..\:/Users/jh/app-fullstack-workspace/AccountBookUISampling/app/src/main/res/layout/layout_list_item.xml" value="0.11145833333333334" />

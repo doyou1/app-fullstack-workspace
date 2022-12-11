@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.adapter.recyclerview.select.SelectRepeatRVAdapter
+import com.example.accountbookuisampling.registerinput.adapter.SelectRepeatRVAdapter
 import com.example.accountbookuisampling.databinding.ActivitySelectRepeatBinding
 import com.example.accountbookuisampling.util.REPEAT_ITEM_LIST
 
