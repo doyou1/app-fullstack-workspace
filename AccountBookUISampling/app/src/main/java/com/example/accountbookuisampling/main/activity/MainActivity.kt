@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
-import com.example.accountbookuisampling.activity.RegisterActivity
+import com.example.accountbookuisampling.register.activity.RegisterActivity
 import com.example.accountbookuisampling.databinding.ActivityMainBinding
-import com.example.accountbookuisampling.listener.OnSwipeTouchListener
+import com.example.accountbookuisampling.util.OnSwipeTouchListener
 import com.example.accountbookuisampling.main.fragment.*
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.tabs.TabLayout
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
     // this made it work
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        onSwipeTouchListener.gestureDetector.onTouchEvent(event)
+        onSwipeTouchListener.gestureDetector?.onTouchEvent(event)
         // Be sure to call the superclass implementation
         return super.dispatchTouchEvent(event)
     }

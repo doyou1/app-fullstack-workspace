@@ -1,9 +1,11 @@
-package com.example.accountbookuisampling.listener
+package com.example.accountbookuisampling.util
 
 import android.content.Context
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import java.lang.Exception
 import kotlin.math.abs
 
 internal open class OnSwipeTouchListener(context: Context?) : View.OnTouchListener {
@@ -15,7 +17,6 @@ internal open class OnSwipeTouchListener(context: Context?) : View.OnTouchListen
         private const val SWIPE_DISTANCE_THRESHOLD = 100
         private const val SWIPE_VELOCITY_THRESHOLD = 100
     }
-
 
     open fun onSwipeRightToLeft() {
 //        Log.e(TAG, "onSwipeRightToLeft")
@@ -42,9 +43,9 @@ internal open class OnSwipeTouchListener(context: Context?) : View.OnTouchListen
         ): Boolean {
             val distanceX = e2.x - e1.x
             val distanceY = e2.y - e1.y
-            if (abs(distanceX) > abs(distanceY) && abs(distanceX) > Companion.SWIPE_DISTANCE_THRESHOLD && abs(
+            if (abs(distanceX) > abs(distanceY) && abs(distanceX) > SWIPE_DISTANCE_THRESHOLD && abs(
                     velocityX
-                ) > Companion.SWIPE_VELOCITY_THRESHOLD
+                ) > SWIPE_VELOCITY_THRESHOLD
             ) {
                 if (distanceX > 0) onSwipeLeftToRight() else onSwipeRightToLeft()
                 return true
@@ -54,6 +55,10 @@ internal open class OnSwipeTouchListener(context: Context?) : View.OnTouchListen
     }
 
     override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-        return gestureDetector.onTouchEvent(event)
+        return try {
+            gestureDetector.onTouchEvent(event)
+        } catch(e: Exception) {
+            true
+        }
     }
 }

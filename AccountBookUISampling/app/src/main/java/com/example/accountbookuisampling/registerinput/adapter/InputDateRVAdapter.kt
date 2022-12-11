@@ -1,21 +1,19 @@
-package com.example.accountbookuisampling.registerinput.adapter.transfer
+package com.example.accountbookuisampling.registerinput.adapter
 
+import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.accountbookuisampling.R
-import com.example.accountbookuisampling.databinding.*
-import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputDateFragment
+import com.example.accountbookuisampling.databinding.RvItemDateInputContentBinding
+import com.example.accountbookuisampling.databinding.RvItemDateInputHeadBinding
+import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
 import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
+import com.example.accountbookuisampling.registerinput.fragment.BaseRegisterInputFragment
 import com.example.accountbookuisampling.util.*
 
-class TransferInputDateRVAdapter(
-    private val date: String,
-    list: ArrayList<InputDateItem>,
-    private val parentBinding: FragmentTransferBinding,
-    private val inputFragment: RegisterTransferInputDateFragment,
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class InputDateRVAdapter(private val date: String, private val list: ArrayList<InputDateItem>, private val fragment: BaseRegisterInputFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val _list = list
     private val TAG = this::class.java.simpleName
@@ -119,8 +117,8 @@ class TransferInputDateRVAdapter(
 
         fun bind(item: InputDateItem) {
             val _year = date.substring(0, 4)
-            val _month = date.substring(5, 7)
-            val _day = date.substring(8, 10)
+            val _month = date.substring(4, 6)
+            val _day = date.substring(6, 8)
 
             val year = item.date.substring(0, 4)
             val month = item.date.substring(4, 6)
@@ -162,11 +160,11 @@ class TransferInputDateRVAdapter(
 
             if(_year == year && _month == month && _day == day) {
                 binding.tvDay.setTextColor(Color.WHITE)
-                binding.root.setBackgroundColor(inputFragment.resources.getColor(R.color.orange))
+                binding.root.setBackgroundColor(COLOR_ORANGE)
             }
 
             binding.tvDay.setOnClickListener {
-                inputFragment.changeDate("$year/$month/$day")
+                fragment.changeDate("$year$month$day")
             }
         }
     }

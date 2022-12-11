@@ -1,9 +1,10 @@
-package com.example.accountbookuisampling.registerinput.fragment
+package com.example.accountbookuisampling.register.fragment
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.inputmethod.InputMethodManager
@@ -14,14 +15,18 @@ import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.registerinput.activity.SelectInstallmentActivity
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.FragmentConsumptionBinding
-import com.example.accountbookuisampling.fragment.registerinput.consumption.RegisterConsumptionInputAmountFragment
-import com.example.accountbookuisampling.fragment.registerinput.consumption.RegisterConsumptionInputDateFragment
-import com.example.accountbookuisampling.fragment.registerinput.consumption.RegisterConsumptionInputTextFragment
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ConsumptionFragment : Fragment() {
+class ConsumptionFragment : BaseRegisterFragment() {
+    override fun changeDateFromChild(value: String) {
+        super.changeDateFromChild(value)
+        Log.e(TAG, "Consumption")
+    }
 
+    override fun closeInputLayout() {
+//        binding.frameLayout.visibility = View.GONE
+    }
     private lateinit var binding: FragmentConsumptionBinding
     private val TAG = this::class.java.simpleName
     private var inputFragment: BottomSheetDialogFragment? = null
@@ -54,50 +59,50 @@ class ConsumptionFragment : Fragment() {
     }
 
     private fun setFocusChangeEvent() {
-        // 날짜, Date, 日付
-        binding.etDate.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                inputFragment = RegisterConsumptionInputDateFragment(binding)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_DATE
-                )
-            }
-        }
-
-        // 자산, Asset,
-        binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                inputFragment = RegisterConsumptionInputTextFragment(binding, FLAG_ASSET)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_ASSET
-                )
-            }
-        }
-
-        // 분류, Category, 分類
-        binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                inputFragment = RegisterConsumptionInputTextFragment(binding, FLAG_CATEGORY)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_CATEGORY
-                )
-            }
-        }
-
-        // 금액, Amount, 金額
-        binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) RegisterConsumptionInputAmountFragment(binding).show(
-                requireActivity().supportFragmentManager,
-                TAG_AMOUNT
-            )
-        }
-
-        binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) showKeyboard()
-        }
+//        // 날짜, Date, 日付
+//        binding.etDate.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) {
+//                inputFragment = RegisterConsumptionInputDateFragment(binding)
+//                inputFragment?.show(
+//                    requireActivity().supportFragmentManager,
+//                    TAG_DATE
+//                )
+//            }
+//        }
+//
+//        // 자산, Asset,
+//        binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) {
+//                inputFragment = RegisterConsumptionInputTextFragment(binding, FLAG_ASSET)
+//                inputFragment?.show(
+//                    requireActivity().supportFragmentManager,
+//                    TAG_ASSET
+//                )
+//            }
+//        }
+//
+//        // 분류, Category, 分類
+//        binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) {
+//                inputFragment = RegisterConsumptionInputTextFragment(binding, FLAG_CATEGORY)
+//                inputFragment?.show(
+//                    requireActivity().supportFragmentManager,
+//                    TAG_CATEGORY
+//                )
+//            }
+//        }
+//
+//        // 금액, Amount, 金額
+//        binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) RegisterConsumptionInputAmountFragment(binding).show(
+//                requireActivity().supportFragmentManager,
+//                TAG_AMOUNT
+//            )
+//        }
+//
+//        binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) showKeyboard()
+//        }
     }
 
     private fun setClickEvent() {

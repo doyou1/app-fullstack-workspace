@@ -114,16 +114,9 @@ class DateUtil {
             return dateList
         }
 
-        fun getToday(): String {
-            val calendar = Calendar.getInstance()
-            val sdf = SimpleDateFormat("yyyyMMdd")
-            return sdf.format(calendar.time)
-        }
-
-
         fun getTodayText(): String {
             val calendar = Calendar.getInstance()
-            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            val sdf = SimpleDateFormat("yyyyMMdd")
             val date = sdf.format(calendar.time)
 
             val dayOfWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
@@ -142,15 +135,15 @@ class DateUtil {
 
         fun getDateText(value: String): String {
             val yyyy = value.substring(0, 4).toInt()
-            val MM = value.substring(5, 7).toInt()
-            val dd = value.substring(8, 10).toInt()
+            val MM = value.substring(4, 6).toInt()
+            val dd = value.substring(6, 8).toInt()
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, yyyy)
             calendar.set(Calendar.MONTH, MM - 1)
             calendar.set(Calendar.DAY_OF_MONTH, dd)
 
-            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            val sdf = SimpleDateFormat("yyyyMMdd")
             val date = sdf.format(calendar.time)
 
             val dayOfWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
@@ -174,15 +167,15 @@ class DateUtil {
 
         fun getPrevMonthDate(value: String): String {
             val yyyy = value.substring(0, 4).toInt()
-            val MM = value.substring(5, 7).toInt()
-            val dd = value.substring(8, 10).toInt()
+            val MM = value.substring(4, 6).toInt()
+            val dd = value.substring(6, 8).toInt()
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, yyyy)
             calendar.set(Calendar.MONTH, MM - 2)
             calendar.set(Calendar.DAY_OF_MONTH, 1)
 
-            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            val sdf = SimpleDateFormat("yyyyMMdd")
             val date = sdf.format(calendar.time)
 
             return date
@@ -190,15 +183,15 @@ class DateUtil {
 
         fun getNextMonthDate(value: String): String {
             val yyyy = value.substring(0, 4).toInt()
-            val MM = value.substring(5, 7).toInt()
-            val dd = value.substring(8, 10).toInt()
+            val MM = value.substring(4, 6).toInt()
+            val dd = value.substring(6, 8).toInt()
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, yyyy)
             calendar.set(Calendar.MONTH, MM)
             calendar.set(Calendar.DAY_OF_MONTH, 1)
 
-            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            val sdf = SimpleDateFormat("yyyyMMdd")
             val date = sdf.format(calendar.time)
 
             return date

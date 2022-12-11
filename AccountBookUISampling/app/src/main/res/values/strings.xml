@@ -6,6 +6,7 @@
     <string name="text_memo">메모</string>
     <string name="text_income">수입</string>
     <string name="text_consumption">지출</string>
+    <string name="text_transfer">이체</string>
     <string name="text_sum">결과</string>
     <string name="text_main">가계부</string>
     <string name="text_date">날짜</string>

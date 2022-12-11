@@ -1,9 +1,10 @@
-package com.example.accountbookuisampling.registerinput.fragment
+package com.example.accountbookuisampling.register.fragment
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,19 +15,22 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
-import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
-import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputAmountFragment
-import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputDateFragment
-import com.example.accountbookuisampling.fragment.registerinput.income.RegisterIncomeInputTextFragment
+import com.example.accountbookuisampling.databinding.FragmentTransferBinding
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class IncomeFragment : Fragment() {
+class TransferFragment : BaseRegisterFragment() {
+    override fun changeDateFromChild(value: String) {
+        super.changeDateFromChild(value)
+        Log.e(TAG, "Consumption")
+    }
 
-    private lateinit var binding: FragmentIncomeBinding
+    override fun closeInputLayout() {
+//        binding.frameLayout.visibility = View.GONE
+    }
+    private lateinit var binding: FragmentTransferBinding
     private val TAG = this::class.java.simpleName
     private var inputFragment: BottomSheetDialogFragment? = null
-    private val layoutFlag = FLAG_INCOME
     private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
 
     override fun onCreateView(
@@ -34,9 +38,11 @@ class IncomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentIncomeBinding.inflate(inflater, container, false)
+        binding = FragmentTransferBinding.inflate(inflater, container, false)
         binding.isImportant = false
         binding.isRepeat = false
+        binding.isShowFee = false
+
         return binding.root
     }
 
@@ -51,55 +57,59 @@ class IncomeFragment : Fragment() {
     }
 
     private fun setFocusChangeEvent() {
-        // 날짜, Date, 日付
-        binding.etDate.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                inputFragment = RegisterIncomeInputDateFragment(binding)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_DATE
-                )
-            }
-        }
-
-        // 자산, Asset,
-        binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                inputFragment = RegisterIncomeInputTextFragment(binding, FLAG_ASSET)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_ASSET
-                )
-            }
-        }
-
-        // 분류, Category, 分類
-        binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                inputFragment = RegisterIncomeInputTextFragment(binding, FLAG_CATEGORY)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_CATEGORY
-                )
-            }
-        }
-
-        // 금액, Amount, 金額
-        binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) RegisterIncomeInputAmountFragment(binding).show(
-                requireActivity().supportFragmentManager,
-                TAG_AMOUNT
-            )
-        }
-
-        binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) showKeyboard()
-        }
+//        // 날짜, Date, 日付
+//        binding.etDate.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) {
+//                inputFragment = RegisterTransferInputDateFragment(binding)
+//                inputFragment?.show(
+//                    requireActivity().supportFragmentManager,
+//                    TAG_DATE
+//                )
+//            }
+//        }
+//
+//        // 자산, Asset,
+//        binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) {
+//                inputFragment = RegisterTransferInputTextFragment(binding, FLAG_ASSET)
+//                inputFragment?.show(
+//                    requireActivity().supportFragmentManager,
+//                    TAG_ASSET
+//                )
+//            }
+//        }
+//
+//        // 분류, Category, 分類
+//        binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) {
+//                inputFragment = RegisterTransferInputTextFragment(binding, FLAG_CATEGORY)
+//                inputFragment?.show(
+//                    requireActivity().supportFragmentManager,
+//                    TAG_CATEGORY
+//                )
+//            }
+//        }
+//
+//        // 금액, Amount, 金額
+//        binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) RegisterTransferInputAmountFragment(binding).show(
+//                requireActivity().supportFragmentManager,
+//                TAG_AMOUNT
+//            )
+//        }
+//
+//        binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) showKeyboard()
+//        }
     }
 
     private fun setClickEvent() {
-        binding.btnDetailOnoff.setOnClickListener {
-            binding.isImportant = !binding.isImportant
+        binding.btnAmountFee.setOnClickListener {
+            binding.isShowFee = true
+        }
+
+        binding.btnCloseFee.setOnClickListener {
+            binding.isShowFee = false
         }
 
         binding.btnRepeat.setOnClickListener {
@@ -110,10 +120,13 @@ class IncomeFragment : Fragment() {
             }
         }
 
+        binding.btnDetailOnoff.setOnClickListener {
+            binding.isImportant = !binding.isImportant
+        }
+
         binding.layoutWrap.setOnClickListener {
             hideKeyboard()
         }
-
     }
 
     private fun disableKeyboard() {
@@ -190,16 +203,16 @@ class IncomeFragment : Fragment() {
     }
 
     companion object {
-        private var instance: IncomeFragment? = null
+        private var instance: TransferFragment? = null
 
         @JvmStatic
-        fun getInstance(): IncomeFragment {
+        fun getInstance(): TransferFragment {
             if (instance == null) {
-                instance = IncomeFragment()
-                return instance as IncomeFragment
+                instance = TransferFragment()
+                return instance as TransferFragment
             }
 
-            return instance as IncomeFragment
+            return instance as TransferFragment
         }
     }
 }

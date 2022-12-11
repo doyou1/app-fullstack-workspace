@@ -1,9 +1,10 @@
-package com.example.accountbookuisampling.registerinput.fragment
+package com.example.accountbookuisampling.register.fragment
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,97 +15,88 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
-import com.example.accountbookuisampling.databinding.FragmentTransferBinding
-import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputAmountFragment
-import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputDateFragment
-import com.example.accountbookuisampling.fragment.registerinput.transfer.RegisterTransferInputTextFragment
+import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
+import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAmountFragment
+import com.example.accountbookuisampling.registerinput.fragment.RegisterInputDateFragment
+import com.example.accountbookuisampling.registerinput.fragment.RegisterInputCategoryFragment
 import com.example.accountbookuisampling.util.*
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.textfield.TextInputEditText
 
-class TransferFragment : Fragment() {
+class IncomeFragment : BaseRegisterFragment() {
 
-    private lateinit var binding: FragmentTransferBinding
+    private lateinit var binding: FragmentIncomeBinding
     private val TAG = this::class.java.simpleName
-    private var inputFragment: BottomSheetDialogFragment? = null
     private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentIncomeBinding.inflate(inflater, container, false)
+        disableKeyboard()
+        return binding.root
+    }
 
-        binding = FragmentTransferBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.isImportant = false
         binding.isRepeat = false
-        binding.isShowFee = false
-
-        return binding.root
+        binding.etDate.setText(DateUtil.getTodayText())
     }
 
     override fun onResume() {
         super.onResume()
+        disableKeyboard()
         setFocusChangeEvent()
         setClickEvent()
-        disableKeyboard()
-
-        binding.etDate.setText(DateUtil.getTodayText())
-        binding.etAsset.requestFocus()
+//        binding.etAsset.post {
+//            if(!binding.etAsset.showSoftInputOnFocus) {
+//                binding.etAsset.requestFocus()
+//            }
+//        }
     }
 
     private fun setFocusChangeEvent() {
-        // 날짜, Date, 日付
         binding.etDate.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                inputFragment = RegisterTransferInputDateFragment(binding)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_DATE
-                )
+                showInputFragment(FLAG_DATE)
             }
         }
 
-        // 자산, Asset,
+        // Focusの際、またクリックすると
+        binding.etDate.setOnClickListener {
+            if (binding.etDate.hasFocus() && binding.frameLayout.visibility == View.GONE) {
+                binding.frameLayout.visibility == View.VISIBLE
+            }
+        }
         binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                inputFragment = RegisterTransferInputTextFragment(binding, FLAG_ASSET)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_ASSET
-                )
+                showInputFragment(FLAG_ASSET)
             }
         }
-
-        // 분류, Category, 分類
         binding.etCategory.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                inputFragment = RegisterTransferInputTextFragment(binding, FLAG_CATEGORY)
-                inputFragment?.show(
-                    requireActivity().supportFragmentManager,
-                    TAG_CATEGORY
-                )
+                showInputFragment(FLAG_CATEGORY)
             }
         }
-
-        // 금액, Amount, 金額
         binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) RegisterTransferInputAmountFragment(binding).show(
-                requireActivity().supportFragmentManager,
-                TAG_AMOUNT
-            )
+            if (hasFocus) {
+                showInputFragment(FLAG_AMOUNT)
+            }
         }
 
         binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) showKeyboard()
+            if (hasFocus) {
+                if (binding.frameLayout.visibility == View.VISIBLE) binding.frameLayout.visibility =
+                    View.GONE
+            }
         }
+
     }
 
     private fun setClickEvent() {
-        binding.btnAmountFee.setOnClickListener {
-            binding.isShowFee = true
-        }
-
-        binding.btnCloseFee.setOnClickListener {
-            binding.isShowFee = false
+        binding.btnDetailOnoff.setOnClickListener {
+            binding.isImportant = !binding.isImportant
         }
 
         binding.btnRepeat.setOnClickListener {
@@ -115,13 +107,49 @@ class TransferFragment : Fragment() {
             }
         }
 
-        binding.btnDetailOnoff.setOnClickListener {
-            binding.isImportant = !binding.isImportant
+        binding.layoutEditTextWrap.setOnClickListener {
+            hideCurrentInputView()
+            if (it !is TextInputEditText) {
+                hideKeyboard()
+            }
+        }
+    }
+
+    private fun showInputFragment(flag: Int) {
+
+        val transaction = childFragmentManager.beginTransaction()
+        val fragment = when (flag) {
+            FLAG_DATE -> {
+                // yyyyMMdd
+                RegisterInputDateFragment(binding.etDate.text.toString().substring(0, 8))
+            }
+            FLAG_ASSET -> {
+                RegisterInputCategoryFragment()
+            }
+            FLAG_CATEGORY -> {
+                RegisterInputCategoryFragment()
+            }
+            FLAG_AMOUNT -> {
+                RegisterInputAmountFragment()
+            }
+            else -> throw NotImplementedError()
         }
 
-        binding.layoutWrap.setOnClickListener {
-            hideKeyboard()
-        }
+        transaction.replace(binding.frameLayout.id, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+
+        // もし、キーボートが開いているとしたら
+        if (binding.frameLayout.visibility == View.GONE) binding.frameLayout.visibility =
+            View.VISIBLE
+    }
+
+    override fun changeDateFromChild(value: String) {
+        binding.etDate.setText(value)
+    }
+
+    override fun closeInputLayout() {
+        binding.frameLayout.visibility = View.GONE
     }
 
     private fun disableKeyboard() {
@@ -131,10 +159,9 @@ class TransferFragment : Fragment() {
         binding.etAmount.showSoftInputOnFocus = false
     }
 
-    private fun showKeyboard() {
-        val im =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        im.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+    private fun hideCurrentInputView() {
+        binding.frameLayout.visibility = View.GONE
+        binding.frameLayout.removeAllViews()
     }
 
     private fun hideKeyboard() {
@@ -142,11 +169,6 @@ class TransferFragment : Fragment() {
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         im.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
         requireActivity().currentFocus?.clearFocus()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        inputFragment?.dismiss()
     }
 
     private fun openSelectRepeatActivityResultLauncher() {
@@ -198,16 +220,16 @@ class TransferFragment : Fragment() {
     }
 
     companion object {
-        private var instance: TransferFragment? = null
+        private var instance: IncomeFragment? = null
 
         @JvmStatic
-        fun getInstance(): TransferFragment {
+        fun getInstance(): IncomeFragment {
             if (instance == null) {
-                instance = TransferFragment()
-                return instance as TransferFragment
+                instance = IncomeFragment()
+                return instance as IncomeFragment
             }
 
-            return instance as TransferFragment
+            return instance as IncomeFragment
         }
     }
 }
