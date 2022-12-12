@@ -9,6 +9,8 @@ import com.example.accountbookuisampling.databinding.ActivityAddAssetTextInputBi
 import com.example.accountbookuisampling.databinding.ActivityAddCategoryTextInputBinding
 import com.example.accountbookuisampling.util.FLAG_ASSET
 import com.example.accountbookuisampling.util.FLAG_CATEGORY
+import com.example.accountbookuisampling.util.TEXT_FLAG
+import com.example.accountbookuisampling.util.TEXT_ITEM
 
 class AddTextInputActivity: AppCompatActivity() {
 
@@ -18,7 +20,7 @@ class AddTextInputActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        when(intent.getIntExtra("flag", -1)) {
+        when(intent.getIntExtra(TEXT_FLAG, -1)) {
             FLAG_ASSET -> {
                 binding = ActivityAddAssetTextInputBinding.inflate(layoutInflater)
                 setAssetClickEvent()
@@ -40,7 +42,7 @@ class AddTextInputActivity: AppCompatActivity() {
         val _binding = binding as ActivityAddAssetTextInputBinding
         _binding.btnSave.setOnClickListener {
             val intent = Intent()
-            intent.putExtra("item", "추가1")
+            intent.putExtra(TEXT_ITEM, "추가1")
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
@@ -50,7 +52,7 @@ class AddTextInputActivity: AppCompatActivity() {
         val _binding = binding as ActivityAddCategoryTextInputBinding
         _binding.btnSave.setOnClickListener {
             val intent = Intent()
-            intent.putExtra("item", "추가1")
+            intent.putExtra(TEXT_ITEM, "추가1")
             setResult(Activity.RESULT_OK, intent)
             finish()
         }

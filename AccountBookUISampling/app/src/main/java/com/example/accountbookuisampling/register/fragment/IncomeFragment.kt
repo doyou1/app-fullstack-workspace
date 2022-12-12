@@ -17,6 +17,7 @@ import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.FragmentIncomeBinding
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAmountFragment
+import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAssetFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputDateFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputCategoryFragment
 import com.example.accountbookuisampling.util.*
@@ -115,7 +116,7 @@ class IncomeFragment : BaseRegisterFragment() {
                 RegisterInputDateFragment(binding.etDate.text.toString().substring(0, 8))
             }
             FLAG_ASSET -> {
-                RegisterInputCategoryFragment()
+                RegisterInputAssetFragment()
             }
             FLAG_CATEGORY -> {
                 RegisterInputCategoryFragment()
@@ -137,6 +138,22 @@ class IncomeFragment : BaseRegisterFragment() {
 
     override fun changeDateFromChild(value: String) {
         binding.etDate.setText(value)
+    }
+
+    override fun changeInputTextFromChild(value: String, flag: Int) {
+        when(flag) {
+            FLAG_ASSET -> {
+                binding.etAsset.setText(value)
+                binding.etAsset.clearFocus()
+                if(binding.etCategory.text.toString().isEmpty()) binding.etCategory.requestFocus()
+                else if(binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+            }
+            FLAG_CATEGORY -> {
+                binding.etCategory.setText(value)
+                binding.etCategory.clearFocus()
+                if(binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+            }
+        }
     }
 
     override fun closeInputLayout() {

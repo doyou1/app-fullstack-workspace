@@ -112,6 +112,8 @@ const val TEXT_INSTALLMENT = "할부"
 
 const val TEXT_AM = "오전"
 const val TEXT_PM = "오후"
+const val TEXT_FLAG = "flag"
+const val TEXT_ITEM = "item"
 
 val CALCULATOR_ITEM_LIST = arrayOf(
     TEXT_DIVIDE,
