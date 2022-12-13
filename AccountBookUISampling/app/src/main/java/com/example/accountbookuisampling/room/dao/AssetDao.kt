@@ -15,6 +15,9 @@ interface AssetDao {
     @Insert
     fun insert(asset: Asset)
 
+    @Insert
+    fun insertAll(assets: ArrayList<Asset>)
+
     @Update
     fun update(asset: Asset)
 

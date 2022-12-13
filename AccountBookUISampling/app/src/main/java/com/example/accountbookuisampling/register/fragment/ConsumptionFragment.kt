@@ -28,6 +28,7 @@ class ConsumptionFragment : BaseRegisterFragment() {
     private val TAG = this::class.java.simpleName
     private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
     private val selectInstallmentActivityResultLauncher = getSelectInstallmentActivityResultLauncher()
+    override var currentView: Int = FLAG_CONSUMPTION
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

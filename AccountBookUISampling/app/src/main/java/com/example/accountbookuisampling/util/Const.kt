@@ -1,11 +1,14 @@
 package com.example.accountbookuisampling.util
 
 import android.graphics.Color
+import androidx.room.PrimaryKey
 import com.example.accountbookuisampling.main.viewmodel.CalendarViewModel
 import com.example.accountbookuisampling.main.viewmodel.DayViewModel
 import com.example.accountbookuisampling.main.viewmodel.MonthViewModel
 import com.example.accountbookuisampling.main.viewmodel.WeekViewModel
 import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
+import com.example.accountbookuisampling.room.entities.Asset
+import com.example.accountbookuisampling.room.entities.Category
 
 const val DB_NAME = "AccountBook"
 
@@ -110,6 +113,7 @@ const val TEXT_CONFIRM = "확인"
 const val TEXT_MONTHS = "개월"
 const val TEXT_INSTALLMENT = "할부"
 
+const val TEXT_CURRENT_VIEW = "currentView"
 const val TEXT_AM = "오전"
 const val TEXT_PM = "오후"
 const val TEXT_FLAG = "flag"
@@ -138,6 +142,7 @@ val CALCULATOR_ITEM_LIST = arrayOf(
     TEXT_CONFIRM
 )
 
+const val TEXT_INIT = "init"
 const val TEXT_NONE = "없음"
 const val TEXT_EVERY_DAY = "매일"
 const val TEXT_EVERY_WEEK = "매주"
@@ -364,3 +369,80 @@ val INPUT_DATE_HEAD_LIST = arrayOf(
     InputDateItem(TYPE_CALENDAR_HEAD, 5, ""),
     InputDateItem(TYPE_CALENDAR_HEAD, 6, "")
 )
+
+val INIT_ASSET_LIST = arrayListOf<Asset>(
+    Asset(
+        0,
+        0,
+        0,
+        "현금",
+        100,
+        "memo1"
+    ),
+    Asset(
+        1,
+        1,
+        0,
+        "은행",
+        100,
+        "memo2"
+    ),
+    Asset(
+        2,
+        2,
+        0,
+        "카드",
+        100,
+        "memo3"
+    ),
+    Asset(
+        -1,
+        -1,
+        -1,
+        "추가",
+        -1,
+        null
+    )
+)
+
+val INIT_CATEGORY_LIST = arrayListOf<Category>(
+    Category(
+        0,
+        2,
+        "월급"
+    ),
+    Category(
+        1,
+        2,
+        "부수입"
+    ),
+    Category(
+        2,
+        2,
+        "용돈"
+    ),
+    Category(
+        3,
+        2,
+        "상여"
+    ),
+    Category(
+        4,
+        2,
+        "금융소득"
+    ),
+    Category(
+        5,
+        2,
+        "기타"
+    ),
+    Category(
+        6,
+        -1,
+        "추가"
+    ),
+)
+
+const val TEXT_GROUP_ID = "groupId"
+const val TEXT_NAME = "name"
+const val TEXT_MEMO = "memo"

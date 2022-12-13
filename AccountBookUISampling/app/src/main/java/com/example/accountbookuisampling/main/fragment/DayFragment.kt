@@ -42,7 +42,7 @@ class DayFragment(private val currentDate: String?) : Fragment() {
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-             val list = (requireActivity().application as BaseApplication).historyDao.getByDate(currentDate)
+//             val list = (requireActivity().application as BaseApplication).historyDao.getByDate(currentDate)
             lifecycleScope.launch(Dispatchers.Main) {
             (requireActivity() as MainActivity).updateSummary(1000, 2000, 1000 - 2000)
             }

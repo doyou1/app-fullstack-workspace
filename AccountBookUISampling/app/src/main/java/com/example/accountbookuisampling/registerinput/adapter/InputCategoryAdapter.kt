@@ -7,9 +7,10 @@ import com.example.accountbookuisampling.databinding.RvItemTextInputBinding
 import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
 import com.example.accountbookuisampling.registerinput.fragment.BaseRegisterInputFragment
 import com.example.accountbookuisampling.room.entities.Asset
+import com.example.accountbookuisampling.room.entities.Category
 import com.example.accountbookuisampling.util.TEXT_ADD
 
-class InputAssetAdapter(private val list: ArrayList<Asset>, private val fragment: BaseRegisterInputFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class InputCategoryAdapter(private val list: ArrayList<Category>, private val fragment: BaseRegisterInputFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val _list = list
     private val TAG = this::class.java.simpleName
@@ -35,7 +36,7 @@ class InputAssetAdapter(private val list: ArrayList<Asset>, private val fragment
     inner class TextInputViewHolder(private val binding: RvItemTextInputBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Asset) {
+        fun bind(item: Category) {
             binding.btnInput.text = item.name
             binding.btnInput.setOnClickListener {
                 if (item.name == TEXT_ADD) {

@@ -11,25 +11,26 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputAssetBinding
+import com.example.accountbookuisampling.main.activity.MainActivity
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
 import com.example.accountbookuisampling.registerinput.activity.AddTextInputActivity
 import com.example.accountbookuisampling.registerinput.adapter.InputAssetAdapter
+import com.example.accountbookuisampling.room.entities.Asset
 import com.example.accountbookuisampling.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RegisterInputAssetFragment : BaseRegisterInputFragment() {
 
     private lateinit var binding: FragmentRegisterInputAssetBinding
     private val TAG = this::class.java.simpleName
     private val addTextInputActivityResultLauncher = getAddTextInputActivityResultLauncher()
-    private val assetList = arrayListOf(
-        "현금",
-        "은행",
-        "카드",
-        "추가"
-    )
+    private val _list = ArrayList<Asset>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +45,7 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
         super.onResume()
 
         setClickEvent()
+        setData()
         setView()
     }
 
@@ -60,16 +62,28 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
         binding.btnClose.setOnClickListener {
             (requireParentFragment() as BaseRegisterFragment).closeInputLayout()
         }
+    }
 
+    private fun setData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+//            val list = (requireActivity().application as BaseApplication).assetDao.getAll()
+            lifecycleScope.launch(Dispatchers.Main) {
+//                (requireActivity() as MainActivity).updateSummary(1000, 2000, 1000 - 2000)
+            }
+        }
 
     }
 
     private fun setView() {
         binding.tvTitle.text = TEXT_ASSET
 
+        if (_list.isEmpty()) {
+            _list.addAll(INIT_ASSET_LIST)
+        }
+
         setLayoutManager()
         binding.recyclerView.adapter =
-            InputAssetAdapter(assetList, this)
+            InputAssetAdapter(_list, this)
     }
 
     private fun setLayoutManager() {
@@ -115,10 +129,20 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    assetList.add(assetList.size - 1, data.getStringExtra(TEXT_ITEM)!!)
-                    binding.recyclerView.adapter?.notifyDataSetChanged()
-                }
+                    val groupId = data.getIntExtra(TEXT_GROUP_ID, -1)
+                    val name = data.getStringExtra(TEXT_NAME)
+                    val amount = data.getIntExtra(TEXT_AMOUNT, -1)
+                    val memo = data.getStringExtra(TEXT_MEMO)
 
+                    if (!(groupId == -1 || name.isNullOrEmpty() || amount == -1)) {
+//                        val level = 0
+//                        val item = Asset(0, groupId, level, name, amount, memo)
+//                        (requireActivity().application as BaseApplication).assetDao.insert(item)
+//                        _list.add(_list.size - 1, item)
+//                        binding.recyclerView.adapter?.notifyDataSetChanged()
+                    }
+
+                }
             }
         }
     }

@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.accountbookuisampling.R
@@ -28,6 +30,7 @@ class IncomeFragment : BaseRegisterFragment() {
     private lateinit var binding: FragmentIncomeBinding
     private val TAG = this::class.java.simpleName
     private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
+    override var currentView: Int = FLAG_INCOME
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +52,7 @@ class IncomeFragment : BaseRegisterFragment() {
         super.onResume()
         setFocusChangeEvent()
         setClickEvent()
+        setBackPressEvent()
     }
 
     private fun setFocusChangeEvent() {
@@ -105,6 +109,15 @@ class IncomeFragment : BaseRegisterFragment() {
                 hideKeyboard()
             }
         }
+    }
+
+    private fun setBackPressEvent() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if(binding.frameLayout.visibility == View.VISIBLE) {
+                hideCurrentInputView()
+            }
+        }
+
     }
 
     private fun showInputFragment(flag: Int) {

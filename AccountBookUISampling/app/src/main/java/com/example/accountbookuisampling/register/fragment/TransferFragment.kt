@@ -28,6 +28,7 @@ class TransferFragment : BaseRegisterFragment() {
     private lateinit var binding: FragmentTransferBinding
     private val TAG = this::class.java.simpleName
     private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
+    override var currentView: Int = FLAG_TRANSFER
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

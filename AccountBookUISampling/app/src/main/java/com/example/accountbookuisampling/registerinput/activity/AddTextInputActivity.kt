@@ -7,15 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import com.example.accountbookuisampling.databinding.ActivityAddAssetTextInputBinding
 import com.example.accountbookuisampling.databinding.ActivityAddCategoryTextInputBinding
-import com.example.accountbookuisampling.util.FLAG_ASSET
-import com.example.accountbookuisampling.util.FLAG_CATEGORY
-import com.example.accountbookuisampling.util.TEXT_FLAG
-import com.example.accountbookuisampling.util.TEXT_ITEM
+import com.example.accountbookuisampling.util.*
 
 class AddTextInputActivity: AppCompatActivity() {
 
     private lateinit var binding: ViewDataBinding
     private val TAG = this::class.java.simpleName
+    private var currentView = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,16 +31,18 @@ class AddTextInputActivity: AppCompatActivity() {
                 throw NotImplementedError()
             }
         }
-
+        currentView = intent.getIntExtra(TEXT_CURRENT_VIEW, -1)
         setContentView(binding.root)
-
     }
 
     private fun setAssetClickEvent() {
         val _binding = binding as ActivityAddAssetTextInputBinding
         _binding.btnSave.setOnClickListener {
             val intent = Intent()
-            intent.putExtra(TEXT_ITEM, "추가1")
+            intent.putExtra(TEXT_GROUP_ID, 0)
+            intent.putExtra(TEXT_NAME, "NAME")
+            intent.putExtra(TEXT_AMOUNT, 100)
+            intent.putExtra(TEXT_MEMO, "MEMO")
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
@@ -52,7 +52,9 @@ class AddTextInputActivity: AppCompatActivity() {
         val _binding = binding as ActivityAddCategoryTextInputBinding
         _binding.btnSave.setOnClickListener {
             val intent = Intent()
-            intent.putExtra(TEXT_ITEM, "추가1")
+            intent.putExtra(TEXT_NAME, "NAME")
+            intent.putExtra(TEXT_CURRENT_VIEW, currentView)
+
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
