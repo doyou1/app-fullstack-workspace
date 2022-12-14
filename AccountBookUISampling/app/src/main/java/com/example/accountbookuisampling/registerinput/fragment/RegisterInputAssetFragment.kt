@@ -10,15 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputAssetBinding
-import com.example.accountbookuisampling.main.activity.MainActivity
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
-import com.example.accountbookuisampling.registerinput.activity.AddTextInputActivity
+import com.example.accountbookuisampling.registerinput.activity.AddAssetInputActivity
 import com.example.accountbookuisampling.registerinput.adapter.InputAssetAdapter
 import com.example.accountbookuisampling.room.entities.Asset
 import com.example.accountbookuisampling.util.*
@@ -71,7 +68,6 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
 //                (requireActivity() as MainActivity).updateSummary(1000, 2000, 1000 - 2000)
             }
         }
-
     }
 
     private fun setView() {
@@ -109,9 +105,8 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
     override fun openAddTextInputActivityResultLauncher() {
         val intent = Intent(
             requireContext(),
-            AddTextInputActivity::class.java
+            AddAssetInputActivity::class.java
         )
-        intent.putExtra(TEXT_FLAG, FLAG_ASSET)
         addTextInputActivityResultLauncher.launch(
             intent
         )

@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.registerinput.adapter.SelectRepeatRVAdapter
+import com.example.accountbookuisampling.registerinput.adapter.SelectRepeatAdapter
 import com.example.accountbookuisampling.databinding.ActivitySelectRepeatBinding
 import com.example.accountbookuisampling.util.REPEAT_ITEM_LIST
 
@@ -39,7 +39,7 @@ class SelectRepeatActivity: AppCompatActivity() {
     private fun setRecyclerView() {
         // set recycler view
         binding.recyclerView.layoutManager = getLayoutManager(1)
-        binding.recyclerView.adapter = SelectRepeatRVAdapter(REPEAT_ITEM_LIST, this)
+        binding.recyclerView.adapter = SelectRepeatAdapter(REPEAT_ITEM_LIST, this)
     }
 
     private fun getLayoutManager(span: Int): GridLayoutManager {

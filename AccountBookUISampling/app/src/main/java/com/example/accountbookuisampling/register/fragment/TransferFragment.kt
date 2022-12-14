@@ -132,7 +132,7 @@ class TransferFragment : BaseRegisterFragment() {
                 RegisterInputCategoryFragment()
             }
             FLAG_AMOUNT -> {
-                RegisterInputAmountFragment()
+                RegisterInputAmountFragment(binding.etAmount.text.toString())
             }
             else -> throw NotImplementedError()
         }

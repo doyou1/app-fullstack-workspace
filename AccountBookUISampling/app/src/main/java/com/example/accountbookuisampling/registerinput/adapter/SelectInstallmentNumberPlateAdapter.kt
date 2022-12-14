@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.databinding.*
 import com.example.accountbookuisampling.util.*
 
-class SelectInstallmentNumberPlateRVAdapter(
+class SelectInstallmentNumberPlateAdapter(
     numberPlateList: Array<String>,
     private val parentBinding: ActivitySelectInstallmentBinding
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

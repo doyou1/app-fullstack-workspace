@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.accountbookuisampling.registerinput.adapter.SelectInstallmentNumberPlateRVAdapter
+import com.example.accountbookuisampling.registerinput.adapter.SelectInstallmentNumberPlateAdapter
 import com.example.accountbookuisampling.databinding.ActivitySelectInstallmentBinding
 import com.example.accountbookuisampling.util.*
 
@@ -50,7 +50,7 @@ class SelectInstallmentActivity: AppCompatActivity() {
     private fun setRecyclerView() {
         // set recycler view
         binding.recyclerView.layoutManager = getLayoutManager(INPUT_ITEM_VIEW_SPAN_COUNT)
-        binding.recyclerView.adapter = SelectInstallmentNumberPlateRVAdapter(NUMBER_PLATE_LIST, binding)
+        binding.recyclerView.adapter = SelectInstallmentNumberPlateAdapter(NUMBER_PLATE_LIST, binding)
     }
 
     private fun getLayoutManager(span: Int): GridLayoutManager {

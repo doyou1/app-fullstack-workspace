@@ -3,17 +3,14 @@ package com.example.accountbookuisampling.registerinput.fragment
 import android.animation.ObjectAnimator
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.postDelayed
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputDateBinding
-import com.example.accountbookuisampling.register.activity.RegisterActivity
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
-import com.example.accountbookuisampling.registerinput.adapter.InputDateRVAdapter
+import com.example.accountbookuisampling.registerinput.adapter.InputDateAdapter
 import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
 import com.example.accountbookuisampling.util.*
 
@@ -74,7 +71,7 @@ class RegisterInputDateFragment(private val date: String) : BaseRegisterInputFra
         list.addAll(INPUT_DATE_HEAD_LIST)
         list.addAll(contentList)
 
-        binding.recyclerView.adapter = InputDateRVAdapter(_date, list, this)
+        binding.recyclerView.adapter = InputDateAdapter(_date, list, this)
         binding.recyclerView.setOnTouchListener(object :
             OnSwipeTouchListener(requireParentFragment().requireActivity()) {
             override fun onSwipeLeftToRight() {

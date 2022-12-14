@@ -13,7 +13,7 @@ import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
 import com.example.accountbookuisampling.registerinput.fragment.BaseRegisterInputFragment
 import com.example.accountbookuisampling.util.*
 
-class InputDateRVAdapter(private val date: String, private val list: ArrayList<InputDateItem>, private val fragment: BaseRegisterInputFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class InputDateAdapter(private val date: String, private val list: ArrayList<InputDateItem>, private val fragment: BaseRegisterInputFragment) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val _list = list
     private val TAG = this::class.java.simpleName

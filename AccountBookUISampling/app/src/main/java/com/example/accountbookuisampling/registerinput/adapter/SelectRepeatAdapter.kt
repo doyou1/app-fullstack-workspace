@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.*
 
-class SelectRepeatRVAdapter(
+class SelectRepeatAdapter(
     repeatList: Array<String>,
     private val parentActivity: SelectRepeatActivity
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

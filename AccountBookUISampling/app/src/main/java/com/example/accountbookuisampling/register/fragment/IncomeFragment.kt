@@ -62,11 +62,11 @@ class IncomeFragment : BaseRegisterFragment() {
             }
         }
         // Focusの際、またクリックすると
-        binding.etDate.setOnClickListener {
-            if (binding.etDate.hasFocus() && binding.frameLayout.visibility == View.GONE) {
-                binding.frameLayout.visibility == View.VISIBLE
-            }
-        }
+//        binding.etDate.setOnClickListener {
+//            if (binding.etDate.hasFocus() && binding.frameLayout.visibility == View.GONE) {
+//                binding.frameLayout.visibility == View.VISIBLE
+//            }
+//        }
         binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showInputFragment(FLAG_ASSET)
@@ -113,7 +113,7 @@ class IncomeFragment : BaseRegisterFragment() {
 
     private fun setBackPressEvent() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            if(binding.frameLayout.visibility == View.VISIBLE) {
+            if (binding.frameLayout.visibility == View.VISIBLE) {
                 hideCurrentInputView()
             }
         }
@@ -135,7 +135,7 @@ class IncomeFragment : BaseRegisterFragment() {
                 RegisterInputCategoryFragment()
             }
             FLAG_AMOUNT -> {
-                RegisterInputAmountFragment()
+                RegisterInputAmountFragment(binding.etAmount.text.toString())
             }
             else -> throw NotImplementedError()
         }
@@ -154,19 +154,25 @@ class IncomeFragment : BaseRegisterFragment() {
     }
 
     override fun changeInputTextFromChild(value: String, flag: Int) {
-        when(flag) {
+        when (flag) {
             FLAG_ASSET -> {
                 binding.etAsset.setText(value)
                 binding.etAsset.clearFocus()
-                if(binding.etCategory.text.toString().isEmpty()) binding.etCategory.requestFocus()
-                else if(binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+                if (binding.etCategory.text.toString().isEmpty()) binding.etCategory.requestFocus()
+                else if (binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
             }
             FLAG_CATEGORY -> {
                 binding.etCategory.setText(value)
                 binding.etCategory.clearFocus()
-                if(binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+                if (binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
             }
         }
+    }
+
+    override fun changeInputAmountFromChild(value: String) {
+        binding.etAmount.setText(value)
+        binding.etAmount.clearFocus()
+        if (binding.etDetail.text.toString().isEmpty()) binding.etDetail.requestFocus()
     }
 
     override fun closeInputLayout() {
