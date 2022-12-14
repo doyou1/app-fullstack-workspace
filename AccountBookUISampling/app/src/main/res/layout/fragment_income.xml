@@ -227,7 +227,6 @@
                             android:id="@+id/et_detail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:imeOptions="actionSend"
                             android:inputType="text"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -261,15 +260,13 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/layout_detail"
-                        app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent"
-                        >
+                        app:layout_constraintWidth_percent="@dimen/input_box_outer_width_percent">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_addition_detail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/text_addition_detail"
-                            android:imeOptions="actionSend"
                             android:inputType="text"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -340,19 +337,21 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <FrameLayout
+                        android:id="@+id/frame_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:elevation="1dp"
+                        android:translationZ="1dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/layout_amount"
+                        app:layout_constraintVertical_bias="1" />
 
-                <FrameLayout
-                    android:id="@+id/frame_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1"
-                    />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
