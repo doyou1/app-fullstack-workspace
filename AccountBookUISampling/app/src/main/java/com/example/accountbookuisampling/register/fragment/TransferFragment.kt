@@ -11,12 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.FragmentTransferBinding
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAmountFragment
+import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAssetFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputCategoryFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputDateFragment
 import com.example.accountbookuisampling.util.*
@@ -51,18 +53,13 @@ class TransferFragment : BaseRegisterFragment() {
         super.onResume()
         setFocusChangeEvent()
         setClickEvent()
+        setBackPressEvent()
     }
 
     private fun setFocusChangeEvent() {
         binding.etDate.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showInputFragment(FLAG_DATE)
-            }
-        }
-        // Focusの際、またクリックすると
-        binding.etDate.setOnClickListener {
-            if (binding.etDate.hasFocus() && binding.frameLayout.visibility == View.GONE) {
-                binding.frameLayout.visibility == View.VISIBLE
             }
         }
         binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
@@ -78,6 +75,11 @@ class TransferFragment : BaseRegisterFragment() {
         binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showInputFragment(FLAG_AMOUNT)
+            }
+        }
+        binding.etFee.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                showInputFragment(FLAG_FEE)
             }
         }
         binding.etDetail.setOnFocusChangeListener { _, hasFocus ->
@@ -117,6 +119,16 @@ class TransferFragment : BaseRegisterFragment() {
         }
     }
 
+    private fun setBackPressEvent() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (binding.frameLayout.visibility == View.VISIBLE) {
+                hideCurrentInputView()
+            } else {
+                requireActivity().finish()
+            }
+        }
+    }
+
     private fun showInputFragment(flag: Int) {
 
         val transaction = childFragmentManager.beginTransaction()
@@ -126,13 +138,16 @@ class TransferFragment : BaseRegisterFragment() {
                 RegisterInputDateFragment(binding.etDate.text.toString().substring(0, 8))
             }
             FLAG_ASSET -> {
-                RegisterInputCategoryFragment()
+                RegisterInputAssetFragment()
             }
             FLAG_CATEGORY -> {
                 RegisterInputCategoryFragment()
             }
             FLAG_AMOUNT -> {
-                RegisterInputAmountFragment(binding.etAmount.text.toString())
+                RegisterInputAmountFragment(binding.etAmount.text.toString(), FLAG_AMOUNT)
+            }
+            FLAG_FEE -> {
+                RegisterInputAmountFragment(binding.etFee.text.toString(), FLAG_FEE)
             }
             else -> throw NotImplementedError()
         }
@@ -150,6 +165,33 @@ class TransferFragment : BaseRegisterFragment() {
         binding.etDate.setText(value)
     }
 
+    override fun changeInputTextFromChild(value: String, flag: Int) {
+        when (flag) {
+            FLAG_ASSET -> {
+                binding.etAsset.setText(value)
+                binding.etAsset.clearFocus()
+                if (binding.etCategory.text.toString().isEmpty()) binding.etCategory.requestFocus()
+                else if (binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+            }
+            FLAG_CATEGORY -> {
+                binding.etCategory.setText(value)
+                binding.etCategory.clearFocus()
+                if (binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+            }
+        }
+    }
+
+    override fun changeInputAmountFromChild(value: String, flag: Int) {
+        if(flag == FLAG_AMOUNT) {
+            binding.etAmount.setText(value)
+            binding.etAmount.clearFocus()
+        } else if(flag == FLAG_FEE) {
+            binding.etFee.setText(value)
+            binding.etFee.clearFocus()
+        }
+        if (binding.etDetail.text.toString().isEmpty()) binding.etDetail.requestFocus()
+    }
+
     override fun closeInputLayout() {
         hideCurrentInputView()
     }
@@ -159,6 +201,7 @@ class TransferFragment : BaseRegisterFragment() {
         binding.etAsset.showSoftInputOnFocus = false
         binding.etCategory.showSoftInputOnFocus = false
         binding.etAmount.showSoftInputOnFocus = false
+        binding.etFee.showSoftInputOnFocus = false
     }
 
     private fun hideCurrentInputView() {

@@ -39,6 +39,7 @@ const val FLAG_DATE = 1
 const val FLAG_ASSET = 2
 const val FLAG_CATEGORY = 3
 const val FLAG_AMOUNT = 4
+const val FLAG_FEE = 0
 
 const val FLAG_INCOME = 5
 const val FLAG_CONSUMPTION = 6

@@ -19,7 +19,7 @@ import com.example.accountbookuisampling.util.TEXT_AMOUNT
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RegisterInputAmountFragment(private val amount: String) : BaseRegisterInputFragment() {
+class RegisterInputAmountFragment(private val amount: String, private val flag: Int) : BaseRegisterInputFragment() {
 
     private lateinit var binding: FragmentRegisterInputAmountBinding
 
@@ -91,7 +91,7 @@ class RegisterInputAmountFragment(private val amount: String) : BaseRegisterInpu
 
     override fun confirmInputAmount(value: String) {
         (requireParentFragment() as BaseRegisterFragment).changeInputAmountFromChild(
-            value
+            value, flag
         )
     }
 

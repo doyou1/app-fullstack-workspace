@@ -61,12 +61,6 @@ class IncomeFragment : BaseRegisterFragment() {
                 showInputFragment(FLAG_DATE)
             }
         }
-        // Focusの際、またクリックすると
-//        binding.etDate.setOnClickListener {
-//            if (binding.etDate.hasFocus() && binding.frameLayout.visibility == View.GONE) {
-//                binding.frameLayout.visibility == View.VISIBLE
-//            }
-//        }
         binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showInputFragment(FLAG_ASSET)
@@ -115,9 +109,10 @@ class IncomeFragment : BaseRegisterFragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (binding.frameLayout.visibility == View.VISIBLE) {
                 hideCurrentInputView()
+            } else {
+                requireActivity().finish()
             }
         }
-
     }
 
     private fun showInputFragment(flag: Int) {
@@ -135,7 +130,7 @@ class IncomeFragment : BaseRegisterFragment() {
                 RegisterInputCategoryFragment()
             }
             FLAG_AMOUNT -> {
-                RegisterInputAmountFragment(binding.etAmount.text.toString())
+                RegisterInputAmountFragment(binding.etAmount.text.toString(), FLAG_AMOUNT)
             }
             else -> throw NotImplementedError()
         }
@@ -169,7 +164,7 @@ class IncomeFragment : BaseRegisterFragment() {
         }
     }
 
-    override fun changeInputAmountFromChild(value: String) {
+    override fun changeInputAmountFromChild(value: String, flag: Int) {
         binding.etAmount.setText(value)
         binding.etAmount.clearFocus()
         if (binding.etDetail.text.toString().isEmpty()) binding.etDetail.requestFocus()

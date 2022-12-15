@@ -9,6 +9,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.accountbookuisampling.R
@@ -16,6 +17,7 @@ import com.example.accountbookuisampling.registerinput.activity.SelectInstallmen
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.FragmentConsumptionBinding
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAmountFragment
+import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAssetFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputCategoryFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputDateFragment
 import com.example.accountbookuisampling.util.*
@@ -50,18 +52,13 @@ class ConsumptionFragment : BaseRegisterFragment() {
         super.onResume()
         setFocusChangeEvent()
         setClickEvent()
+        setBackPressEvent()
     }
 
     private fun setFocusChangeEvent() {
         binding.etDate.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 showInputFragment(FLAG_DATE)
-            }
-        }
-        // Focusの際、またクリックすると
-        binding.etDate.setOnClickListener {
-            if (binding.etDate.hasFocus() && binding.frameLayout.visibility == View.GONE) {
-                binding.frameLayout.visibility == View.VISIBLE
             }
         }
         binding.etAsset.setOnFocusChangeListener { _, hasFocus ->
@@ -108,6 +105,16 @@ class ConsumptionFragment : BaseRegisterFragment() {
         }
     }
 
+    private fun setBackPressEvent() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (binding.frameLayout.visibility == View.VISIBLE) {
+                hideCurrentInputView()
+            } else {
+                requireActivity().finish()
+            }
+        }
+    }
+
     private fun showInputFragment(flag: Int) {
 
         val transaction = childFragmentManager.beginTransaction()
@@ -117,13 +124,13 @@ class ConsumptionFragment : BaseRegisterFragment() {
                 RegisterInputDateFragment(binding.etDate.text.toString().substring(0, 8))
             }
             FLAG_ASSET -> {
-                RegisterInputCategoryFragment()
+                RegisterInputAssetFragment()
             }
             FLAG_CATEGORY -> {
                 RegisterInputCategoryFragment()
             }
             FLAG_AMOUNT -> {
-                RegisterInputAmountFragment(binding.etAmount.text.toString())
+                RegisterInputAmountFragment(binding.etAmount.text.toString(), FLAG_AMOUNT)
             }
             else -> throw NotImplementedError()
         }
@@ -139,6 +146,28 @@ class ConsumptionFragment : BaseRegisterFragment() {
 
     override fun changeDateFromChild(value: String) {
         binding.etDate.setText(value)
+    }
+
+    override fun changeInputTextFromChild(value: String, flag: Int) {
+        when (flag) {
+            FLAG_ASSET -> {
+                binding.etAsset.setText(value)
+                binding.etAsset.clearFocus()
+                if (binding.etCategory.text.toString().isEmpty()) binding.etCategory.requestFocus()
+                else if (binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+            }
+            FLAG_CATEGORY -> {
+                binding.etCategory.setText(value)
+                binding.etCategory.clearFocus()
+                if (binding.etAmount.text.toString().isEmpty()) binding.etAmount.requestFocus()
+            }
+        }
+    }
+
+    override fun changeInputAmountFromChild(value: String, flag: Int) {
+        binding.etAmount.setText(value)
+        binding.etAmount.clearFocus()
+        if (binding.etDetail.text.toString().isEmpty()) binding.etDetail.requestFocus()
     }
 
     override fun closeInputLayout() {
