@@ -45,9 +45,9 @@ class MonthFragment(private val currentDate: String?) : Fragment() {
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val currentYear = currentDate?.substring(0, 4)
-            val list =
-                (requireActivity().application as BaseApplication).historyDao.getByDate(currentYear)
+//            val currentYear = currentDate?.substring(0, 4)
+//            val list =
+//                (requireActivity().application as BaseApplication).historyDao.getByDate(currentYear)
             lifecycleScope.launch(Dispatchers.Main) {
                 (requireActivity() as MainActivity).updateSummary(1, 2, 1 - 2)
             }

@@ -43,11 +43,11 @@ class WeekFragment(private val currentDate: String?) : Fragment() {
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val currentYearMonth = currentDate?.substring(0, 6)
-            val list =
-                (requireActivity().application as BaseApplication).historyDao.getByDate(
-                    currentYearMonth
-                )
+//            val currentYearMonth = currentDate?.substring(0, 6)
+//            val list =
+//                (requireActivity().application as BaseApplication).historyDao.getByDate(
+//                    currentYearMonth
+//                )
             lifecycleScope.launch(Dispatchers.Main) {
                 (requireActivity() as MainActivity).updateSummary(300, 200, 300 - 200)
             }
