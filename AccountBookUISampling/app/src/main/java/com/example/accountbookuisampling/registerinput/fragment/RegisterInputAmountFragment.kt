@@ -2,6 +2,7 @@ package com.example.accountbookuisampling.registerinput.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputAmountBinding
+import com.example.accountbookuisampling.main.activity.MainActivity
+import com.example.accountbookuisampling.register.activity.RegisterActivity
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
+import com.example.accountbookuisampling.registerinput.activity.AddAssetInputActivity
 import com.example.accountbookuisampling.registerinput.adapter.InputCalculateAdapter
 import com.example.accountbookuisampling.util.CALCULATOR_ITEM_LIST
 import com.example.accountbookuisampling.util.FLAG_ASSET
@@ -22,6 +26,7 @@ import kotlinx.coroutines.launch
 class RegisterInputAmountFragment(private val amount: String, private val flag: Int) : BaseRegisterInputFragment() {
 
     private lateinit var binding: FragmentRegisterInputAmountBinding
+    private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,9 +95,14 @@ class RegisterInputAmountFragment(private val amount: String, private val flag: 
     }
 
     override fun confirmInputAmount(value: String) {
-        (requireParentFragment() as BaseRegisterFragment).changeInputAmountFromChild(
-            value, flag
-        )
+        if(requireActivity() is RegisterActivity) {
+            (requireParentFragment() as BaseRegisterFragment).changeInputAmountFromChild(
+                value, flag
+            )
+        }
+        else if(requireActivity() is AddAssetInputActivity) {
+            (requireActivity() as AddAssetInputActivity).changeInputAmount(value)
+        }
     }
 
     override fun getInputAmountValue(): String {

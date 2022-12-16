@@ -13,12 +13,12 @@ class AddCategoryInputActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityAddCategoryTextInputBinding
     private val TAG = this::class.java.simpleName
-    private var currentView = -1
+//    private var currentView = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddCategoryTextInputBinding.inflate(layoutInflater)
-        currentView = intent.getIntExtra(TEXT_CURRENT_VIEW, -1)
+//        currentView = intent.getIntExtra(TEXT_CURRENT_VIEW, -1)
         setContentView(binding.root)
     }
 
@@ -31,7 +31,7 @@ class AddCategoryInputActivity: AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val intent = Intent()
             intent.putExtra(TEXT_NAME, "NAME")
-            intent.putExtra(TEXT_CURRENT_VIEW, currentView)
+//            intent.putExtra(TEXT_CURRENT_VIEW, currentView)
 
             setResult(Activity.RESULT_OK, intent)
             finish()

@@ -25,6 +25,11 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".registerinput.activity.AddAssetInputActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity
+            android:name=".registerinput.activity.AddCategoryInputActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".registerinput.activity.SelectRepeatActivity"

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputCategoryBinding
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
 import com.example.accountbookuisampling.registerinput.activity.AddAssetInputActivity
+import com.example.accountbookuisampling.registerinput.activity.AddCategoryInputActivity
 import com.example.accountbookuisampling.registerinput.adapter.InputCategoryAdapter
 import com.example.accountbookuisampling.room.entities.Category
 import com.example.accountbookuisampling.util.*
@@ -99,11 +100,7 @@ class RegisterInputCategoryFragment : BaseRegisterInputFragment() {
     override fun openAddTextInputActivityResultLauncher() {
         val intent = Intent(
             requireContext(),
-            AddAssetInputActivity::class.java
-        )
-        intent.putExtra(TEXT_FLAG, FLAG_CATEGORY)
-        intent.putExtra(
-            TEXT_CURRENT_VIEW, (requireParentFragment() as BaseRegisterFragment).currentView
+            AddCategoryInputActivity::class.java
         )
         addTextInputActivityResultLauncher.launch(
             intent

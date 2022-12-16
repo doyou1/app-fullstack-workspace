@@ -39,7 +39,9 @@ const val FLAG_DATE = 1
 const val FLAG_ASSET = 2
 const val FLAG_CATEGORY = 3
 const val FLAG_AMOUNT = 4
-const val FLAG_FEE = 0
+const val FLAG_FEE = 5
+const val FLAG_GROUP = 6
+const val FLAG_NAME = 7
 
 const val FLAG_INCOME = 5
 const val FLAG_CONSUMPTION = 6
@@ -445,5 +447,6 @@ val INIT_CATEGORY_LIST = arrayListOf<Category>(
 )
 
 const val TEXT_GROUP_ID = "groupId"
+const val TEXT_GROUP = "group"
 const val TEXT_NAME = "name"
 const val TEXT_MEMO = "memo"
