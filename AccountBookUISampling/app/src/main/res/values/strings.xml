@@ -33,5 +33,6 @@
     <string name="text_summary">요약</string>
     <string name="text_list_is_empty">데이터가 없습니다.</string>
     <string name="text_asset_group">자산 그룹</string>
+    <string name="text_cancel">취소</string>
 
 </resources>

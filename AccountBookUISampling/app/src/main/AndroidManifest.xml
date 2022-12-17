@@ -37,6 +37,11 @@
         <activity
             android:name=".registerinput.activity.SelectInstallmentActivity"
             android:exported="false" />
+
+        <activity android:name=".registerinput.activity.AddAssetGroupActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Translucent"
+            />
     </application>
 
 </manifest>
