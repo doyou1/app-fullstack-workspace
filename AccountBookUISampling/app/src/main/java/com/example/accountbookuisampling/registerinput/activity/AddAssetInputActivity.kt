@@ -20,7 +20,6 @@ class AddAssetInputActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddAssetTextInputBinding
     private val TAG = this::class.java.simpleName
-//    private var currentView = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +30,8 @@ class AddAssetInputActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         disableKeyboard()
-//        currentView = intent.getIntExtra(TEXT_CURRENT_VIEW, -1)
         setFocusChangeEvent()
         setClickEvent()
-//        binding.etGroup.requestFocus()
     }
 
     private fun setFocusChangeEvent() {
@@ -56,8 +53,14 @@ class AddAssetInputActivity : AppCompatActivity() {
         hideCurrentInputView()
     }
 
+    fun changeGroup(value: String) {
+        binding.etGroup.setText(value)
+        binding.etGroup.clearFocus()
+        hideCurrentInputView()
+    }
 
-        private fun setClickEvent() {
+
+    private fun setClickEvent() {
         binding.btnSave.setOnClickListener {
             val intent = Intent()
             intent.putExtra(TEXT_GROUP_ID, 0)
@@ -87,7 +90,8 @@ class AddAssetInputActivity : AppCompatActivity() {
     private fun showInputFragment(flag: Int) {
         when (flag) {
             FLAG_GROUP -> {
-                AddAssetGroupDialog().show(supportFragmentManager, TEXT_GROUP)
+                val dialog = AddAssetGroupDialog()
+                dialog.show(supportFragmentManager, TEXT_GROUP)
             }
             FLAG_AMOUNT -> {
                 val transaction = supportFragmentManager.beginTransaction()

@@ -32,5 +32,6 @@
     <string name="text_months">월별</string>
     <string name="text_summary">요약</string>
     <string name="text_list_is_empty">데이터가 없습니다.</string>
+    <string name="text_asset_group">자산 그룹</string>
 
 </resources>
