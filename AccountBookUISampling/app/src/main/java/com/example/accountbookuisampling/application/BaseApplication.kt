@@ -186,12 +186,17 @@ class BaseApplication : Application() {
         val dayOfYear = randBetween(1, cal.getActualMaximum(Calendar.DAY_OF_YEAR))
         cal.set(Calendar.DAY_OF_YEAR, dayOfYear)
 
-        return "${cal.get(Calendar.YEAR)}${
-            String.format(
-                "%02d",
-                cal.get(Calendar.MONTH) + 1
-            )
-        }${String.format("%02d", cal.get(Calendar.DAY_OF_MONTH))}"
+        val yyyy = cal.get(Calendar.YEAR)
+        val MM = String.format(
+            "%02d",
+            cal.get(Calendar.MONTH) + 1
+        )
+        val dd = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH))
+
+        val hh = String.format("%02d", cal.get(Calendar.HOUR_OF_DAY))
+        val mm = String.format("%02d", cal.get(Calendar.MINUTE))
+
+        return "$yyyy$MM$dd$hh$mm"
     }
 
     private fun randBetween(start: Int, end: Int): Int {

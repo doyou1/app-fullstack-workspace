@@ -8,7 +8,7 @@ data class DayViewModel(
     val asset: String,
     val category: String,
     val time: String,
-    val historyType: Int,
+    val type: Int,
     val amount: String
 )
 

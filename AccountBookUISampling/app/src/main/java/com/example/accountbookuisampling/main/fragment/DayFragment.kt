@@ -2,6 +2,7 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,9 @@ import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentDayBinding
 import com.example.accountbookuisampling.util.TEMP_DAY_VIEW_MODEL_LIST
 import com.example.accountbookuisampling.main.viewmodel.DayViewModel
+import com.example.accountbookuisampling.room.dto.Summary
+import com.example.accountbookuisampling.room.entity.History
+import com.example.accountbookuisampling.util.DateUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -36,48 +40,30 @@ class DayFragment(private val currentDate: String?) : Fragment() {
     override fun onResume() {
         super.onResume()
         setData()
-        setRecyclerView()
         setClickEvent()
     }
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-//             val list = (requireActivity().application as BaseApplication).historyDao.getByDate(currentDate)
+            val list =
+                (requireActivity().application as BaseApplication).historyDao.getByDate(currentDate)
+            val summary =
+                (requireActivity().application as BaseApplication).historyDao.getSummaryByDate(
+                    currentDate
+                )
             lifecycleScope.launch(Dispatchers.Main) {
-            (requireActivity() as MainActivity).updateSummary(1000, 2000, 1000 - 2000)
+                Log.e(TAG, list.toString())
+                setHistories(list)
+                setSummary(summary)
+
+
+                setRecyclerView()
             }
         }
-
-        // 要確認
-        // 현재 yyyyMMdd의 데이터만 가져오기
-        // history categoryId에 맞는 textCategory 가져오기 (category table join 필요)
-        // historyType(수입, 지출)에 따른 amount text 색 변경
-
-        // convert Entity to ViewModel
-//        list.forEach { history ->
-//            val day = history.date.substring(6, 8)
-//            val yearMonth = history.date.substring(0, 6)
-//            val time = history.date.substring(8, 12)
-//            _list.add(
-//                DayViewModel(
-//                    history.id,
-//                    day,
-//                    yearMonth,
-//                    DateUtil.getStringDayOfWeek(history.date),
-//                    history.categoryId.toString(),
-//                    history.detail,
-//                    DateUtil.getStringTime(time),
-//                    history.historyType,
-//                    history.amount.toString()
-//                )
-//            )
-//        }
-
-        _list.addAll(TEMP_DAY_VIEW_MODEL_LIST)
     }
 
     private fun setRecyclerView() {
-        if(_list.isEmpty()) {
+        if (_list.isEmpty()) {
             binding.rvList.visibility = View.GONE
             binding.layoutEmpty.visibility = View.VISIBLE
             return
@@ -101,6 +87,55 @@ class DayFragment(private val currentDate: String?) : Fragment() {
     }
 
     private fun setClickEvent() {
+
+    }
+
+    private fun setHistories(list: List<History>) {
+        // convert Entity to ViewModel
+        list.forEach { history ->
+            val day = history.date.substring(6, 8)
+            val yearMonth = history.date.substring(0, 6)
+            val time = history.date.substring(8, 12)
+            _list.add(
+                DayViewModel(
+                    history.id,
+                    day,
+                    yearMonth,
+                    DateUtil.getStringDayOfWeek(history.date),
+                    history.assetName,
+                    history.categoryName,
+                    DateUtil.getStringTime(time),
+                    history.type,
+                    history.amount.toString()
+                )
+            )
+        }
+    }
+
+    private fun setSummary(summaries: List<Summary>) {
+
+        var income = 0
+        var consumption = 0
+        var transfer = 0
+        for (summary in summaries) {
+            when (summary.type) {
+                // income
+                0 -> {
+                    income = summary.result
+                }
+                // consumption
+                1 -> {
+                    consumption = summary.result
+                }
+                // transfer
+                2 -> {
+                    transfer = summary.result
+                }
+            }
+        }
+
+        val sum = income - consumption
+        (requireActivity() as MainActivity).updateSummary(income, consumption, sum)
 
     }
 

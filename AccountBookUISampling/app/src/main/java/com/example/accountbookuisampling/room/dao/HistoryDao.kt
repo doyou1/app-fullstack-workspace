@@ -17,7 +17,7 @@ interface HistoryDao {
     fun getByDate(date: String?): List<History>
 
     @Query("SELECT type, sum(amount) as result FROM HISTORY WHERE date like :date || '%' group by type")
-    fun getSummaryByDate(date: String): List<Summary>
+    fun getSummaryByDate(date: String?): List<Summary>
 
     @Insert
     fun insert(history: History)

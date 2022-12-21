@@ -63,6 +63,7 @@ const val COLOR_INCOME = Color.BLUE
 // orange hex : #ce7e00
 val COLOR_CONSUMPTION = Color.rgb(206, 126, 0)
 val COLOR_ORANGE = Color.rgb(206, 126, 0)
+val COLOR_TRANSFER = Color.rgb(0, 0, 0)
 
 const val CALENDAR_HEAD_HEIGHT_RATIO = 20
 const val CALENDAR_CONTENT_HEIGHT_RATIO = 5
