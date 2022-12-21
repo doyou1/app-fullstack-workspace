@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accountbookuisampling.databinding.RvItemCalculateInputBinding
-import com.example.accountbookuisampling.databinding.RvItemTextInputBinding
-import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
 import com.example.accountbookuisampling.registerinput.fragment.BaseRegisterInputFragment
-import com.example.accountbookuisampling.room.entities.Asset
 import com.example.accountbookuisampling.util.*
 import kotlin.math.roundToInt
 

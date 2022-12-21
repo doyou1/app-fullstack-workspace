@@ -1,7 +1,8 @@
 package com.example.accountbookuisampling.room.dao
 
 import androidx.room.*
-import com.example.accountbookuisampling.room.entities.History
+import com.example.accountbookuisampling.room.dto.Summary
+import com.example.accountbookuisampling.room.entity.History
 
 @Dao
 interface HistoryDao {
@@ -15,12 +16,19 @@ interface HistoryDao {
     @Query("SELECT * FROM History WHERE date like :date || '%'")
     fun getByDate(date: String?): List<History>
 
+    @Query("SELECT type, sum(amount) as result FROM HISTORY WHERE date like :date || '%' group by type")
+    fun getSummaryByDate(date: String): List<Summary>
+
     @Insert
     fun insert(history: History)
+
+    @Insert
+    fun insertAll(histories: List<History>)
 
     @Update
     fun update(history: History)
 
     @Delete
     fun delete(history: History)
+
 }

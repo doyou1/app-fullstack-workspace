@@ -17,7 +17,7 @@ import com.example.accountbookuisampling.databinding.FragmentRegisterInputAssetB
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
 import com.example.accountbookuisampling.registerinput.activity.AddAssetInputActivity
 import com.example.accountbookuisampling.registerinput.adapter.InputAssetAdapter
-import com.example.accountbookuisampling.room.entities.Asset
+import com.example.accountbookuisampling.room.entity.Asset
 import com.example.accountbookuisampling.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,13 +73,14 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
     private fun setView() {
         binding.tvTitle.text = TEXT_ASSET
 
-        if (_list.isEmpty()) {
-            _list.addAll(INIT_ASSET_LIST)
-        }
 
         setLayoutManager()
-        binding.recyclerView.adapter =
-            InputAssetAdapter(_list, this)
+//        if (_list.isEmpty()) {
+//            _list.addAll(INIT_ASSET_LIST)
+//        }
+//
+//        binding.recyclerView.adapter =
+//            InputAssetAdapter(_list, this)
     }
 
     private fun setLayoutManager() {

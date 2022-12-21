@@ -15,10 +15,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputCategoryBinding
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
-import com.example.accountbookuisampling.registerinput.activity.AddAssetInputActivity
 import com.example.accountbookuisampling.registerinput.activity.AddCategoryInputActivity
 import com.example.accountbookuisampling.registerinput.adapter.InputCategoryAdapter
-import com.example.accountbookuisampling.room.entities.Category
+import com.example.accountbookuisampling.room.entity.Category
 import com.example.accountbookuisampling.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,13 +67,13 @@ class RegisterInputCategoryFragment : BaseRegisterInputFragment() {
     private fun setView() {
         binding.tvTitle.text = TEXT_CATEGORY
 
-        if (_list.isEmpty()) {
-            _list.addAll(INIT_CATEGORY_LIST)
-        }
+//        if (_list.isEmpty()) {
+//            _list.addAll(INIT_CATEGORY_LIST)
+//        }
 
         setLayoutManager()
-        binding.recyclerView.adapter =
-            InputCategoryAdapter(_list, this)
+//        binding.recyclerView.adapter =
+//            InputCategoryAdapter(_list, this)
     }
 
     private fun setLayoutManager() {

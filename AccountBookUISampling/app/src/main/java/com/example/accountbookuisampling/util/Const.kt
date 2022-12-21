@@ -7,8 +7,8 @@ import com.example.accountbookuisampling.main.viewmodel.DayViewModel
 import com.example.accountbookuisampling.main.viewmodel.MonthViewModel
 import com.example.accountbookuisampling.main.viewmodel.WeekViewModel
 import com.example.accountbookuisampling.registerinput.dataclass.InputDateItem
-import com.example.accountbookuisampling.room.entities.Asset
-import com.example.accountbookuisampling.room.entities.Category
+import com.example.accountbookuisampling.room.entity.Asset
+import com.example.accountbookuisampling.room.entity.Category
 
 const val DB_NAME = "AccountBook"
 
@@ -373,79 +373,6 @@ val INPUT_DATE_HEAD_LIST = arrayOf(
     InputDateItem(TYPE_CALENDAR_HEAD, 6, "")
 )
 
-val INIT_ASSET_LIST = arrayListOf<Asset>(
-    Asset(
-        0,
-        0,
-        0,
-        "현금",
-        100,
-        "memo1"
-    ),
-    Asset(
-        1,
-        1,
-        0,
-        "은행",
-        100,
-        "memo2"
-    ),
-    Asset(
-        2,
-        2,
-        0,
-        "카드",
-        100,
-        "memo3"
-    ),
-    Asset(
-        -1,
-        -1,
-        -1,
-        "추가",
-        -1,
-        null
-    )
-)
-
-val INIT_CATEGORY_LIST = arrayListOf<Category>(
-    Category(
-        0,
-        2,
-        "월급"
-    ),
-    Category(
-        1,
-        2,
-        "부수입"
-    ),
-    Category(
-        2,
-        2,
-        "용돈"
-    ),
-    Category(
-        3,
-        2,
-        "상여"
-    ),
-    Category(
-        4,
-        2,
-        "금융소득"
-    ),
-    Category(
-        5,
-        2,
-        "기타"
-    ),
-    Category(
-        6,
-        -1,
-        "추가"
-    ),
-)
-
 const val TEXT_GROUP_ID = "groupId"
 const val TEXT_GROUP = "group"
 const val TEXT_NAME = "name"
@@ -453,3 +380,47 @@ const val TEXT_MEMO = "memo"
 const val TEXT_RESULT = "result"
 const val TEXT_CLOSE = "close"
 const val TEXT_CLICK = "click"
+
+val INIT_INCOME_ASSETS = arrayOf(
+    "현금",
+    "카드",
+    "은행",
+    "기타",
+)
+val INIT_CONSUMPTION_ASSETS = arrayOf(
+    "현금",
+    "카드",
+    "은행",
+    "기타"
+)
+val INIT_TRANSFER_ASSETS = arrayOf(
+    "현금",
+    "신한은행",
+    "미즈호",
+    "해외송금",
+    "기타",
+)
+
+val INIT_INCOME_CATEGORIES = arrayOf(
+    "월급",
+    "상여",
+    "환급",
+    "이자",
+    "기타",
+)
+val INIT_CONSUMPTION_CATEGORIES = arrayOf(
+    "식비",
+    "교통비",
+    "공과금",
+    "경조사",
+    "옷",
+    "사치",
+    "적금",
+    "기타"
+)
+val INIT_TRANSFER_CATEGORIES = arrayOf(
+    "부모님",
+    "은행간이동",
+    "해외송금",
+    "기타",
+)

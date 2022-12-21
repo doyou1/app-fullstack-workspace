@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.accountbookuisampling.databinding.ActivityAddAssetGroupBinding
 import com.example.accountbookuisampling.registerinput.adapter.AddAssetGroupAdapter
-import com.example.accountbookuisampling.util.INIT_ASSET_LIST
 import com.example.accountbookuisampling.util.TEXT_ADD
 import com.example.accountbookuisampling.util.TEXT_GROUP
 
@@ -59,11 +58,11 @@ class AddAssetGroupActivity : AppCompatActivity() {
 
     private fun setRecyclerView() {
         setLayoutManager()
-        val list = INIT_ASSET_LIST
-        if(list.last().name == TEXT_ADD) {
-            list.removeLast()
-        }
-        binding.recyclerView.adapter = AddAssetGroupAdapter(list, this)
+//        val list = INIT_ASSET_LIST
+//        if(list.last().name == TEXT_ADD) {
+//            list.removeLast()
+//        }
+//        binding.recyclerView.adapter = AddAssetGroupAdapter(list, this)
     }
 
     private fun setLayoutManager() {

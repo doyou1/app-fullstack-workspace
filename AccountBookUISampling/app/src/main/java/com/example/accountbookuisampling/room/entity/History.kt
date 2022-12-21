@@ -1,4 +1,4 @@
-package com.example.accountbookuisampling.room.entities
+package com.example.accountbookuisampling.room.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -19,11 +19,13 @@ import androidx.room.PrimaryKey
     ]
 )
 data class History(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    val type: Int,
     val date: String,
-    val historyType: Int,
     val assetId: Int,
+    val assetName: String,
     val categoryId: Int,
+    val categoryName: String,
     val amount: Int,
     val detail: String?,
     val additionDetail: String?,
