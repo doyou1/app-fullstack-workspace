@@ -2,6 +2,7 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentCalendarBinding
 import com.example.accountbookuisampling.util.*
 import com.example.accountbookuisampling.main.viewmodel.CalendarViewModel
+import com.example.accountbookuisampling.room.dto.Summary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.ArrayList
@@ -39,29 +41,35 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
     override fun onResume() {
         super.onResume()
         setData()
-        setRecyclerView()
     }
 
     private fun setData() {
+        val dateList = DateUtil.getDateList(currentDate?.substring(0, 6))
+        val firstDate = dateList[0]
+        val lastDate = dateList[dateList.size - 1]
+        Log.e(TAG, "$firstDate ~ $lastDate")
+
         lifecycleScope.launch(Dispatchers.IO) {
-//            val currentYearMonth = currentDate?.substring(0, 6)
-//            val list =
-//                (requireActivity().application as BaseApplication).historyDao.getByDate(
-//                    currentYearMonth
-//                )
+            val list =
+                (requireActivity().application as BaseApplication).historyDao.getSummaryByPeriod(
+                    firstDate,
+                    lastDate
+                )
             lifecycleScope.launch(Dispatchers.Main) {
-                (requireActivity() as MainActivity).updateSummary(1500, 3000, 1500 - 3000)
+                setCalendarItems(list, dateList)
+                setSummary(list)
+                setRecyclerView()
+
+//                (requireActivity() as MainActivity).updateSummary(1500, 3000, 1500 - 3000)
             }
         }
+    }
 
-        // 要確認
-        // 현재 yyyyMM의 데이터를 일별로 가져오기
-        // detail 등 세부 데이터는 필요없고, '일'별로 수입, 지출, 총합만 있으면 된다. (group by 필요)
-
-//        list.forEach { history ->
-////            _list.add()
-//        }
-
+    private fun setCalendarItems(list: List<Summary>, dateList: List<String>) {
+        for (date in dateList) {
+            val filter = list.filter { summary -> summary.date?.substring(0, 8) == date }
+            addItem(filter, date.substring(0, 8))
+        }
     }
 
     private fun setRecyclerView() {
@@ -80,6 +88,32 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
             binding.rvList.minimumHeight = binding.rvList.measuredHeight
             binding.rvList.adapter = CalendarRVAdapter(list)
         }
+    }
+
+    private fun setSummary(summaries: List<Summary>) {
+        var income = 0
+        var consumption = 0
+        var transfer = 0
+
+        for (summary in summaries) {
+            when (summary.type) {
+                // income
+                0 -> {
+                    income += summary.result
+                }
+                // consumption
+                1 -> {
+                    consumption += summary.result
+                }
+                // transfer
+                2 -> {
+                    transfer += summary.result
+                }
+            }
+        }
+        val sum = income - consumption
+        Log.e(TAG, "$income, $consumption, $transfer, $sum")
+        (requireActivity() as MainActivity).updateSummary(income, consumption, sum)
     }
 
     private fun setLayoutManager() {
@@ -119,6 +153,41 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
 
         return list
     }
+
+    private fun addItem(summaries: List<Summary>, date: String) {
+        var income = 0
+        var consumption = 0
+        var transfer = 0
+        for (summary in summaries) {
+            when (summary.type) {
+                // income
+                0 -> {
+                    income = summary.result
+                }
+                // consumption
+                1 -> {
+                    consumption = summary.result
+                }
+                // transfer
+                2 -> {
+                    transfer = summary.result
+                }
+            }
+        }
+
+        val sum = income - consumption
+
+        _list.add(
+            CalendarViewModel(
+                TYPE_CALENDAR_CONTENT,
+                date,
+                consumption.toString(),
+                income.toString(),
+                sum.toString()
+            )
+        )
+    }
+
 
     companion object {
 //        private var instance: CalendarFragment? = null

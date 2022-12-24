@@ -55,8 +55,6 @@ class DayFragment(private val currentDate: String?) : Fragment() {
                 Log.e(TAG, list.toString())
                 setHistories(list)
                 setSummary(summary)
-
-
                 setRecyclerView()
             }
         }
