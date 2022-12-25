@@ -1,5 +1,6 @@
 package com.example.accountbookuisampling.util
 
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -78,7 +79,7 @@ class DateUtil {
         // date : yyyy/MM/dd
         fun getDateList(yearMonth: String?): ArrayList<String> {
             val dateList = arrayListOf<String>()
-            val date = if(yearMonth?.isNotEmpty() == true) {
+            val date = if (yearMonth?.isNotEmpty() == true) {
                 yearMonth!!
             } else {
                 // if yearMonth null → set current year month
@@ -187,14 +188,26 @@ class DateUtil {
             val dd = value.substring(6, 8).toInt()
 
             val calendar = Calendar.getInstance()
-            calendar.set(Calendar.YEAR, yyyy)
-            calendar.set(Calendar.MONTH, MM)
-            calendar.set(Calendar.DAY_OF_MONTH, 1)
-
+            calendar.set(yyyy, MM, 1)
             val sdf = SimpleDateFormat("yyyyMMdd")
             val date = sdf.format(calendar.time)
 
             return date
+        }
+
+        fun getSundayByMonday(monday: String): String {
+            // yyyyMMdd
+            val yyyy = monday.substring(0, 4).toInt()
+            val MM = monday.substring(4, 6).toInt() - 1
+            val dd = monday.substring(6, 8).toInt()
+            val calendar = Calendar.getInstance()
+            calendar.set(yyyy, MM, dd)
+
+            // monday + 6 = sunday
+            calendar.set(Calendar.DAY_OF_MONTH, dd + 6)
+
+            val sdf = SimpleDateFormat("yyyyMMdd")
+            return sdf.format(calendar.time)
         }
 
     }

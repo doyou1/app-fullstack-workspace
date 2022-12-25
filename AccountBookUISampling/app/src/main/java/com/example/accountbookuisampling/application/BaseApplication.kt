@@ -43,9 +43,7 @@ class BaseApplication : Application() {
         val preferences = getSharedPreferences(TEXT_INIT, Context.MODE_PRIVATE)
         val isInit = preferences.getBoolean(TEXT_INIT, false)
 
-        Log.e(TAG, "isInit: $isInit")
         if (!isInit) {
-
             CoroutineScope(Dispatchers.IO).launch {
                 assetDao.insertAll(getInitAssetList())
                 categoryDao.insertAll(getInitCategoryList())

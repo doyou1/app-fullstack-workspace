@@ -2,7 +2,6 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,8 +46,6 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
         val dateList = DateUtil.getDateList(currentDate?.substring(0, 6))
         val firstDate = dateList[0]
         val lastDate = dateList[dateList.size - 1]
-        Log.e(TAG, "$firstDate ~ $lastDate")
-
         lifecycleScope.launch(Dispatchers.IO) {
             val list =
                 (requireActivity().application as BaseApplication).historyDao.getSummaryByPeriod(
@@ -112,7 +109,6 @@ class CalendarFragment(private val currentDate: String?) : Fragment() {
             }
         }
         val sum = income - consumption
-        Log.e(TAG, "$income, $consumption, $transfer, $sum")
         (requireActivity() as MainActivity).updateSummary(income, consumption, sum)
     }
 

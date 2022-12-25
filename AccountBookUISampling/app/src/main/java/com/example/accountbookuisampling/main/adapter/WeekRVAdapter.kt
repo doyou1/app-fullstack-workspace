@@ -1,5 +1,6 @@
 package com.example.accountbookuisampling.main.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +43,6 @@ class WeekRVAdapter(private val list: ArrayList<WeekViewModel>) :
 
         private fun formatToViewModel(item: WeekViewModel): WeekViewModel {
             return item
-//            return WeekViewModel(item.period, item.income.toString(), item.consumption.toString(), week.result.toString())
         }
     }
 

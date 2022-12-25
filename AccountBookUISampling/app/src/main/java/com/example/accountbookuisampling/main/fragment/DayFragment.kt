@@ -2,7 +2,6 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +51,6 @@ class DayFragment(private val currentDate: String?) : Fragment() {
                     currentDate
                 )
             lifecycleScope.launch(Dispatchers.Main) {
-                Log.e(TAG, list.toString())
                 setHistories(list)
                 setSummary(summary)
                 setRecyclerView()
