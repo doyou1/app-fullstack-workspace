@@ -8,6 +8,17 @@ class DateUtil {
 
     companion object {
 
+        private val TAG = this::class.java.simpleName
+
+        fun getMonthPeriod(date: String): String {
+            val year = date.substring(0, 4)
+            val month = date.substring(4, 6)
+            val calendar = Calendar.getInstance()
+            calendar.set(year.toInt(), month.toInt() - 1, 1)
+            val lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+            return "${month}01~${month}$lastDayOfMonth"
+        }
+
         fun getStringDayOfWeek(date: String): String {
             val year = date.substring(0, 4)
             val month = date.substring(4, 6)

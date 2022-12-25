@@ -107,7 +107,7 @@ class WeekFragment(private val currentDate: String?) : Fragment() {
         var income = 0
         var consumption = 0
 
-        for(item in _list) {
+        for (item in _list) {
             income += item.income.toInt()
             consumption += item.consumption.toInt()
         }

@@ -2,6 +2,7 @@ package com.example.accountbookuisampling.main.fragment
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,9 @@ import com.example.accountbookuisampling.databinding.FragmentMonthBinding
 import com.example.accountbookuisampling.util.MONTH_VIEW_MODEL_LIST
 import com.example.accountbookuisampling.util.TEXT_FIRST_DAY_OF_MONTH
 import com.example.accountbookuisampling.main.viewmodel.MonthViewModel
+import com.example.accountbookuisampling.main.viewmodel.WeekViewModel
+import com.example.accountbookuisampling.room.dto.Summary
+import com.example.accountbookuisampling.util.DateUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -24,7 +28,6 @@ class MonthFragment(private val currentDate: String?) : Fragment() {
 
     private lateinit var binding: FragmentMonthBinding
     private val TAG = this::class.java.simpleName
-
     private val _list = ArrayList<MonthViewModel>()
 
     override fun onCreateView(
@@ -40,22 +43,56 @@ class MonthFragment(private val currentDate: String?) : Fragment() {
         super.onResume()
 
         setData()
-        setRecyclerView()
     }
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-//            val currentYear = currentDate?.substring(0, 4)
-//            val list =
-//                (requireActivity().application as BaseApplication).historyDao.getByDate(currentYear)
+            val list =
+                (requireActivity().application as BaseApplication).historyDao.getSummaryByYear(
+                    currentDate?.substring(0, 4)
+                )
             lifecycleScope.launch(Dispatchers.Main) {
-                (requireActivity() as MainActivity).updateSummary(1, 2, 1 - 2)
+                setSummary(list)
+                setMonthItems(list)
+                setRecyclerView()
             }
         }
+    }
 
-        // 要確認
-        // 현재 yyyy의 데이터를 월별로 가져오기
-        // detail 등 세부 데이터는 별로없고, '월'별로 수입, 지출 총합만 있으면 된다. (group by 필요)
+    private fun setSummary(summaries: List<Summary>) {
+        var income = 0
+        var consumption = 0
+        var transfer = 0
+
+        for (summary in summaries) {
+            when (summary.type) {
+                // income
+                0 -> {
+                    income += summary.result
+                }
+                // consumption
+                1 -> {
+                    consumption += summary.result
+                }
+                // transfer
+                2 -> {
+                    transfer += summary.result
+                }
+            }
+        }
+        val sum = income - consumption
+        (requireActivity() as MainActivity).updateSummary(income, consumption, sum)
+    }
+
+    private fun setMonthItems(list: List<Summary>) {
+        val year = currentDate?.substring(0, 4)
+        val monthCount = 12
+        for (i in 1..monthCount) {
+            val month = "$year${String.format("%02d", i)}"
+            val period = DateUtil.getMonthPeriod(month)
+            val filter = list.filter { summary -> summary.date == month }
+            addItem(filter, month, period)
+        }
     }
 
     private fun setRecyclerView() {
@@ -100,6 +137,40 @@ class MonthFragment(private val currentDate: String?) : Fragment() {
             }
             return tempList
         }
+    }
+
+    private fun addItem(summaries: List<Summary>, month: String, period: String) {
+        var income = 0
+        var consumption = 0
+        var transfer = 0
+
+        for (summary in summaries) {
+            when (summary.type) {
+                // income
+                0 -> {
+                    income += summary.result
+                }
+                // consumption
+                1 -> {
+                    consumption += summary.result
+                }
+                // transfer
+                2 -> {
+                    transfer += summary.result
+                }
+            }
+        }
+        val sum = income - consumption
+
+        _list.add(
+            MonthViewModel(
+                month,
+                period,
+                income.toString(),
+                consumption.toString(),
+                sum.toString()
+            )
+        )
     }
 
     private fun setLayoutManager() {
