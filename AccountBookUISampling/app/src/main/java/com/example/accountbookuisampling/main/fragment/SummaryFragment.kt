@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentSummaryBinding
 import com.example.accountbookuisampling.main.activity.MainActivity
+import com.example.accountbookuisampling.room.dto.Summary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -33,15 +35,39 @@ class SummaryFragment(private val currentDate: String?) : Fragment() {
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-//            val currentYearMonth = currentDate?.substring(0, 6)
-//            val list =
-//                (requireActivity().application as BaseApplication).historyDao.getByDate(
-//                    currentYearMonth
-//                )
+            val list =
+                (requireActivity().application as BaseApplication).historyDao.getSummaryByYear(
+                    currentDate?.substring(0, 4)
+                )
             lifecycleScope.launch(Dispatchers.Main) {
-                (requireActivity() as MainActivity).updateSummary(222, 333, 222 - 333)
+                setSummary(list)
             }
         }
+    }
+
+    private fun setSummary(summaries: List<Summary>) {
+        var income = 0
+        var consumption = 0
+        var transfer = 0
+
+        for (summary in summaries) {
+            when (summary.type) {
+                // income
+                0 -> {
+                    income += summary.result
+                }
+                // consumption
+                1 -> {
+                    consumption += summary.result
+                }
+                // transfer
+                2 -> {
+                    transfer += summary.result
+                }
+            }
+        }
+        val sum = income - consumption
+        (requireActivity() as MainActivity).updateSummary(income, consumption, sum)
     }
 
     companion object {
