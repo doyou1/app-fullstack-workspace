@@ -221,5 +221,59 @@ class DateUtil {
             return sdf.format(calendar.time)
         }
 
+        fun getTargetDate(currentDate: String, position: Int, num: Int): String {
+            val yyyy = currentDate.substring(0, 4).toInt()
+            val MM = currentDate.substring(4, 6).toInt() - 1
+            val dd = currentDate.substring(6, 8).toInt()
+
+
+            val cal = Calendar.getInstance()
+            cal.set(yyyy, MM, dd)
+
+            // position
+            // 0 : DayFragment, prevDay, nextDay
+            // 1 : CalendarFragment, prevMonth, nextMonth
+            // 2 : WeekFragment, prevMonth, nextMonth
+            // 3 : MonthFragment, prevYear, nextYear
+            // 4 : SummaryFragment, prevYear, nextYear
+            when (position) {
+                0 -> {
+                    cal.set(Calendar.DAY_OF_MONTH, dd + num)
+                }
+                1 -> {
+                    cal.set(Calendar.MONTH, MM + num)
+                }
+                2 -> {
+                    cal.set(Calendar.MONTH, MM + num)
+                }
+                3 -> {
+                    cal.set(Calendar.YEAR, yyyy + num)
+                }
+                4 -> {
+                    cal.set(Calendar.YEAR, yyyy + num)
+                }
+            }
+
+
+            val targetYyyy = cal.get(Calendar.YEAR)
+            val targetMm = String.format("%02d", cal.get(Calendar.MONTH) + 1)
+            val today = Calendar.getInstance()
+            // if target date is current month
+            var targetDd =
+                if (position != 0 `// 日を変更するDayFragmentだったら、確認しない`
+                    && today.get(Calendar.YEAR) == targetYyyy && today.get(Calendar.MONTH) + 1 == targetMm.toInt()
+                ) {
+                    String.format("%02d", today.get(Calendar.DAY_OF_MONTH))
+                }
+                else if(position == 0) {
+                    String.format("%02d", cal.get(Calendar.DAY_OF_MONTH))
+                }
+                else {
+                    TEXT_FIRST_DAY_OF_MONTH
+                }
+
+            return "$targetYyyy$targetMm$targetDd"
+        }
+
     }
 }

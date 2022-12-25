@@ -3,6 +3,7 @@ package com.example.accountbookuisampling.main.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import com.example.accountbookuisampling.register.activity.RegisterActivity
 import com.example.accountbookuisampling.databinding.ActivityMainBinding
@@ -123,29 +124,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setDate(num: Int) {
+        // binding.tabLayout.selectedTabPosition
+        // 0 : DayFragment, prevDay, nextDay
+        // 1 : CalendarFragment, prevMonth, nextMonth
+        // 2 : WeekFragment, prevMonth, nextMonth
+        // 3 : MonthFragment, prevYear, nextYear
+        // 4 : SummaryFragment, prevYear, nextYear
+
+
         currentDate?.let {
-            val yyyy = it.substring(0, 4).toInt()
-            val MM = it.substring(4, 6).toInt() - 1
-            val dd = it.substring(6, 8).toInt()
-
-            val cal = Calendar.getInstance()
-            cal.set(yyyy, MM, dd)
-            cal.set(Calendar.DAY_OF_MONTH, 1)
-            cal.set(Calendar.MONTH, MM + num)
-
-            val targetYyyy = cal.get(Calendar.YEAR)
-            val targetMm = String.format("%02d", cal.get(Calendar.MONTH) + 1)
-            val today = Calendar.getInstance()
-            // if target date is current month
-            var targetDd =
-                if (today.get(Calendar.YEAR) == targetYyyy && today.get(Calendar.MONTH) + 1 == targetMm.toInt()) {
-                    String.format("%02d", today.get(Calendar.DAY_OF_MONTH))
-                } else {
-                    TEXT_FIRST_DAY_OF_MONTH
-                }
-
-            currentDate = "$targetYyyy$targetMm$targetDd"
-            binding.tvDate.text = "${targetYyyy}년 ${targetMm}월 ${targetDd}일"
+            currentDate = DateUtil.getTargetDate(it, binding.tabLayout.selectedTabPosition, num)
+//            binding.tvDate.text = "${targetYyyy}년 ${targetMm}월 ${targetDd}일"
+            binding.tvDate.text = "${currentDate?.substring(0, 4)}년 ${currentDate?.substring(4, 6)}월 ${currentDate?.substring(6, 8)}일"
 
             val currentPosition = binding.tabLayout.selectedTabPosition
             binding.tabLayout.getTabAt(currentPosition)?.select()
