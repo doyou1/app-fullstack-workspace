@@ -260,7 +260,7 @@ class DateUtil {
             val today = Calendar.getInstance()
             // if target date is current month
             var targetDd =
-                if (position != 0 `// 日を変更するDayFragmentだったら、確認しない`
+                if (position != 0 // 日を変更するDayFragmentだったら、確認しない
                     && today.get(Calendar.YEAR) == targetYyyy && today.get(Calendar.MONTH) + 1 == targetMm.toInt()
                 ) {
                     String.format("%02d", today.get(Calendar.DAY_OF_MONTH))
