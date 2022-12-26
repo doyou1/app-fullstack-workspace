@@ -194,6 +194,7 @@ class TransferFragment : BaseRegisterFragment() {
 
     override fun closeInputLayout() {
         hideCurrentInputView()
+        requireActivity().currentFocus?.clearFocus()
     }
 
     private fun disableKeyboard() {

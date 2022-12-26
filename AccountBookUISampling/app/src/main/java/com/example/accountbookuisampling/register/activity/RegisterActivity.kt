@@ -1,7 +1,6 @@
 package com.example.accountbookuisampling.register.activity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.databinding.ActivityRegisterBinding

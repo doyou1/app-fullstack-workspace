@@ -100,6 +100,17 @@ class RegisterInputDateFragment(private val date: String) : BaseRegisterInputFra
         setView()
     }
 
+    override fun confirmDate(value: String) {
+        (requireParentFragment() as BaseRegisterFragment).changeDateFromChild(
+            DateUtil.getDateText(
+                value
+            )
+        )
+        (requireParentFragment() as BaseRegisterFragment).closeInputLayout()
+    }
+
+
+
     private fun setLayoutManager() {
         // set recyclerview layout like grid view
         val layoutManager = when (resources.configuration.orientation) {

@@ -164,7 +164,7 @@ class InputDateAdapter(private val date: String, private val list: ArrayList<Inp
             }
 
             binding.tvDay.setOnClickListener {
-                fragment.changeDate("$year$month$day")
+                fragment.confirmDate("$year$month$day")
             }
         }
     }
