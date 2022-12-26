@@ -14,16 +14,24 @@ import android.widget.PopupMenu
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+ import androidx.lifecycle.lifecycleScope
 import com.example.accountbookuisampling.R
+import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
 import com.example.accountbookuisampling.databinding.FragmentTransferBinding
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAmountFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAssetFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputCategoryFragment
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputDateFragment
+import com.example.accountbookuisampling.room.entity.History
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransferFragment : BaseRegisterFragment() {
 
@@ -117,6 +125,85 @@ class TransferFragment : BaseRegisterFragment() {
                 hideKeyboard()
             }
         }
+        binding.btnSave.setOnClickListener {
+            saveHistory()
+        }
+    }
+
+    private fun saveHistory() {
+        var date = binding.etDate.text.toString()
+            .substring(0, 8)    // remove (M)
+        val asset = binding.etAsset.text.toString()
+        val category = binding.etCategory.text.toString()
+        val amount = binding.etAmount.text.toString()
+        val detail = binding.etDetail.text.toString()
+        val additionDetail = binding.etAdditionDetail.text.toString()
+
+        if (!isValidate(date, asset, category, amount)) return
+        date += if (DateUtil.isToday(date)) {
+            val cal = Calendar.getInstance()
+            cal.get(Calendar.HOUR_OF_DAY)
+            // pattern HH : 0 ~ 23
+            // pattern hh : 0 ~ 12
+            val sdf = SimpleDateFormat("HHmm")
+            sdf.format(cal.time)
+        } else {
+            "0000"
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val assetId =
+                (requireActivity().application as BaseApplication).assetDao.getIdByName(asset)
+            val categoryId =
+                (requireActivity().application as BaseApplication).categoryDao.getIdByName(category)
+            val item = History(
+                0,
+                currentView,
+                date,
+                assetId,
+                asset,
+                categoryId,
+                category,
+                amount
+                    .substring(1).toInt(), // remove money symbol
+                0,
+                detail,
+                additionDetail,
+                null
+            )
+
+            (requireActivity().application as BaseApplication).historyDao.insert(item)
+            lifecycleScope.launch(Dispatchers.Main) {
+                requireActivity().finish()
+            }
+        }
+    }
+
+    private fun isValidate(date: String, asset: String, category: String, amount: String): Boolean {
+        // date validate
+        val sdf = SimpleDateFormat("yyyyMMdd")
+        sdf.isLenient = false
+        try {
+            sdf.parse(date)
+        } catch (e: ParseException) {
+            return false
+        }
+
+        // asset validate
+        if (asset.trim().isNullOrEmpty()) return false
+
+        // category validate
+        if (category.trim().isNullOrEmpty()) return false
+
+        // amount validate
+        if (amount.trim().isNullOrEmpty()) return false
+        try {
+            amount.substring(1).toInt()
+        } catch (e: NumberFormatException) {
+            return false
+        }
+
+        return true
     }
 
     private fun setBackPressEvent() {

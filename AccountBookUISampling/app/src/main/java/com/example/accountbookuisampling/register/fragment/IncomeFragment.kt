@@ -150,6 +150,7 @@ class IncomeFragment : BaseRegisterFragment() {
                 category,
                 amount
                     .substring(1).toInt(), // remove money symbol
+                0,
                 detail,
                 additionDetail,
                 null

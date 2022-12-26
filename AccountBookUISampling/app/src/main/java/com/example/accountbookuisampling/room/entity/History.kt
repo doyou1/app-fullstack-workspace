@@ -27,6 +27,7 @@ data class History(
     val categoryId: Int,
     val categoryName: String,
     val amount: Int,
+    val fee: Int,
     val detail: String?,
     val additionDetail: String?,
     val image: String?

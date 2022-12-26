@@ -44,6 +44,7 @@ class BaseApplication : Application() {
         val isInit = preferences.getBoolean(TEXT_INIT, false)
 
         if (!isInit) {
+            Log.e(TAG, "start init")
             CoroutineScope(Dispatchers.IO).launch {
                 assetDao.insertAll(getInitAssetList())
                 categoryDao.insertAll(getInitCategoryList())
@@ -52,6 +53,7 @@ class BaseApplication : Application() {
                 historyDao.insertAll(getInitHistoryList(assetSize, categorySize))
                 CoroutineScope(Dispatchers.Main).launch {
                     preferences.edit().putBoolean(TEXT_INIT, true).apply()
+                    Log.e(TAG, "done init")
                 }
             }
         }
@@ -155,6 +157,7 @@ class BaseApplication : Application() {
             val categoryName = categoryDao.getNameByid(categoryId)
 
             val amount = Random.nextInt(100, 10000)
+            val fee = if (i % 2 == 2) Random.nextInt(0, 1000) else 0
             val detail = if (i % 3 == 0) null else "detail${String.format("%02d", i)}"
 
             val item = History(
@@ -166,6 +169,7 @@ class BaseApplication : Application() {
                 categoryId,
                 categoryName,
                 amount,
+                fee,
                 detail,
                 null,
                 null
@@ -179,7 +183,7 @@ class BaseApplication : Application() {
     private fun getRandomDate(): String {
         val cal = Calendar.getInstance()
 
-        val year = 2022
+        val year = randBetween(2020, cal.get(Calendar.YEAR))
         cal.set(Calendar.YEAR, year)
         val dayOfYear = randBetween(1, cal.getActualMaximum(Calendar.DAY_OF_YEAR))
         cal.set(Calendar.DAY_OF_YEAR, dayOfYear)
