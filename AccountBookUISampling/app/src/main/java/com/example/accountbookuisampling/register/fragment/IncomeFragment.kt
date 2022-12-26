@@ -121,6 +121,7 @@ class IncomeFragment : BaseRegisterFragment() {
         val category = binding.etCategory.text.toString()
         val amount = binding.etAmount.text.toString()
         val detail = binding.etDetail.text.toString()
+        val important = binding.isImportant
         val additionDetail = binding.etAdditionDetail.text.toString()
 
         if (!isValidate(date, asset, category, amount)) return
@@ -152,6 +153,7 @@ class IncomeFragment : BaseRegisterFragment() {
                     .substring(1).toInt(), // remove money symbol
                 0,
                 detail,
+                important,
                 additionDetail,
                 null
             )

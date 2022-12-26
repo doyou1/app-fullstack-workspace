@@ -29,6 +29,7 @@ data class History(
     val amount: Int,
     val fee: Int,
     val detail: String?,
+    val important: Boolean,
     val additionDetail: String?,
     val image: String?
 )

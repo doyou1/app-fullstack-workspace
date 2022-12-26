@@ -159,6 +159,8 @@ class BaseApplication : Application() {
             val amount = Random.nextInt(100, 10000)
             val fee = if (i % 2 == 2) Random.nextInt(0, 1000) else 0
             val detail = if (i % 3 == 0) null else "detail${String.format("%02d", i)}"
+            val important = Math.random() < 0.3
+
 
             val item = History(
                 id,
@@ -171,6 +173,7 @@ class BaseApplication : Application() {
                 amount,
                 fee,
                 detail,
+                important,
                 null,
                 null
             )
