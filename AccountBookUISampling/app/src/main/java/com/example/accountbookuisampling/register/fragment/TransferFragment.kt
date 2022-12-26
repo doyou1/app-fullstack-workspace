@@ -14,7 +14,7 @@ import android.widget.PopupMenu
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
- import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.lifecycleScope
 import com.example.accountbookuisampling.R
 import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.registerinput.activity.SelectRepeatActivity
@@ -136,11 +136,12 @@ class TransferFragment : BaseRegisterFragment() {
         val asset = binding.etAsset.text.toString()
         val category = binding.etCategory.text.toString()
         val amount = binding.etAmount.text.toString()
+        val fee = binding.etFee.text.toString()
         val detail = binding.etDetail.text.toString()
         val important = binding.isImportant
         val additionDetail = binding.etAdditionDetail.text.toString()
 
-        if (!isValidate(date, asset, category, amount)) return
+        if (!isValidate(date, asset, category, amount, fee)) return
         date += if (DateUtil.isToday(date)) {
             val cal = Calendar.getInstance()
             cal.get(Calendar.HOUR_OF_DAY)
@@ -181,7 +182,13 @@ class TransferFragment : BaseRegisterFragment() {
         }
     }
 
-    private fun isValidate(date: String, asset: String, category: String, amount: String): Boolean {
+    private fun isValidate(
+        date: String,
+        asset: String,
+        category: String,
+        amount: String,
+        fee: String
+    ): Boolean {
         // date validate
         val sdf = SimpleDateFormat("yyyyMMdd")
         sdf.isLenient = false
@@ -203,6 +210,14 @@ class TransferFragment : BaseRegisterFragment() {
             amount.substring(1).toInt()
         } catch (e: NumberFormatException) {
             return false
+        }
+
+        if (!fee.trim().isNullOrEmpty()) {
+            try {
+                fee.substring(1).toInt()
+            } catch (e: NumberFormatException) {
+                return false
+            }
         }
 
         return true
@@ -271,10 +286,10 @@ class TransferFragment : BaseRegisterFragment() {
     }
 
     override fun changeInputAmountFromChild(value: String, flag: Int) {
-        if(flag == FLAG_AMOUNT) {
+        if (flag == FLAG_AMOUNT) {
             binding.etAmount.setText(value)
             binding.etAmount.clearFocus()
-        } else if(flag == FLAG_FEE) {
+        } else if (flag == FLAG_FEE) {
             binding.etFee.setText(value)
             binding.etFee.clearFocus()
         }

@@ -145,8 +145,8 @@ class InputCalculateAdapter(
                             rounded
                         }
 
-
-                    if (result.isNotEmpty() && result[0].toString() != TEXT_ENN) result =
+                    if(result == TEXT_ENN) result = TEXT_EMPTY
+                    else if (result.isNotEmpty() && result[0].toString() != TEXT_ENN) result =
                         "$TEXT_ENN$result"
                     fragment.confirmInputAmount(result)
                 }

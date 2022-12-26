@@ -31,8 +31,8 @@ class SplashActivity : AppCompatActivity() {
 
         val preferences = getSharedPreferences(TEXT_INIT, Context.MODE_PRIVATE)
         val isInit = preferences.getBoolean(TEXT_INIT, false)
-
-        if (!isInit) {
+        if (isInit) startMainActivity()
+        else {
             CoroutineScope(Dispatchers.IO).launch {
                 (application as BaseApplication).assetDao.insertAll(getInitAssetList())
                 (application as BaseApplication).categoryDao.insertAll(getInitCategoryList())
@@ -46,12 +46,16 @@ class SplashActivity : AppCompatActivity() {
                 )
                 CoroutineScope(Dispatchers.Main).launch {
                     preferences.edit().putBoolean(TEXT_INIT, true).apply()
-                    val intent = Intent(this@SplashActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    startMainActivity()
                 }
             }
         }
+    }
+
+    private fun startMainActivity() {
+        val intent = Intent(this@SplashActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun getInitAssetList(): List<Asset> {
