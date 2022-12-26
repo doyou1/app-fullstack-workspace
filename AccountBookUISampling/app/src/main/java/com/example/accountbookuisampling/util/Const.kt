@@ -43,9 +43,9 @@ const val FLAG_FEE = 5
 const val FLAG_GROUP = 6
 const val FLAG_NAME = 7
 
-const val FLAG_INCOME = 5
-const val FLAG_CONSUMPTION = 6
-const val FLAG_TRANSFER = 7
+const val FLAG_INCOME = 0
+const val FLAG_CONSUMPTION = 1
+const val FLAG_TRANSFER = 2
 
 const val TEXT_SUNDAY = "일"
 const val TEXT_MONDAY = "월"

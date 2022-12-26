@@ -21,6 +21,9 @@ interface AssetDao {
     @Query("SELECT name FROM Asset WHERE id=:id")
     fun getNameByid(id: Int): String
 
+    @Query("SELECT id FROM Asset WHERE name=:name")
+    fun getIdByName(name: String): Int
+
     @Insert
     fun insert(asset: Asset)
 

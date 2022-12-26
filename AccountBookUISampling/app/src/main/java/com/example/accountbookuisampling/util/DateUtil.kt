@@ -1,6 +1,7 @@
 package com.example.accountbookuisampling.util
 
 import android.util.Log
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -275,5 +276,11 @@ class DateUtil {
             return "$targetYyyy$targetMm$targetDd"
         }
 
+        fun isToday(date: String) : Boolean {
+            val today = Calendar.getInstance()
+            val sdf = SimpleDateFormat("yyyyMMdd")
+            val todayDate =  sdf.format(today.time)
+            return date == todayDate
+        }
     }
 }

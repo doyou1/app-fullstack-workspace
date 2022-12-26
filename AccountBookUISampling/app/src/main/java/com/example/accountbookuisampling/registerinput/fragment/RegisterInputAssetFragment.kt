@@ -13,6 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.PrimaryKey
+import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputAssetBinding
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
 import com.example.accountbookuisampling.registerinput.activity.AddAssetInputActivity
@@ -40,10 +42,8 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
 
     override fun onResume() {
         super.onResume()
-
         setClickEvent()
         setData()
-        setView()
     }
 
     private fun setClickEvent() {
@@ -63,24 +63,33 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-//            val list = (requireActivity().application as BaseApplication).assetDao.getAll()
+
+            val list =
+                (requireActivity().application as BaseApplication).assetDao.getByType((requireParentFragment() as BaseRegisterFragment).currentView)
             lifecycleScope.launch(Dispatchers.Main) {
-//                (requireActivity() as MainActivity).updateSummary(1000, 2000, 1000 - 2000)
+                _list.clear()
+                _list.addAll(list)
+                setView()
             }
         }
     }
 
     private fun setView() {
         binding.tvTitle.text = TEXT_ASSET
-
-
         setLayoutManager()
-//        if (_list.isEmpty()) {
-//            _list.addAll(INIT_ASSET_LIST)
-//        }
-//
-//        binding.recyclerView.adapter =
-//            InputAssetAdapter(_list, this)
+
+        if (_list[_list.size - 1].name != TEXT_ADD) {
+            _list.add(
+                Asset(
+                    -1,
+                    (requireParentFragment() as BaseRegisterFragment).currentView, TEXT_ADD,
+                    -1,
+                    null
+                )
+            )
+        }
+        binding.recyclerView.adapter =
+            InputAssetAdapter(_list, this)
     }
 
     private fun setLayoutManager() {
