@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -114,7 +115,8 @@ class IncomeFragment : BaseRegisterFragment() {
     }
 
     private fun saveHistory() {
-        var date = binding.etDate.text.toString().substring(0, 8)
+        var date = binding.etDate.text.toString()
+            .substring(0, 8)    // remove (M)
         val asset = binding.etAsset.text.toString()
         val category = binding.etCategory.text.toString()
         val amount = binding.etAmount.text.toString()
@@ -122,7 +124,7 @@ class IncomeFragment : BaseRegisterFragment() {
         val additionDetail = binding.etAdditionDetail.text.toString()
 
         if (!isValidate(date, asset, category, amount)) return
-        date += if(DateUtil.isToday(date)) {
+        date += if (DateUtil.isToday(date)) {
             val cal = Calendar.getInstance()
             cal.get(Calendar.HOUR_OF_DAY)
             // pattern HH : 0 ~ 23
@@ -134,8 +136,10 @@ class IncomeFragment : BaseRegisterFragment() {
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val assetId = (requireActivity().application as BaseApplication).assetDao.getIdByName(asset)
-            val categoryId = (requireActivity().application as BaseApplication).categoryDao.getIdByName(category)
+            val assetId =
+                (requireActivity().application as BaseApplication).assetDao.getIdByName(asset)
+            val categoryId =
+                (requireActivity().application as BaseApplication).categoryDao.getIdByName(category)
             val item = History(
                 0,
                 currentView,
@@ -144,7 +148,8 @@ class IncomeFragment : BaseRegisterFragment() {
                 asset,
                 categoryId,
                 category,
-                amount.toInt(),
+                amount
+                    .substring(1).toInt(), // remove money symbol
                 detail,
                 additionDetail,
                 null
@@ -157,7 +162,7 @@ class IncomeFragment : BaseRegisterFragment() {
         }
     }
 
-    private fun isValidate(date: String, asset: String, category: String, amount: String) : Boolean {
+    private fun isValidate(date: String, asset: String, category: String, amount: String): Boolean {
         // date validate
         val sdf = SimpleDateFormat("yyyyMMdd")
         sdf.isLenient = false
@@ -174,8 +179,9 @@ class IncomeFragment : BaseRegisterFragment() {
         if (category.trim().isNullOrEmpty()) return false
 
         // amount validate
+        if (amount.trim().isNullOrEmpty()) return false
         try {
-            amount.toInt()
+            amount.substring(1).toInt()
         } catch (e: NumberFormatException) {
             return false
         }
@@ -245,7 +251,14 @@ class IncomeFragment : BaseRegisterFragment() {
     override fun changeInputAmountFromChild(value: String, flag: Int) {
         binding.etAmount.setText(value)
         binding.etAmount.clearFocus()
-        if (binding.etDetail.text.toString().isEmpty()) binding.etDetail.requestFocus()
+        if (binding.etDetail.text.toString().isEmpty()) {
+            binding.etDetail.requestFocus()
+
+            val im =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            im.showSoftInput(binding.etDetail, 0)
+//            requireActivity().currentFocus?.clearFocus()
+        }
     }
 
     override fun closeInputLayout() {

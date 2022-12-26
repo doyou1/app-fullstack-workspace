@@ -63,7 +63,6 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-
             val list =
                 (requireActivity().application as BaseApplication).assetDao.getByType((requireParentFragment() as BaseRegisterFragment).currentView)
             lifecycleScope.launch(Dispatchers.Main) {
@@ -82,7 +81,8 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
             _list.add(
                 Asset(
                     -1,
-                    (requireParentFragment() as BaseRegisterFragment).currentView, TEXT_ADD,
+                    (requireParentFragment() as BaseRegisterFragment).currentView,
+                    TEXT_ADD,
                     -1,
                     null
                 )

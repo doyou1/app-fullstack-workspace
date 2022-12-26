@@ -13,10 +13,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.PrimaryKey
+import com.example.accountbookuisampling.application.BaseApplication
 import com.example.accountbookuisampling.databinding.FragmentRegisterInputCategoryBinding
 import com.example.accountbookuisampling.register.fragment.BaseRegisterFragment
 import com.example.accountbookuisampling.registerinput.activity.AddCategoryInputActivity
 import com.example.accountbookuisampling.registerinput.adapter.InputCategoryAdapter
+import com.example.accountbookuisampling.room.entity.Asset
 import com.example.accountbookuisampling.room.entity.Category
 import com.example.accountbookuisampling.util.*
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +46,6 @@ class RegisterInputCategoryFragment : BaseRegisterInputFragment() {
 
         setClickEvent()
         setData()
-        setView()
     }
 
     private fun setClickEvent() {
@@ -57,9 +59,12 @@ class RegisterInputCategoryFragment : BaseRegisterInputFragment() {
 
     private fun setData() {
         lifecycleScope.launch(Dispatchers.IO) {
-//            val list = (requireActivity().application as BaseApplication).categoryDao.getByType((requireParentFragment() as BaseRegisterFragment).currentView)
+            val list =
+                (requireActivity().application as BaseApplication).categoryDao.getByType((requireParentFragment() as BaseRegisterFragment).currentView)
             lifecycleScope.launch(Dispatchers.Main) {
-//                (requireActivity() as MainActivity).updateSummary(1000, 2000, 1000 - 2000)
+                _list.clear()
+                _list.addAll(list)
+                setView()
             }
         }
     }
@@ -67,13 +72,19 @@ class RegisterInputCategoryFragment : BaseRegisterInputFragment() {
     private fun setView() {
         binding.tvTitle.text = TEXT_CATEGORY
 
-//        if (_list.isEmpty()) {
-//            _list.addAll(INIT_CATEGORY_LIST)
-//        }
-
+        if (_list[_list.size - 1].name != TEXT_ADD) {
+            _list.add(
+                Category(
+                    -1,
+                    (requireParentFragment() as BaseRegisterFragment).currentView,
+                    TEXT_ADD,
+                    null
+                )
+            )
+        }
         setLayoutManager()
-//        binding.recyclerView.adapter =
-//            InputCategoryAdapter(_list, this)
+        binding.recyclerView.adapter =
+            InputCategoryAdapter(_list, this)
     }
 
     private fun setLayoutManager() {
