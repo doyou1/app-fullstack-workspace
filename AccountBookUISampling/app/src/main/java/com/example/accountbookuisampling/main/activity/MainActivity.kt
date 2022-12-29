@@ -71,10 +71,14 @@ class MainActivity : AppCompatActivity() {
 
         if (sum > 0) {
             binding.tvSum.text = "+$sum"
+            binding.tvSum.setTextColor(COLOR_INCOME)
         } else if (sum == 0) {
             binding.tvSum.text = sum.toString()
+            binding.tvSum.setTextColor(COLOR_TRANSFER)
+
         } else {
             binding.tvSum.text = sum.toString()
+            binding.tvSum.setTextColor(COLOR_CONSUMPTION)
         }
     }
 
