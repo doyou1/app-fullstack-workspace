@@ -10,8 +10,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.PrimaryKey
 import com.example.accountbookuisampling.databinding.ActivityAddAssetTextInputBinding
 import com.example.accountbookuisampling.registerinput.fragment.RegisterInputAmountFragment
+import com.example.accountbookuisampling.room.entity.Asset
 import com.example.accountbookuisampling.util.*
 import com.google.android.material.textfield.TextInputEditText
 
@@ -19,7 +21,6 @@ class AddAssetInputActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddAssetTextInputBinding
     private val TAG = this::class.java.simpleName
-    private val addAssetGroupActivityResultLauncher = getAddAssetGroupActivityResultLauncher()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +36,22 @@ class AddAssetInputActivity : AppCompatActivity() {
     }
 
     private fun setFocusChangeEvent() {
-        binding.etGroup.setOnFocusChangeListener { _, hasFocus ->
+        binding.etName.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                showInputFragment(FLAG_GROUP)
+                hideCurrentInputView()
             }
         }
+
         binding.etAmount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
+                hideKeyboard()
                 showInputFragment(FLAG_AMOUNT)
+            }
+        }
+
+        binding.etMemo.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                hideCurrentInputView()
             }
         }
     }
@@ -53,21 +62,18 @@ class AddAssetInputActivity : AppCompatActivity() {
         hideCurrentInputView()
     }
 
-    fun changeGroup(value: String) {
-        binding.etGroup.setText(value)
-        binding.etGroup.clearFocus()
-        hideCurrentInputView()
-    }
-
     private fun setClickEvent() {
+
         binding.btnSave.setOnClickListener {
-            val intent = Intent()
-            intent.putExtra(TEXT_GROUP_ID, 0)
-            intent.putExtra(TEXT_NAME, "NAME")
-            intent.putExtra(TEXT_AMOUNT, 100)
-            intent.putExtra(TEXT_MEMO, "MEMO")
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+//            val intent = Intent()
+//            intent.putExtra(TEXT_GROUP_ID, 0)
+//            intent.putExtra(TEXT_NAME, "NAME")
+//            intent.putExtra(TEXT_AMOUNT, 100)
+//            intent.putExtra(TEXT_MEMO, "MEMO")
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+
+            save()
         }
 
         binding.layoutWrap.setOnClickListener {
@@ -76,6 +82,33 @@ class AddAssetInputActivity : AppCompatActivity() {
                 hideKeyboard()
             }
         }
+    }
+
+    private fun save() {
+
+        val name = binding.etName.text.toString()
+        val amount = binding.etAmount.text.toString()
+        val memo = binding.etMemo.text.toString()
+
+        if (!isValidate(name, amount)) return
+        val intent = Intent()
+        intent.putExtra(TEXT_NAME, name)
+        intent.putExtra(TEXT_AMOUNT, if(amount.isNullOrEmpty() || amount.length == 1) 0 else amount.substring(1).toInt())
+        intent.putExtra(TEXT_MEMO, memo)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
+    private fun isValidate(name: String, amount: String): Boolean {
+        if (name.trim().isNullOrEmpty()) return false
+        try {
+            if (!(amount.trim().isNullOrEmpty()) && amount.length > 1) {
+                amount.substring(1).toInt()
+            }
+        } catch (e: NumberFormatException) {
+            return false
+        }
+        return true
     }
 
     override fun onBackPressed() {
@@ -88,9 +121,6 @@ class AddAssetInputActivity : AppCompatActivity() {
 
     private fun showInputFragment(flag: Int) {
         when (flag) {
-            FLAG_GROUP -> {
-                openAddAssetGroupActivityResultLauncher()
-            }
             FLAG_AMOUNT -> {
                 val transaction = supportFragmentManager.beginTransaction()
                 val fragment =
@@ -106,32 +136,7 @@ class AddAssetInputActivity : AppCompatActivity() {
     }
 
 
-    private fun openAddAssetGroupActivityResultLauncher() {
-        val intent = Intent(this, AddAssetGroupActivity::class.java)
-        addAssetGroupActivityResultLauncher.launch(
-            intent
-        )
-    }
-
-    private fun getAddAssetGroupActivityResultLauncher(): ActivityResultLauncher<Intent> {
-        return registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                Log.e(TAG, "result ok")
-                result.data?.let { data ->
-                    val value = data.getStringExtra(TEXT_GROUP)
-                    Log.e(TAG, "value: $value")
-                    binding.etGroup.setText(value)
-
-                }
-            }
-            binding.etGroup.clearFocus()
-        }
-    }
-
     private fun disableKeyboard() {
-        binding.etGroup.showSoftInputOnFocus = false
         binding.etAmount.showSoftInputOnFocus = false
     }
 

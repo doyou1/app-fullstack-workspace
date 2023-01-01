@@ -141,8 +141,12 @@ class InputCalculateAdapter(
                         // 연산이 덜 된 경우
                         else {
                             val calculated = CalculatorUtil.calculate(prev)
-                            val rounded = calculated.toDouble().roundToInt().toString()
-                            rounded
+                            try {
+                                val rounded = calculated.toDouble().roundToInt().toString()
+                                rounded
+                            } catch (e: NumberFormatException) {
+                                TEXT_ENN
+                            }
                         }
 
                     if(result == TEXT_ENN) result = TEXT_EMPTY

@@ -134,19 +134,27 @@ class RegisterInputAssetFragment : BaseRegisterInputFragment() {
         ) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    val groupId = data.getIntExtra(TEXT_GROUP_ID, -1)
                     val name = data.getStringExtra(TEXT_NAME)
-                    val amount = data.getIntExtra(TEXT_AMOUNT, -1)
+                    val amount = data.getIntExtra(TEXT_AMOUNT, 0)
                     val memo = data.getStringExtra(TEXT_MEMO)
 
-                    if (!(groupId == -1 || name.isNullOrEmpty() || amount == -1)) {
-//                        val level = 0
-//                        val item = Asset(0, groupId, level, name, amount, memo)
-//                        (requireActivity().application as BaseApplication).assetDao.insert(item)
-//                        _list.add(_list.size - 1, item)
-//                        binding.recyclerView.adapter?.notifyDataSetChanged()
-                    }
+                    name?.let {
+                        val item = Asset(
+                            0,
+                            (requireParentFragment() as BaseRegisterFragment).currentView,
+                            name,
+                            amount,
+                            memo
+                        )
 
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            (requireActivity().application as BaseApplication).assetDao.insert(item)
+                            lifecycleScope.launch(Dispatchers.Main) {
+                                setData()
+                            }
+                        }
+
+                    }
                 }
             }
         }
