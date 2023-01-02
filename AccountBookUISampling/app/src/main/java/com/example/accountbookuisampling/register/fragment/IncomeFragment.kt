@@ -261,7 +261,6 @@ class IncomeFragment : BaseRegisterFragment() {
             val im =
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             im.showSoftInput(binding.etDetail, 0)
-//            requireActivity().currentFocus?.clearFocus()
         }
     }
 

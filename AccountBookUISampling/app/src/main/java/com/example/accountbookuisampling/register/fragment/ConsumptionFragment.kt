@@ -257,7 +257,12 @@ class ConsumptionFragment : BaseRegisterFragment() {
     override fun changeInputAmountFromChild(value: String, flag: Int) {
         binding.etAmount.setText(value)
         binding.etAmount.clearFocus()
-        if (binding.etDetail.text.toString().isEmpty()) binding.etDetail.requestFocus()
+        if (binding.etDetail.text.toString().isEmpty()) {
+            binding.etDetail.requestFocus()
+            val im =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            im.showSoftInput(binding.etDetail, 0)
+        }
     }
 
     override fun closeInputLayout() {
