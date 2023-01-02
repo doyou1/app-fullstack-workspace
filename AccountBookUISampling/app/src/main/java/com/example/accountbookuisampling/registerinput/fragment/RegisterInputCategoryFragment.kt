@@ -43,7 +43,6 @@ class RegisterInputCategoryFragment : BaseRegisterInputFragment() {
 
     override fun onResume() {
         super.onResume()
-
         setClickEvent()
         setData()
     }
@@ -130,20 +129,27 @@ class RegisterInputCategoryFragment : BaseRegisterInputFragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
                     val name = data.getStringExtra(TEXT_NAME)
-                    if (!name.isNullOrEmpty()) {
-                        // income, consumption, transfer
-//                        val type = data.getIntExtra(TEXT_CURRENT_VIEW)
-//                        val item = Category(0, type, name)
-//                        (requireActivity().application as BaseApplication).categoryDao.insert(item)
-//                        _list.add(_list.size - 1, item)
-//                        binding.recyclerView.adapter?.notifyDataSetChanged()
+                    val memo = data.getStringExtra(TEXT_MEMO)
+
+                    name?.let {
+                        val item = Category(
+                            0,
+                            (requireParentFragment() as BaseRegisterFragment).currentView,
+                            name,
+                            memo
+                        )
+
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            (requireActivity().application as BaseApplication).categoryDao.insert(
+                                item
+                            )
+                            lifecycleScope.launch(Dispatchers.Main) {
+                                setData()
+                            }
+                        }
                     }
-
                 }
-
             }
-
-
         }
     }
 }

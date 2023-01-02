@@ -37,7 +37,8 @@ class ConsumptionFragment : BaseRegisterFragment() {
     private lateinit var binding: FragmentConsumptionBinding
     private val TAG = this::class.java.simpleName
     private val selectRepeatActivityResultLauncher = getSelectRepeatActivityResultLauncher()
-    private val selectInstallmentActivityResultLauncher = getSelectInstallmentActivityResultLauncher()
+    private val selectInstallmentActivityResultLauncher =
+        getSelectInstallmentActivityResultLauncher()
     override var currentView: Int = FLAG_CONSUMPTION
 
     override fun onCreateView(
@@ -98,7 +99,7 @@ class ConsumptionFragment : BaseRegisterFragment() {
         }
 
         binding.btnRepeat.setOnClickListener {
-            if(binding.isRepeatOrInstallment) {
+            if (binding.isRepeatOrInstallment) {
                 showRepeatAndInstallmentAndCancelPopup()
             } else {
                 showRepeatAndInstallmentPopup()
@@ -204,6 +205,7 @@ class ConsumptionFragment : BaseRegisterFragment() {
     }
 
     private fun showInputFragment(flag: Int) {
+        hideKeyboard()
 
         val transaction = childFragmentManager.beginTransaction()
         val fragment = when (flag) {
@@ -274,6 +276,7 @@ class ConsumptionFragment : BaseRegisterFragment() {
         binding.frameLayout.visibility = View.GONE
         binding.frameLayout.removeAllViews()
     }
+
     private fun hideKeyboard() {
         val im =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -342,7 +345,7 @@ class ConsumptionFragment : BaseRegisterFragment() {
     private fun showRepeatAndInstallmentAndCancelPopup() {
         val popup = PopupMenu(requireContext(), binding.btnRepeat)
         popup.setOnMenuItemClickListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.select_repeat -> {
                     openSelectRepeatActivityResultLauncher()
                     true
@@ -365,7 +368,7 @@ class ConsumptionFragment : BaseRegisterFragment() {
     private fun showRepeatAndInstallmentPopup() {
         val popup = PopupMenu(requireContext(), binding.btnRepeat)
         popup.setOnMenuItemClickListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.select_repeat -> {
                     openSelectRepeatActivityResultLauncher()
                     true

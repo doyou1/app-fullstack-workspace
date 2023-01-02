@@ -203,6 +203,7 @@ class IncomeFragment : BaseRegisterFragment() {
     }
 
     private fun showInputFragment(flag: Int) {
+        hideKeyboard()
 
         val transaction = childFragmentManager.beginTransaction()
         val fragment = when (flag) {

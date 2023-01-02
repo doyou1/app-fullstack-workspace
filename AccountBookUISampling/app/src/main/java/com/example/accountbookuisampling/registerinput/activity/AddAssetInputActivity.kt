@@ -65,14 +65,6 @@ class AddAssetInputActivity : AppCompatActivity() {
     private fun setClickEvent() {
 
         binding.btnSave.setOnClickListener {
-//            val intent = Intent()
-//            intent.putExtra(TEXT_GROUP_ID, 0)
-//            intent.putExtra(TEXT_NAME, "NAME")
-//            intent.putExtra(TEXT_AMOUNT, 100)
-//            intent.putExtra(TEXT_MEMO, "MEMO")
-//            setResult(Activity.RESULT_OK, intent)
-//            finish()
-
             save()
         }
 

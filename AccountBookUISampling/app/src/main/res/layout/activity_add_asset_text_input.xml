@@ -71,7 +71,8 @@
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@+id/tv_name"
                         app:layout_constraintTop_toTopOf="@+id/tv_name"
-                        app:layout_constraintWidth_percent="0.5" />
+                        app:layout_constraintWidth_percent="0.5"
+                        />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_amount"
