@@ -48,3 +48,6 @@
 - 実際に発売してみたいアプリは、プロジェクトサイズが大きくないカジュアル賭けゲームなので、関連したサンプリングを進めてみた。 簡単に進行できると思ったが、思ったよりロジックが複雑な部分もあって時間がかかった。 はしごゲームはロジック的には時間をかけて解決したが、特に結果を示す時、ゆっくり埋めていく部分はまだ具現方法を見出せずにいる。 細かいことに色々足りない部分が多くて4月前に発売してみたいと思ったが、容易ではないと思った。
 - 실제로 출시해보고 싶은 어플은 프로젝트 크기가 크지않은 캐주얼 내기 게임이라서 관련한 샘플링을 진행해봤다. 쉽게 진행할 수 있을 줄 알았는데, 생각보다 로직이 복잡한 부분들도 있어서 시간이 많이 걸렸다. 사다리 게임은 로직적으론 시간을 써서 해결했지만, 특히 결과를 보여줄 때, 천천히 채워나가는 부분은 아직 구현 방법을 찾지 못했다. 자잘하게 이런저런 부족한 부분들이 많아서 4월전에 출시해보고 싶다고 생각했지만, 쉽지 않겠다는 생각이 들었다.
 - In fact, the application I want to release is a casual betting game with a small project size, so I conducted a related sampling. I thought it would be easy to proceed, but it took a lot of time because the logic was more complicated than I thought. The ladder game was solved logically by using time, but especially when showing the results, the slow filling part has yet to be realized. I wanted to release it before April because there were many shortcomings, but I thought it would not be easy.
+
+# LiveData(勉強要)
+- [references](https://kotlinworld.com/47)
