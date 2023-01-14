@@ -19,17 +19,20 @@ import java.io.FileOutputStream
 class ImageController {
 
     @RequestMapping("/get", method = [RequestMethod.POST])
-    fun get(): String {
+    fun get(
+        @RequestBody names: List<String>
+    ): HashMap<String, ByteArray> {
 
-        return "load"
+        println(names)
+
+        return hashMapOf()
     }
 
     @RequestMapping("/upload", method = [RequestMethod.POST])
     fun upload(
-        @RequestPart("id") id: String,
         request: HttpServletRequest
     ): Int {
-        val dirPath ="${getAbsolutePath()}/backend/src/main/resources/images/$id"
+        val dirPath ="${getAbsolutePath()}/backend/src/main/resources/images"
         val dir = File(dirPath)
         if(!dir.exists()) {
             dir.mkdir()
@@ -37,7 +40,7 @@ class ImageController {
 
         for (item in request.parts) {
             if (item.contentType == "image/jpg; charset=utf-8") {
-                val file = File("$dirPath/${item.submittedFileName}.jpg")
+                val file = File("$dirPath/${item.submittedFileName}")
                 val fout = FileOutputStream(file)
                 item.inputStream.transferTo(fout)
                 fout.close()
@@ -45,12 +48,6 @@ class ImageController {
         }
 
         return -1
-    }
-
-    @RequestMapping("/api/home", method = [RequestMethod.GET])
-    fun home(): String {
-        println("home")
-        return "home"
     }
 
     private fun getAbsolutePath() : String {
