@@ -3,6 +3,7 @@ package com.accountbook.backend
 import jakarta.servlet.annotation.MultipartConfig
 import jakarta.servlet.http.HttpServletRequest
 import org.apache.commons.logging.Log
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -24,24 +25,24 @@ class ImageController {
     }
 
     @RequestMapping("/upload", method = [RequestMethod.POST])
-    fun upload(@RequestParam("name") name: Object, @RequestPart images: Array<MultipartFile>): Int {
-        println("name: $name")
-        println("images: $images")
-//        for (item in request.parts) {
-//            if (item.contentType == "image/jpg; charset=utf-8") {
-//                println("item.name: ${item.name}")
-//                println("item.contentType: ${item.contentType}")
-//                println("item.size: ${item.size}")
-//                println("item.headerNames: ${item.headerNames}")
-//                println("item.inputStream: ${item.inputStream}")
-//                println("item.submittedFileName: ${item.submittedFileName}")
-//                println("=====================================")
-//
-//                val fout = FileOutputStream(File(item.submittedFileName))
-//                item.inputStream.transferTo(fout)
-//                fout.close()
-//            }
-//        }
+    fun upload(
+        @RequestPart("id") id: String,
+        request: HttpServletRequest
+    ): Int {
+        val dirPath ="${getAbsolutePath()}/backend/src/main/resources/images/$id"
+        val dir = File(dirPath)
+        if(!dir.exists()) {
+            dir.mkdir()
+        }
+
+        for (item in request.parts) {
+            if (item.contentType == "image/jpg; charset=utf-8") {
+                val file = File("$dirPath/${item.submittedFileName}.jpg")
+                val fout = FileOutputStream(file)
+                item.inputStream.transferTo(fout)
+                fout.close()
+            }
+        }
 
         return -1
     }
@@ -50,5 +51,9 @@ class ImageController {
     fun home(): String {
         println("home")
         return "home"
+    }
+
+    private fun getAbsolutePath() : String {
+        return File("").absolutePath
     }
 }
