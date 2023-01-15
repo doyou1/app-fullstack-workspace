@@ -8,20 +8,25 @@ import org.springframework.util.StreamUtils
 import org.springframework.web.bind.annotation.*
 import java.io.File
 import java.io.FileOutputStream
-
+import java.io.InputStream
 
 @RestController
 @RequestMapping("/api")
 class ImageController {
+
+    private val tempMap = hashMapOf<String, InputStream>()
 
     @RequestMapping("/get/{fileName}", method = [RequestMethod.GET])
     fun getImage(
         @PathVariable("fileName")
         fileName: String
     ): ResponseEntity<ByteArray> {
-        val file = ClassPathResource("images/$fileName")
-        val bytes = StreamUtils.copyToByteArray(file.inputStream)
-
+        val bytes = if (tempMap[fileName] != null) {
+            StreamUtils.copyToByteArray(tempMap[fileName])
+        } else {
+            val file = ClassPathResource("images/$fileName")
+            StreamUtils.copyToByteArray(file.inputStream)
+        }
         return ResponseEntity
             .ok()
             .contentType(MediaType.IMAGE_JPEG)
@@ -43,6 +48,7 @@ class ImageController {
             if (item.contentType == "image/jpg; charset=utf-8") {
                 val file = File("$dirPath/${item.submittedFileName}")
                 val fout = FileOutputStream(file)
+                tempMap[item.submittedFileName] = file.inputStream()
                 item.inputStream.transferTo(fout)
                 fout.close()
                 count++
