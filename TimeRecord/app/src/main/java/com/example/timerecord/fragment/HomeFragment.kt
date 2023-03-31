@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.timerecord.Const.TEMP_TODO_LIST
+import com.example.timerecord.adapter.TodoAdapter
 import com.example.timerecord.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -25,7 +28,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        
+        initRecyclerView()
+
+    }
+
+    private fun initRecyclerView() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = TodoAdapter(TEMP_TODO_LIST)
     }
 
     companion object {
