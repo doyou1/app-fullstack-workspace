@@ -29,4 +29,6 @@ object Const {
             listOf(true, true, true, true, true, true, true)
         )
     )
+
+    const val DELAY_SHOW_UI = 300L
 }
