@@ -18,7 +18,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
-
     private val handler = Handler(Looper.getMainLooper())
 
 
@@ -28,28 +27,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        handler.postDelayed({
-            initRecyclerView()
-            binding.showUI = true
-        }, DELAY_SHOW_UI)
-    }
-
-    private fun initRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = TodoAdapter(TEMP_TODO_LIST)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        handler.removeCallbacksAndMessages(null)
-//        binding.showUI = false
-    }
-
     companion object {
         private var instance: HomeFragment? = null
         fun getInstance(): HomeFragment {

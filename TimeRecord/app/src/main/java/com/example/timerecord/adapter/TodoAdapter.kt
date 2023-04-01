@@ -1,13 +1,20 @@
 package com.example.timerecord.adapter
 
+import android.app.Activity
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.timerecord.R
 import com.example.timerecord.databinding.RvItemTodoBinding
 import com.example.timerecord.entity.Todo
+import com.google.gson.Gson
 
-class TodoAdapter(private val _list: List<Todo>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TodoAdapter(private val _list: List<Todo>, private val activity: Activity) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val list = _list
     private val TAG = this::class.java.simpleName
@@ -34,6 +41,10 @@ class TodoAdapter(private val _list: List<Todo>) : RecyclerView.Adapter<Recycler
 
             binding.root.setOnClickListener {
                 Log.e(TAG, "item: $item")
+                val bundle = Bundle()
+                bundle.putString("item", Gson().toJson(item))
+                Navigation.findNavController(activity, R.id.fragment_container)
+                    .navigate(R.id.action_default_to_todo_detail, bundle)
             }
         }
     }
