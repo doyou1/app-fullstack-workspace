@@ -7,10 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.timerecord.Const.DELAY_SHOW_UI
-import com.example.timerecord.Const.TEMP_TODO_LIST
-import com.example.timerecord.adapter.TodoAdapter
 import com.example.timerecord.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {

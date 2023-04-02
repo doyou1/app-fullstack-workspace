@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.timerecord.Const
+import com.example.timerecord.util.Const
 import com.example.timerecord.R
 import com.example.timerecord.adapter.TodoAdapter
 import com.example.timerecord.databinding.FragmentHomeDefaultBinding
@@ -34,7 +34,6 @@ class HomeDefaultFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeDefaultBinding.inflate(inflater, container, false)
         _navController = Navigation.findNavController(requireActivity(), R.id.fragment_container)
-//        _navController = Navigation.findNavController(requireView())
         return binding.root
     }
 

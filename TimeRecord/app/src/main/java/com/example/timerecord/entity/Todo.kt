@@ -11,4 +11,4 @@ data class Todo(
     val endTime: String,
     // "월,화,수,목,금,토,일" "MON,TUE,WED,THU,FRI,SAT,SUN"
     val repeat: List<Boolean>?,
-) : java.io.Serializable
+)
