@@ -3,4 +3,7 @@
     <string name="text_home">Home</string>
     <string name="text_setting">Setting</string>
     <string name="text_title_home_recycler_view">TimeRecordList</string>
+    <string name="text_start">Start</string>
+    <string name="text_end">End</string>
+    <string name="text_not_yet_set_text">Not yet</string>
 </resources>

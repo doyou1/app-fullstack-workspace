@@ -1,14 +1,11 @@
 package com.example.timerecord.fragment.home
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -16,13 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timerecord.adapter.TodoHistoryAdapter
 import com.example.timerecord.databinding.FragmentHomeTodoDetailBinding
-import com.example.timerecord.entity.Todo
 import com.example.timerecord.entity.TodoHistory
 import com.example.timerecord.util.Const
-import com.example.timerecord.util.Const.MORE_DELAY_SHOW_UI
-import com.example.timerecord.util.Const.TEMP_TODO_HISTORY_CONTENT_LIST
-import com.example.timerecord.util.Const.TEMP_TODO_HISTORY_HEAD_LIST
-import com.example.timerecord.util.RoomDBHelper
 import com.example.timerecord.util.Util
 import com.example.timerecord.viewmodel.TodoHistoryViewModel
 import com.google.gson.Gson
@@ -65,8 +57,8 @@ class HomeTodoDetailFragment : Fragment() {
 //        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding.recyclerView.post {
                 val list = arrayListOf<TodoHistoryViewModel>()
-                list.addAll(TEMP_TODO_HISTORY_HEAD_LIST)
-                list.addAll(Util.fillTodoHistoryViewModelList(TEMP_TODO_HISTORY_CONTENT_LIST))
+                list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
+                list.addAll(Util.fillTodoHistoryViewModelList(Const.TEMP_TODO_HISTORY_CONTENT_LIST))
                 binding.recyclerView.adapter = TodoHistoryAdapter(list)
             }
             binding.showUI = true
