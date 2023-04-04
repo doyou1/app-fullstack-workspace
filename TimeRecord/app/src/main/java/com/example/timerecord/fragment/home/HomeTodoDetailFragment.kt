@@ -42,10 +42,14 @@ class HomeTodoDetailFragment : Fragment() {
 //                val list = RoomDBHelper.getTodoHistory(item)
 //                Log.e(TAG, "item: $item")
 //            }
+        init()
         setCalendar(listOf())
         setBackBtnEvent()
+    }
 
-
+    private fun init() {
+        binding.tvDate.text = Util.getFormattedToday()
+        binding.tvSelectedDate.text = Util.getFormattedToday()
     }
 
     private fun setCalendar(input: List<TodoHistory>) {
@@ -54,14 +58,13 @@ class HomeTodoDetailFragment : Fragment() {
             layoutManager.orientation =
                 LinearLayoutManager.VERTICAL
             binding.recyclerView.layoutManager = layoutManager
-//        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding.recyclerView.post {
                 val list = arrayListOf<TodoHistoryViewModel>()
                 list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
                 list.addAll(Util.fillTodoHistoryViewModelList(Const.TEMP_TODO_HISTORY_CONTENT_LIST))
                 binding.recyclerView.adapter = TodoHistoryAdapter(list)
+                binding.showUI = true
             }
-            binding.showUI = true
         }, Const.DELAY_SHOW_UI)
     }
 

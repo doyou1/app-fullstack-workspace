@@ -47,5 +47,8 @@ class Util {
             return result
         }
         fun getToday(): String = SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().time)
+        fun getFormattedToday(): String = SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
+
     }
+
 }

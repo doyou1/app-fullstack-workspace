@@ -18,12 +18,6 @@ class TodoHistoryAdapter(private val _list: List<TodoHistoryViewModel>) :
     private val TAG = this::class.java.simpleName
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        val headHeight = parent.height / 8
-//        val contentHeight = (parent.height - headHeight) / 5
-//        Log.e(TAG, "parent.height: ${parent.height}")
-//        Log.e(TAG, "headHeight: ${headHeight}")
-//        Log.e(TAG, "contentHeight: ${contentHeight}")
-        Log.e(TAG, "parent.measuredHeight: ${parent.measuredHeight}")
         return when (viewType) {
             TYPE_CALENDAR_HEAD -> {
                 val binding = RvItemTodoHistoryHeadBinding.inflate(
@@ -87,9 +81,9 @@ class TodoHistoryAdapter(private val _list: List<TodoHistoryViewModel>) :
 
         fun bind(item: TodoHistoryViewModel) {
             binding.viewModel = item
+            binding.tvTargetDate.text =
+                "${item.targetDate.substring(4, 6)}/${item.targetDate.substring(6, 8)}"
             binding.isToday = item.targetDate == Util.getToday()
-
-
         }
     }
 

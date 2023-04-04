@@ -126,9 +126,10 @@
 
                 <TextView
                     android:id="@+id/tv_selected_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_margin="15dp"
+                    android:lines="1"
                     android:text="20230403"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -150,9 +151,11 @@
                     style="@style/Widget.Material3.Button.IconButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_gravity="center_vertical"
                     android:autoSizeTextType="uniform"
                     android:backgroundTint="@color/teal_700"
+                    android:elevation="10dp"
+                    android:lines="1"
                     android:text="@string/text_start"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toTopOf="@+id/card_view_start_time"
@@ -167,9 +170,10 @@
                     style="@style/Widget.Material3.Button.IconButton"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_gravity="center_vertical"
                     android:autoSizeTextType="uniform"
                     android:backgroundTint="@color/teal_700"
+                    android:lines="1"
                     android:text="@string/text_end"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toTopOf="@+id/card_view_end_time"
@@ -178,6 +182,7 @@
                     app:layout_constraintStart_toEndOf="@+id/btn_start_time"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
+
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_view_start_time"
@@ -193,24 +198,19 @@
                     app:layout_constraintEnd_toEndOf="@+id/btn_start_time"
                     app:layout_constraintStart_toStartOf="@+id/btn_start_time"
                     app:layout_constraintTop_toBottomOf="@+id/btn_start_time">
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/tv_start_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="15dp"
-                            android:text="@string/text_not_yet_set_text"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="15dp"
+                        android:autoSizeTextType="uniform"
+                        android:lines="1"
+                        android:text="@string/text_not_yet_set_text"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -232,8 +232,10 @@
                         android:id="@+id/tv_end_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginHorizontal="15dp"
-                        android:gravity="center"
+                        android:autoSizeTextType="uniform"
+                        android:lines="1"
                         android:text="@string/text_not_yet_set_text"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
