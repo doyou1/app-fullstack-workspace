@@ -5,12 +5,18 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.timerecord.viewmodel.TodoHistoryViewModel" />
 
         <variable
-            name="isToday"
+            name="isSelected"
+            type="Boolean" />
+
+        <variable
+            name="isVisible"
             type="Boolean" />
     </data>
 
@@ -20,7 +26,8 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@{isToday ? @android:color/holo_blue_dark : @color/white}"
+        android:visibility="@{isVisible ? View.VISIBLE : View.INVISIBLE}"
+        app:cardBackgroundColor="@{isSelected ? @android:color/holo_blue_dark : @color/white}"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true">

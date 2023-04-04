@@ -3,9 +3,11 @@ package com.example.timerecord.fragment.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -42,14 +44,9 @@ class HomeTodoDetailFragment : Fragment() {
 //                val list = RoomDBHelper.getTodoHistory(item)
 //                Log.e(TAG, "item: $item")
 //            }
-        init()
+        binding.selectedDate = Util.getToday()
         setCalendar(listOf())
         setBackBtnEvent()
-    }
-
-    private fun init() {
-        binding.tvDate.text = Util.getFormattedToday()
-        binding.tvSelectedDate.text = Util.getFormattedToday()
     }
 
     private fun setCalendar(input: List<TodoHistory>) {
@@ -62,10 +59,23 @@ class HomeTodoDetailFragment : Fragment() {
                 val list = arrayListOf<TodoHistoryViewModel>()
                 list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
                 list.addAll(Util.fillTodoHistoryViewModelList(Const.TEMP_TODO_HISTORY_CONTENT_LIST))
-                binding.recyclerView.adapter = TodoHistoryAdapter(list)
+                binding.recyclerView.adapter =
+                    TodoHistoryAdapter(list, binding.selectedDate, ::changeDate)
                 binding.showUI = true
             }
         }, Const.DELAY_SHOW_UI)
+    }
+
+    private fun changeDate(value: String, newIdx: Int) {
+        val old = binding.selectedDate.toString()
+        // old item refresh
+        (binding.recyclerView.adapter as TodoHistoryAdapter).list.forEachIndexed { index, item ->
+            if (item.targetDate == old) binding.recyclerView.adapter?.notifyItemChanged(index)
+        }
+        binding.selectedDate = value
+        (binding.recyclerView.adapter as TodoHistoryAdapter).selectedDate = value
+        // new item refresh
+        binding.recyclerView.adapter?.notifyItemChanged(newIdx)
     }
 
     private fun setBackBtnEvent() {

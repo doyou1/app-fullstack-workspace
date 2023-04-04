@@ -248,5 +248,6 @@ object Const {
     const val MORE_DELAY_SHOW_UI = 1000L
 
     const val TYPE_CALENDAR_HEAD = 0
-    const val TYPE_CALENDAR_CONTENT = 1
+    const val TYPE_CALENDAR_CONTENT_VISIBLE = 1
+    const val TYPE_CALENDAR_CONTENT_INVISIBLE = 2
 }

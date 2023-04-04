@@ -1,6 +1,7 @@
 package com.example.timerecord.util
 
-import com.example.timerecord.util.Const.TYPE_CALENDAR_CONTENT
+import com.example.timerecord.util.Const.TYPE_CALENDAR_CONTENT_INVISIBLE
+import com.example.timerecord.util.Const.TYPE_CALENDAR_CONTENT_VISIBLE
 import com.example.timerecord.viewmodel.TodoHistoryViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -8,11 +9,11 @@ import java.util.Calendar
 class Util {
 
     companion object {
-        val emptyTodoHistoryViewModel =
-            TodoHistoryViewModel(0, 0, "", "", "", TYPE_CALENDAR_CONTENT, "")
 
         fun fillTodoHistoryViewModelList(input: List<TodoHistoryViewModel>): ArrayList<TodoHistoryViewModel> {
             val c = Calendar.getInstance()
+            val currentMM = SimpleDateFormat("MM").format(c.time)
+
             c.set(Calendar.DAY_OF_MONTH, 1)
             val firstDayOfWeekWithCalendar = c.get(Calendar.DAY_OF_WEEK)
             // (row,col):(1,1)
@@ -24,8 +25,22 @@ class Util {
             val result = arrayListOf<TodoHistoryViewModel>()
             for (i in 0 until 35) {
                 val yyyyMMdd = sdf.format(c.time)
+                val MM = SimpleDateFormat("MM").format(c.time)
                 val filter = input.filter { item -> item.targetDate == yyyyMMdd }
-                if (filter.isEmpty()) {
+
+                if (currentMM != MM) {
+                    result.add(
+                        TodoHistoryViewModel(
+                            0,
+                            0,
+                            "",
+                            "",
+                            "",
+                            TYPE_CALENDAR_CONTENT_INVISIBLE,
+                            ""
+                        )
+                    )
+                } else if (filter.isEmpty()) {
                     result.add(
                         TodoHistoryViewModel(
                             0,
@@ -33,7 +48,7 @@ class Util {
                             yyyyMMdd,
                             "",
                             "",
-                            TYPE_CALENDAR_CONTENT,
+                            TYPE_CALENDAR_CONTENT_VISIBLE,
                             ""
                         )
                     )
@@ -46,8 +61,10 @@ class Util {
             }
             return result
         }
+
         fun getToday(): String = SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().time)
-        fun getFormattedToday(): String = SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
+        fun getFormattedToday(): String =
+            SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
 
     }
 
