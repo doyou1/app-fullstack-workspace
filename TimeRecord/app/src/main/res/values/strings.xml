@@ -6,4 +6,5 @@
     <string name="text_start">Start</string>
     <string name="text_end">End</string>
     <string name="text_not_yet_set_text">Not yet</string>
+    <string name="text_title_home_add_todo">Add Todo</string>
 </resources>
