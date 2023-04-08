@@ -66,6 +66,18 @@ class Util {
         fun getFormattedToday(): String =
             SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
 
+        fun isValidateToTime(value: String?): Boolean {
+            if (value == null) return true
+            try {
+                value.toInt()
+            } catch (e: Exception) {
+                return false
+            }
+            if (value.length != 4) return false
+            if (value.substring(0, 2).toInt() !in 0..23) return false
+            if (value.substring(2, 4).toInt() !in 0..59) return false
+            return true
+        }
     }
 
 }
