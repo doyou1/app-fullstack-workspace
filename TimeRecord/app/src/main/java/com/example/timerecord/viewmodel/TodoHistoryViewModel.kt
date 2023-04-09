@@ -6,9 +6,9 @@ data class TodoHistoryViewModel(
     // "20230331"
     val targetDate: String,
     // "0900"
-    val startTime: String,
+    var startTime: String,
     // "1800"
-    val endTime: String,
+    var endTime: String,
     val viewType: Int,
     val strDayOfWeek: String,
 )

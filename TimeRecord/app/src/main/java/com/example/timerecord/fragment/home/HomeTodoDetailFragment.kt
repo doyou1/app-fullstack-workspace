@@ -20,6 +20,7 @@ import com.example.timerecord.util.Const
 import com.example.timerecord.util.Util
 import com.example.timerecord.viewmodel.TodoHistoryViewModel
 import com.google.gson.Gson
+import java.text.SimpleDateFormat
 
 class HomeTodoDetailFragment : Fragment() {
 
@@ -27,6 +28,8 @@ class HomeTodoDetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
     private val handler = Handler(Looper.getMainLooper())
+    private var _list: ArrayList<TodoHistoryViewModel>? = null
+    private val list get() = _list!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,9 +48,46 @@ class HomeTodoDetailFragment : Fragment() {
 //                Log.e(TAG, "item: $item")
 //            }
         binding.selectedDate = Util.getToday()
-        setCalendar(listOf())
+
+        _list = arrayListOf()
+        list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
+        list.addAll(Util.fillTodoHistoryViewModelList(Const.TEMP_TODO_HISTORY_CONTENT_LIST))
+
+        setClickEvent()
+        setCalendar(list)
         setBackBtnEvent()
         setCurrentTime()
+
+    }
+
+    private fun setClickEvent() {
+        binding.btnStartTime.setOnClickListener {
+            Log.e(TAG, "binding.selectedDate: ${binding.selectedDate}")
+            Log.e(TAG, "binding.currentTime: ${binding.currentTime}")
+
+            list.forEachIndexed { index, item ->
+                if(item.targetDate == binding.selectedDate) {
+                    item.startTime = SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
+                    list[index] = item
+                    binding.recyclerView.adapter?.notifyItemChanged(index)
+                }
+            }
+        }
+
+        binding.btnEndTime.setOnClickListener {
+            Log.e(TAG, "binding.selectedDate: ${binding.selectedDate}")
+            Log.e(TAG, "binding.currentTime: ${binding.currentTime}")
+            list.forEachIndexed { index, item ->
+                if(item.targetDate == binding.selectedDate) {
+                    item.endTime = SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
+                    list[index] = item
+                    binding.recyclerView.adapter?.notifyItemChanged(index)
+                }
+            }
+
+        }
+
+
     }
 
     private fun setCurrentTime() {
@@ -57,18 +97,15 @@ class HomeTodoDetailFragment : Fragment() {
         }, Const.DELAY_ONE_SECONDS)
     }
 
-    private fun setCalendar(input: List<TodoHistory>) {
+    private fun setCalendar(input: List<TodoHistoryViewModel>) {
         handler.postDelayed({
             val layoutManager = GridLayoutManager(requireContext(), 7)
             layoutManager.orientation =
                 LinearLayoutManager.VERTICAL
             binding.recyclerView.layoutManager = layoutManager
             binding.recyclerView.post {
-                val list = arrayListOf<TodoHistoryViewModel>()
-                list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
-                list.addAll(Util.fillTodoHistoryViewModelList(Const.TEMP_TODO_HISTORY_CONTENT_LIST))
                 binding.recyclerView.adapter =
-                    TodoHistoryAdapter(list, binding.selectedDate, ::changeDate)
+                    TodoHistoryAdapter(input, binding.selectedDate, ::changeDate)
                 binding.showUI = true
             }
         }, Const.DELAY_SHOW_UI)
