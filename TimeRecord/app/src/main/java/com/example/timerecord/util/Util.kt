@@ -66,6 +66,8 @@ class Util {
         fun getFormattedToday(): String =
             SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().time)
 
+        fun getCurrentTime(): String = SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().time)
+
         fun isValidateToTime(value: String?): Boolean {
             if (value == null) return true
             try {

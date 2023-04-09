@@ -47,6 +47,14 @@ class HomeTodoDetailFragment : Fragment() {
         binding.selectedDate = Util.getToday()
         setCalendar(listOf())
         setBackBtnEvent()
+        setCurrentTime()
+    }
+
+    private fun setCurrentTime() {
+        binding.currentTime = Util.getCurrentTime()
+        handler.postDelayed({
+            setCurrentTime()
+        }, Const.DELAY_ONE_SECONDS)
     }
 
     private fun setCalendar(input: List<TodoHistory>) {
