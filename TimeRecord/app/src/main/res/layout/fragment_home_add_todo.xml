@@ -9,6 +9,35 @@
         <variable
             name="showUI"
             type="Boolean" />
+
+        <variable
+            name="isSelectedSunday"
+            type="Boolean" />
+
+        <variable
+            name="isSelectedMonday"
+            type="Boolean" />
+
+        <variable
+            name="isSelectedTuesday"
+            type="Boolean" />
+
+        <variable
+            name="isSelectedWednesday"
+            type="Boolean" />
+
+        <variable
+            name="isSelectedThursday"
+            type="Boolean" />
+
+        <variable
+            name="isSelectedFriday"
+            type="Boolean" />
+
+        <variable
+            name="isSelectedSaturday"
+            type="Boolean" />
+
     </data>
 
 
@@ -285,7 +314,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/baseline_circle_12"
-                                    android:visibility="gone"
+                                    android:visibility="@{isSelectedSunday ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintBottom_toBottomOf="@+id/btn_sunday"
                                     app:layout_constraintEnd_toEndOf="@+id/btn_sunday"
                                     app:layout_constraintHorizontal_bias="0.9"
@@ -335,7 +364,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/baseline_circle_12"
-                                    android:visibility="gone"
+                                    android:visibility="@{isSelectedMonday ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintBottom_toBottomOf="@+id/btn_monday"
                                     app:layout_constraintEnd_toEndOf="@+id/btn_monday"
                                     app:layout_constraintHorizontal_bias="0.9"
@@ -385,7 +414,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/baseline_circle_12"
-                                    android:visibility="gone"
+                                    android:visibility="@{isSelectedTuesday ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintBottom_toBottomOf="@+id/btn_tuesday"
                                     app:layout_constraintEnd_toEndOf="@+id/btn_tuesday"
                                     app:layout_constraintHorizontal_bias="0.9"
@@ -436,7 +465,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/baseline_circle_12"
-                                    android:visibility="gone"
+                                    android:visibility="@{isSelectedWednesday ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintBottom_toBottomOf="@+id/btn_wednesday"
                                     app:layout_constraintEnd_toEndOf="@+id/btn_wednesday"
                                     app:layout_constraintHorizontal_bias="0.9"
@@ -486,7 +515,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/baseline_circle_12"
-                                    android:visibility="gone"
+                                    android:visibility="@{isSelectedThursday ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintBottom_toBottomOf="@+id/btn_thursday"
                                     app:layout_constraintEnd_toEndOf="@+id/btn_thursday"
                                     app:layout_constraintHorizontal_bias="0.9"
@@ -535,7 +564,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/baseline_circle_12"
-                                    android:visibility="gone"
+                                    android:visibility="@{isSelectedFriday ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintBottom_toBottomOf="@+id/btn_friday"
                                     app:layout_constraintEnd_toEndOf="@+id/btn_friday"
                                     app:layout_constraintHorizontal_bias="0.9"
@@ -584,7 +613,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/baseline_circle_12"
-                                    android:visibility="gone"
+                                    android:visibility="@{isSelectedSaturday ? View.VISIBLE : View.GONE}"
                                     app:layout_constraintBottom_toBottomOf="@+id/btn_saturday"
                                     app:layout_constraintEnd_toEndOf="@+id/btn_saturday"
                                     app:layout_constraintHorizontal_bias="0.9"

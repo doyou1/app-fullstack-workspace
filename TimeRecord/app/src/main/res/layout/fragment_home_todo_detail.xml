@@ -16,6 +16,14 @@
             type="String" />
 
         <variable
+            name="selectedStartTime"
+            type="String" />
+
+        <variable
+            name="selectedEndTime"
+            type="String" />
+
+        <variable
             name="currentTime"
             type="String" />
     </data>
@@ -241,7 +249,7 @@
                         android:layout_marginHorizontal="15dp"
                         android:autoSizeTextType="uniform"
                         android:lines="1"
-                        android:text="@string/text_not_yet_set_text"
+                        app:showSelectedTime="@{selectedStartTime}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -270,7 +278,7 @@
                         android:layout_marginHorizontal="15dp"
                         android:autoSizeTextType="uniform"
                         android:lines="1"
-                        android:text="@string/text_not_yet_set_text"
+                        app:showSelectedTime="@{selectedEndTime}"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 

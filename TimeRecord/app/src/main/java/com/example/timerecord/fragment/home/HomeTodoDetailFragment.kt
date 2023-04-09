@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,7 +30,7 @@ class HomeTodoDetailFragment : Fragment() {
     private val TAG = this::class.java.simpleName
     private val handler = Handler(Looper.getMainLooper())
     private var _list: ArrayList<TodoHistoryViewModel>? = null
-    private val list get() = _list!!
+    val list get() = _list!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,17 +48,14 @@ class HomeTodoDetailFragment : Fragment() {
 //                val list = RoomDBHelper.getTodoHistory(item)
 //                Log.e(TAG, "item: $item")
 //            }
-        binding.selectedDate = Util.getToday()
-
         _list = arrayListOf()
         list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
         list.addAll(Util.fillTodoHistoryViewModelList(Const.TEMP_TODO_HISTORY_CONTENT_LIST))
-
         setClickEvent()
         setCalendar(list)
         setBackBtnEvent()
         setCurrentTime()
-
+        setBindingData(list.filter { item -> item.targetDate == Util.getToday() }[0])
     }
 
     private fun setClickEvent() {
@@ -69,6 +67,7 @@ class HomeTodoDetailFragment : Fragment() {
                 if(item.targetDate == binding.selectedDate) {
                     item.startTime = SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
                     list[index] = item
+                    setBindingData(item)
                     binding.recyclerView.adapter?.notifyItemChanged(index)
                 }
             }
@@ -81,13 +80,18 @@ class HomeTodoDetailFragment : Fragment() {
                 if(item.targetDate == binding.selectedDate) {
                     item.endTime = SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
                     list[index] = item
+                    setBindingData(item)
                     binding.recyclerView.adapter?.notifyItemChanged(index)
                 }
             }
-
         }
+    }
 
-
+    private fun setBindingData(item: TodoHistoryViewModel) {
+        binding.selectedDate = item.targetDate
+        (binding.recyclerView.adapter as TodoHistoryAdapter?)?.selectedDate = item.targetDate
+        binding.selectedStartTime = item.startTime
+        binding.selectedEndTime = item.endTime
     }
 
     private fun setCurrentTime() {
@@ -117,8 +121,7 @@ class HomeTodoDetailFragment : Fragment() {
         (binding.recyclerView.adapter as TodoHistoryAdapter).list.forEachIndexed { index, item ->
             if (item.targetDate == old) binding.recyclerView.adapter?.notifyItemChanged(index)
         }
-        binding.selectedDate = value
-        (binding.recyclerView.adapter as TodoHistoryAdapter).selectedDate = value
+        setBindingData(list[newIdx])
         // new item refresh
         binding.recyclerView.adapter?.notifyItemChanged(newIdx)
     }
@@ -139,4 +142,11 @@ class HomeTodoDetailFragment : Fragment() {
         }
     }
 
+    companion object {
+        @JvmStatic
+        @BindingAdapter("app:computeSelectedTime")
+        fun computeSelectedTime(view: View, selectedDate: String) {
+
+        }
+    }
 }

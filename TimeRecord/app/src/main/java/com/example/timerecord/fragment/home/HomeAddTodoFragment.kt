@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -83,32 +82,25 @@ class HomeAddTodoFragment : Fragment() {
 
     private fun setRepeatClickEvent() {
         binding.btnSunday.setOnClickListener {
-            binding.ivSundayStatus.visibility =
-                if (binding.ivSundayStatus.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.isSelectedSunday = !(binding.isSelectedSunday ?: false)
         }
         binding.btnMonday.setOnClickListener {
-            binding.ivMondayStatus.visibility =
-                if (binding.ivMondayStatus.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.isSelectedMonday = !(binding.isSelectedMonday ?: false)
         }
         binding.btnTuesday.setOnClickListener {
-            binding.ivTuesdayStatus.visibility =
-                if (binding.ivTuesdayStatus.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.isSelectedTuesday = !(binding.isSelectedTuesday ?: false)
         }
         binding.btnWednesday.setOnClickListener {
-            binding.ivWednesdayStatus.visibility =
-                if (binding.ivWednesdayStatus.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.isSelectedWednesday = !(binding.isSelectedWednesday ?: false)
         }
         binding.btnThursday.setOnClickListener {
-            binding.ivThursdayStatus.visibility =
-                if (binding.ivThursdayStatus.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.isSelectedThursday = !(binding.isSelectedThursday ?: false)
         }
         binding.btnFriday.setOnClickListener {
-            binding.ivFridayStatus.visibility =
-                if (binding.ivFridayStatus.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.isSelectedFriday = !(binding.isSelectedFriday ?: false)
         }
         binding.btnSaturday.setOnClickListener {
-            binding.ivSaturdayStatus.visibility =
-                if (binding.ivSaturdayStatus.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.isSelectedSaturday = !(binding.isSelectedSaturday ?: false)
         }
     }
 
