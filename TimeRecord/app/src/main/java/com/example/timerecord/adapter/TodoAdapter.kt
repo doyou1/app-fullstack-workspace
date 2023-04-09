@@ -2,11 +2,9 @@ package com.example.timerecord.adapter
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timerecord.R
 import com.example.timerecord.databinding.RvItemTodoBinding
@@ -40,7 +38,6 @@ class TodoAdapter(private val _list: List<Todo>, private val activity: Activity)
             binding.viewModel = item
 
             binding.root.setOnClickListener {
-                Log.e(TAG, "item: $item")
                 val bundle = Bundle()
                 bundle.putString("item", Gson().toJson(item))
                 Navigation.findNavController(activity, R.id.fragment_container)

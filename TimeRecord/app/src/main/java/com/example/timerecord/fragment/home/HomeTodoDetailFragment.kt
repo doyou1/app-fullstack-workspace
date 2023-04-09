@@ -3,11 +3,9 @@ package com.example.timerecord.fragment.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
@@ -16,11 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timerecord.adapter.TodoHistoryAdapter
 import com.example.timerecord.databinding.FragmentHomeTodoDetailBinding
-import com.example.timerecord.entity.TodoHistory
 import com.example.timerecord.util.Const
 import com.example.timerecord.util.Util
 import com.example.timerecord.viewmodel.TodoHistoryViewModel
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 
 class HomeTodoDetailFragment : Fragment() {
@@ -60,12 +56,10 @@ class HomeTodoDetailFragment : Fragment() {
 
     private fun setClickEvent() {
         binding.btnStartTime.setOnClickListener {
-            Log.e(TAG, "binding.selectedDate: ${binding.selectedDate}")
-            Log.e(TAG, "binding.currentTime: ${binding.currentTime}")
-
             list.forEachIndexed { index, item ->
-                if(item.targetDate == binding.selectedDate) {
-                    item.startTime = SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
+                if (item.targetDate == binding.selectedDate) {
+                    item.startTime =
+                        SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
                     list[index] = item
                     setBindingData(item)
                     binding.recyclerView.adapter?.notifyItemChanged(index)
@@ -74,11 +68,10 @@ class HomeTodoDetailFragment : Fragment() {
         }
 
         binding.btnEndTime.setOnClickListener {
-            Log.e(TAG, "binding.selectedDate: ${binding.selectedDate}")
-            Log.e(TAG, "binding.currentTime: ${binding.currentTime}")
             list.forEachIndexed { index, item ->
-                if(item.targetDate == binding.selectedDate) {
-                    item.endTime = SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
+                if (item.targetDate == binding.selectedDate) {
+                    item.endTime =
+                        SimpleDateFormat("HHmm").format(SimpleDateFormat("HH:mm:ss").parse(binding.currentTime).time)
                     list[index] = item
                     setBindingData(item)
                     binding.recyclerView.adapter?.notifyItemChanged(index)
