@@ -251,4 +251,6 @@ object Const {
     const val TYPE_CALENDAR_HEAD = 0
     const val TYPE_CALENDAR_CONTENT_VISIBLE = 1
     const val TYPE_CALENDAR_CONTENT_INVISIBLE = 2
+    const val FLAG_START_TIME = 1
+    const val FLAG_END_TIME = 2
 }

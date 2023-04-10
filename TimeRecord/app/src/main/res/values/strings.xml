@@ -19,4 +19,8 @@
     <string name="text_friday">Fri</string>
     <string name="text_saturday">Sat</string>
     <string name="text_add_todo">Add Todo</string>
+    <string name="text_title_edit_hour">Edit Hour</string>
+    <string name="text_submit">Submit</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_ok">Ok</string>
 </resources>

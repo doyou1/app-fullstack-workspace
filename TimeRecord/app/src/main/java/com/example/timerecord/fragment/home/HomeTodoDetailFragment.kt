@@ -1,22 +1,36 @@
 package com.example.timerecord.fragment.home
 
+import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.ResultReceiver
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.timerecord.R
 import com.example.timerecord.adapter.TodoHistoryAdapter
 import com.example.timerecord.databinding.FragmentHomeTodoDetailBinding
 import com.example.timerecord.util.Const
+import com.example.timerecord.util.Const.FLAG_END_TIME
+import com.example.timerecord.util.Const.FLAG_START_TIME
 import com.example.timerecord.util.Util
 import com.example.timerecord.viewmodel.TodoHistoryViewModel
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 
 class HomeTodoDetailFragment : Fragment() {
@@ -78,6 +92,34 @@ class HomeTodoDetailFragment : Fragment() {
                 }
             }
         }
+
+        binding.cardViewStartTime.setOnClickListener {
+            showEditDialog(FLAG_START_TIME)
+        }
+
+        binding.cardViewEndTime.setOnClickListener {
+            showEditDialog(FLAG_END_TIME)
+        }
+    }
+
+    private fun showEditDialog(flag: Int) {
+        val dialog = Dialog(requireActivity())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_edit_hour)
+
+        val etHour = dialog.findViewById<TextInputEditText>(R.id.et_hour)
+        val btnCancel = dialog.findViewById<MaterialCardView>(R.id.card_view_cancel)
+        val btnOk = dialog.findViewById<MaterialCardView>(R.id.card_view_ok)
+
+        etHour.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+
+                
+
+            }
+        }
+
     }
 
     private fun setBindingData(item: TodoHistoryViewModel) {
