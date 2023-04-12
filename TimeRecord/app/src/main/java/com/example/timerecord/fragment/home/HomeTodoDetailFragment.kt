@@ -109,17 +109,56 @@ class HomeTodoDetailFragment : Fragment() {
         dialog.setContentView(R.layout.dialog_edit_hour)
 
         val etHour = dialog.findViewById<TextInputEditText>(R.id.et_hour)
+        when (flag) {
+            FLAG_START_TIME -> {
+                val value = binding.tvStartTime.text?.toString()
+                if (value == null || value.trim().isEmpty() || value == "Not yet") {
+
+                } else {
+                    etHour.setText(value)
+                }
+            }
+            FLAG_END_TIME -> {
+                val value = binding.tvEndTime.text?.toString()
+                if (value == null || value.trim().isEmpty() || value == "Not yet") {
+
+                } else {
+                    etHour.setText(value)
+                }
+            }
+        }
+
         val btnCancel = dialog.findViewById<MaterialCardView>(R.id.card_view_cancel)
         val btnOk = dialog.findViewById<MaterialCardView>(R.id.card_view_ok)
 
         etHour.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
+                if (Util.isValidateToTime(etHour.text?.toString())) {
 
-                
-
+                } else {
+                    etHour.error = "please check input data in hour"
+                }
             }
         }
 
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnOk.setOnClickListener {
+            if (Util.isValidateToTime(etHour.text?.toString())) {
+                when (flag) {
+                    FLAG_START_TIME -> {
+                        binding.tvStartTime.text = etHour.text
+                    }
+                    FLAG_END_TIME -> {
+                        binding.tvEndTime.text = etHour.text
+                    }
+                }
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     private fun setBindingData(item: TodoHistoryViewModel) {
