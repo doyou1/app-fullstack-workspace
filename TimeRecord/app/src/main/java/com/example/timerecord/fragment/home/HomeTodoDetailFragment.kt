@@ -32,6 +32,7 @@ import com.example.timerecord.viewmodel.TodoHistoryViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class HomeTodoDetailFragment : Fragment() {
 
@@ -60,15 +61,46 @@ class HomeTodoDetailFragment : Fragment() {
 //            }
         _list = arrayListOf()
         list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
-        list.addAll(Util.fillTodoHistoryViewModelList(Const.TEMP_TODO_HISTORY_CONTENT_LIST))
-        setClickEvent()
+        list.addAll(Util.fillTodoHistoryViewModelList(Util.getToday(), Const.TEMP_TODO_HISTORY_CONTENT_LIST))
         setCalendar(list)
+
+        setClickEvent()
         setBackBtnEvent()
         setCurrentTime()
         setBindingData(list.filter { item -> item.targetDate == Util.getToday() }[0])
     }
 
     private fun setClickEvent() {
+        binding.btnLeft.setOnClickListener {
+            binding.showUI = false
+            _list = arrayListOf()
+            list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
+            val c = Calendar.getInstance()
+            c.time = SimpleDateFormat("yyyyMMdd").parse(binding.selectedDate.toString())
+            c.add(Calendar.MONTH, -1)
+            c.set(Calendar.DAY_OF_MONTH, 1)
+            val new = SimpleDateFormat("yyyyMMdd").format(c.time)
+            list.addAll(Util.fillTodoHistoryViewModelList(new, Const.TEMP_TODO_HISTORY_CONTENT_LIST))
+            binding.selectedDate = new
+            setCalendar(list)
+            setBindingData(list.filter { item -> item.targetDate == binding.selectedDate }[0])
+        }
+
+        binding.btnRight.setOnClickListener {
+            binding.showUI = false
+            _list = arrayListOf()
+            list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
+            val c = Calendar.getInstance()
+            c.time = SimpleDateFormat("yyyyMMdd").parse(binding.selectedDate.toString())
+            c.add(Calendar.MONTH, 1)
+            c.set(Calendar.DAY_OF_MONTH, 1)
+            val new = SimpleDateFormat("yyyyMMdd").format(c.time)
+            list.addAll(Util.fillTodoHistoryViewModelList(new, Const.TEMP_TODO_HISTORY_CONTENT_LIST))
+            binding.selectedDate = new
+            setCalendar(list)
+            setBindingData(list.filter { item -> item.targetDate == binding.selectedDate }[0])
+        }
+
         binding.btnStartTime.setOnClickListener {
             list.forEachIndexed { index, item ->
                 if (item.targetDate == binding.selectedDate) {

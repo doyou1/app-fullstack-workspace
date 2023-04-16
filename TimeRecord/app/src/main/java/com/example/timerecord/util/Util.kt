@@ -10,8 +10,9 @@ class Util {
 
     companion object {
 
-        fun fillTodoHistoryViewModelList(input: List<TodoHistoryViewModel>): ArrayList<TodoHistoryViewModel> {
+        fun fillTodoHistoryViewModelList(selectedDate: String, input: List<TodoHistoryViewModel>): ArrayList<TodoHistoryViewModel> {
             val c = Calendar.getInstance()
+            c.time = SimpleDateFormat("yyyyMMdd").parse(selectedDate)
             val currentMM = SimpleDateFormat("MM").format(c.time)
 
             c.set(Calendar.DAY_OF_MONTH, 1)
