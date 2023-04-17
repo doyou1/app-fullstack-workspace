@@ -61,7 +61,12 @@ class HomeTodoDetailFragment : Fragment() {
 //            }
         _list = arrayListOf()
         list.addAll(Const.TEMP_TODO_HISTORY_HEAD_LIST)
-        list.addAll(Util.fillTodoHistoryViewModelList(Util.getToday(), Const.TEMP_TODO_HISTORY_CONTENT_LIST))
+        list.addAll(
+            Util.fillTodoHistoryViewModelList(
+                Util.getToday(),
+                Const.TEMP_TODO_HISTORY_CONTENT_LIST
+            )
+        )
         setCalendar(list)
 
         setClickEvent()
@@ -80,7 +85,12 @@ class HomeTodoDetailFragment : Fragment() {
             c.add(Calendar.MONTH, -1)
             c.set(Calendar.DAY_OF_MONTH, 1)
             val new = SimpleDateFormat("yyyyMMdd").format(c.time)
-            list.addAll(Util.fillTodoHistoryViewModelList(new, Const.TEMP_TODO_HISTORY_CONTENT_LIST))
+            list.addAll(
+                Util.fillTodoHistoryViewModelList(
+                    new,
+                    Const.TEMP_TODO_HISTORY_CONTENT_LIST
+                )
+            )
             binding.selectedDate = new
             setCalendar(list)
             setBindingData(list.filter { item -> item.targetDate == binding.selectedDate }[0])
@@ -95,7 +105,12 @@ class HomeTodoDetailFragment : Fragment() {
             c.add(Calendar.MONTH, 1)
             c.set(Calendar.DAY_OF_MONTH, 1)
             val new = SimpleDateFormat("yyyyMMdd").format(c.time)
-            list.addAll(Util.fillTodoHistoryViewModelList(new, Const.TEMP_TODO_HISTORY_CONTENT_LIST))
+            list.addAll(
+                Util.fillTodoHistoryViewModelList(
+                    new,
+                    Const.TEMP_TODO_HISTORY_CONTENT_LIST
+                )
+            )
             binding.selectedDate = new
             setCalendar(list)
             setBindingData(list.filter { item -> item.targetDate == binding.selectedDate }[0])

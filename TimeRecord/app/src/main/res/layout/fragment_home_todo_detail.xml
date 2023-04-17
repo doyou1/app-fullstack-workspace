@@ -158,7 +158,7 @@
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintBottom_toTopOf="@+id/layout_input"
+                app:layout_constraintBottom_toTopOf="@+id/card_view_current_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -167,12 +167,43 @@
                     android:id="@+id/tv_selected_date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="15dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="7dp"
                     android:lines="1"
-                    android:text="@{selectedDate + ` ` + currentTime}"
+                    android:text="@{selectedDate}"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_view_current_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toTopOf="@+id/layout_input"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_selected_date">
+
+                <TextView
+                    android:id="@+id/tv_current_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="7dp"
+                    android:lines="1"
+                    android:text="@{currentTime}"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
             </com.google.android.material.card.MaterialCardView>
 
 
@@ -183,7 +214,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_view_selected_date">
+                app:layout_constraintTop_toBottomOf="@+id/card_view_current_time">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_start_time"
@@ -230,8 +261,8 @@
                     android:id="@+id/card_view_start_time"
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
-                    android:focusable="true"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="4dp"
@@ -250,9 +281,9 @@
                         android:layout_marginHorizontal="15dp"
                         android:autoSizeTextType="uniform"
                         android:lines="1"
-                        app:showSelectedTime="@{selectedStartTime}"
                         android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:showSelectedTime="@{selectedStartTime}" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -260,8 +291,8 @@
                     android:id="@+id/card_view_end_time"
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
-                    android:focusable="true"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="4dp"
@@ -280,9 +311,9 @@
                         android:layout_marginHorizontal="15dp"
                         android:autoSizeTextType="uniform"
                         android:lines="1"
-                        app:showSelectedTime="@{selectedEndTime}"
                         android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:showSelectedTime="@{selectedEndTime}" />
 
                 </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
