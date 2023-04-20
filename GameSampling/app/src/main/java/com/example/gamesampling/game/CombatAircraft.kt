@@ -7,6 +7,7 @@ import android.graphics.Paint
 class CombatAircraft(bitmap: Bitmap) : Sprite(bitmap) {
 
     private var collide: Boolean = false
+    private var bombAwardCount = 0
     private var single: Boolean = true
 
     override fun beforeDraw(canvas: Canvas, paint: Paint, gameView: GameView) {
@@ -38,6 +39,10 @@ class CombatAircraft(bitmap: Bitmap) : Sprite(bitmap) {
         if (rectF.bottom > canvasHeight) {
             setY((canvasHeight - getHeight()).toFloat())
         }
+    }
+
+    fun getBombCount() : Int {
+        return bombAwardCount
     }
 
     fun fight(gameView: GameView) {

@@ -8,16 +8,32 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import com.example.gamesampling.R
+import kotlin.math.floor
+import kotlin.math.round
 
-class GameView(context: Context, attrs: AttributeSet?, defStyle: Int?) :
-    View(context, attrs ?: null, defStyle ?: 0) {
+class GameView : View {
+
+    constructor(context: Context) : super(context) {
+        init(null, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
+        init(attrs, defStyle)
+    }
 
     private lateinit var paint: Paint
     private lateinit var textPaint: Paint
     private var combatAircraft: CombatAircraft? = null
     private val sprites = arrayListOf<Sprite>()
     private val spritesNeedAdded = arrayListOf<Sprite>()
-
 
     private var fontSize: Float = 12f
     private var fontSize2: Float = 20f
@@ -51,21 +67,8 @@ class GameView(context: Context, attrs: AttributeSet?, defStyle: Int?) :
     private var touchX: Float = -1f
     private var touchY: Float = -1f
 
-    init {
-        val TAG = this::class.java.simpleName
 
-        Log.e(TAG, "LOG")
-//        if (defStyle != null) {
-//            initView(attrs, defStyle)
-//        } else {
-//            initView(attrs, 0)
-//        }
-
-
-        initView(attrs, defStyle ?: 0)
-    }
-
-    private fun initView(attrs: AttributeSet?, defStyle: Int) {
+    private fun init(attrs: AttributeSet?, defStyle: Int) {
         attrs?.let {
             val typedArray: TypedArray =
                 context.obtainStyledAttributes(it, R.styleable.GameView, defStyle, 0)
@@ -115,6 +118,8 @@ class GameView(context: Context, attrs: AttributeSet?, defStyle: Int?) :
 
     private fun getScore() = score
 
+    /*-------------------------------draw-------------------------------------*/
+
     override fun onDraw(canvas: Canvas?) {
         if (isSingleClick()) {
             onSingleClick(touchX, touchY)
@@ -128,27 +133,23 @@ class GameView(context: Context, attrs: AttributeSet?, defStyle: Int?) :
                 STATUS_GAME_OVER -> drawGameOver(it)
             }
         }
-
     }
 
     private fun drawGameStarted(canvas: Canvas) {
         drawScoreAndBombs(canvas)
-
         if (frame == 0L) {
-            val centerX = canvas.width / 2
-            val centerY = canvas.height - combatAircraft?.getHeight() / 2
-            combatAircraft?.centerTo(centerX.toFloat(), centerY.toFloat())
+            if (combatAircraft != null) {
+                val centerX = canvas.width / 2
+                val centerY = canvas.height - combatAircraft!!.getHeight() / 2
+                combatAircraft!!.centerTo(centerX.toFloat(), centerY.toFloat())
+            }
         }
-
         if (spritesNeedAdded.size > 0) {
             sprites.addAll(spritesNeedAdded)
             spritesNeedAdded.clear()
         }
-
         destroyBulletsFrontOfCombatAircraft()
-
         removeDestroyedSprites()
-
         if (frame % 30 == 0L) {
             createRandomSprites(canvas.width)
         }
@@ -181,7 +182,7 @@ class GameView(context: Context, attrs: AttributeSet?, defStyle: Int?) :
         for (s in sprites) {
             s.onDraw(canvas, paint, this)
         }
-        if(combatAircraft != null) {
+        if (combatAircraft != null) {
             combatAircraft!!.onDraw(canvas, paint, this)
         }
     }
@@ -189,6 +190,98 @@ class GameView(context: Context, attrs: AttributeSet?, defStyle: Int?) :
     private fun drawGameOver(canvas: Canvas) {
 
     }
+
+    private fun drawScoreAndBombs(canvas: Canvas) {
+        val pauseBitmap = if (status == STATUS_GAME_STARTED) bitmaps[9] else bitmaps[10]
+        val pauseBitmapDstRecF = getPauseBitmapDstRecF()
+        val pauseLeft = pauseBitmapDstRecF.left
+        val pauseTop = pauseBitmapDstRecF.top
+        canvas.drawBitmap(pauseBitmap, pauseLeft, pauseTop, paint)
+
+        val scoreLeft = pauseLeft + pauseBitmap.width + 20 * density
+        val scoreTop = fontSize + pauseTop + pauseBitmap.height / 2 - fontSize / 2
+        canvas.drawText("$score", scoreLeft, scoreTop, textPaint)
+
+        if (combatAircraft != null && !combatAircraft!!.isDestroyed()) {
+            val bombCount = combatAircraft!!.getBombCount()
+            if (bombCount > 0) {
+                val bombBitmap = bitmaps[11]
+                val bombTop = canvas.height - bombBitmap.height
+                canvas.drawBitmap(bombBitmap, 0f, bombTop.toFloat(), paint)
+
+                val bombCountLeft = bombBitmap.width + 10 * density
+                val bombCountTop = fontSize + bombTop + bombBitmap.height / 2 - fontSize / 2
+                canvas.drawText("X $bombCount", bombCountLeft, bombCountTop, textPaint)
+            }
+        }
+    }
+
+    private fun destroyBulletsFrontOfCombatAircraft() {
+        if (combatAircraft != null) {
+            val aircraftY = combatAircraft!!.getY()
+            val aliveBullets: List<Bullet> = getAliveBullets()
+            for (bullet in aliveBullets) {
+                if (aircraftY <= bullet.getY()) {
+                    bullet.destroy()
+                }
+            }
+        }
+    }
+
+    private fun removeDestroyedSprites() {
+        val iterator = sprites.iterator()
+        while (iterator.hasNext()) {
+            val s = iterator.next()
+            if (s.isDestroyed()) {
+                iterator.remove()
+            }
+        }
+    }
+
+    private fun createRandomSprites(canvasWidth: Int) {
+        var sprite: Sprite? = null
+        var speed = 2
+        var callTime = round((frame / 30).toDouble())
+        if (((callTime + 1) % 25).toInt() == 0) {
+            if (((callTime + 1) % 50).toInt() == 0) {
+                sprite = BombAward(bitmaps[7])
+            } else {
+                sprite = BulletAward(bitmaps[8])
+            }
+        } else {
+            val nums = arrayOf<Int>(0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2)
+            val index = floor(nums.size * Math.random()).toInt()
+            val type = nums[index]
+            when (type) {
+                0 -> sprite = SmallEnemyPlane(bitmaps[4])
+                1 -> sprite = MiddleEnemyPlane(bitmaps[5])
+                2 -> sprite = BigEnemyPlane(bitmaps[6])
+            }
+            if (type != 2) {
+                if (Math.random() < 0.33) {
+                    speed = 4
+                }
+            }
+        }
+
+        if(sprite != null) {
+            val spriteWidth = sprite.getWidth()
+            val spriteHeight = sprite.getHeight()
+            val x = (canvasWidth - spriteWidth) * Math.random()
+            val y = -spriteHeight
+            sprite.setX(x.toFloat())
+            sprite.setY(y.toFloat())
+            if(sprite is AutoSprite) {
+                val autoSprite = sprite as AutoSprite
+                autoSprite.setSpeed(speed)
+            }
+            addSprite(sprite)
+        }
+    }
+
+    /*-------------------------------touch------------------------------------*/
+
+
 
     fun destroy() {
         destroyNotRecycleBitmaps()
@@ -271,6 +364,5 @@ class GameView(context: Context, attrs: AttributeSet?, defStyle: Int?) :
         const val STATUS_GAME_OVER = 3
         const val STATUS_GAME_DESTROYED = 4
         const val doubleClickDurationTime = 300
-
     }
 }
