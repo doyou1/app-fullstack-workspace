@@ -24,8 +24,6 @@ class GameActivity : AppCompatActivity() {
         //9:pause1
         //10:pause2
         //11:bomb
-
-
         val bitmapIds = arrayOf(
             R.drawable.plane,
             R.drawable.explosion,

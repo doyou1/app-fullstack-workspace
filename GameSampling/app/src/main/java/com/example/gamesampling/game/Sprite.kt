@@ -124,7 +124,7 @@ open class Sprite(private val _bitmap: Bitmap) {
         afterDraw(canvas, paint, gameView)
     }
 
-    fun beforeDraw(canvas: Canvas, paint: Paint, gameView: GameView) {}
+    open fun beforeDraw(canvas: Canvas, paint: Paint, gameView: GameView) {}
 
     fun onDraw(canvas: Canvas, paint: Paint, gameView: GameView) {
         if (!destroyed && this.bitmap != null && getVisibility()) {
