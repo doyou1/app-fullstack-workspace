@@ -48,7 +48,6 @@ class GameActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         binding.gameView.destroy()
     }
 }

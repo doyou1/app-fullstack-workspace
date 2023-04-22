@@ -8,9 +8,8 @@ import android.graphics.Rect
 import android.graphics.RectF
 import kotlin.math.round
 
-open class Sprite(private val _bitmap: Bitmap) {
+open class Sprite(private var bitmap: Bitmap?) {
 
-    private var bitmap: Bitmap? = _bitmap
     private var visible: Boolean = true
     private var x: Float = 0f
     private var y: Float = 0f
@@ -46,20 +45,12 @@ open class Sprite(private val _bitmap: Bitmap) {
         return this.y
     }
 
-    fun getWidth(): Int {
-        return if (bitmap != null) {
-            bitmap!!.width
-        } else {
-            0
-        }
+    open fun getWidth(): Float {
+        return bitmap!!.width.toFloat()
     }
 
     fun getHeight(): Int {
-        return if (bitmap != null) {
-            bitmap!!.height
-        } else {
-            0
-        }
+        return bitmap!!.height
     }
 
     fun move(offsetX: Float, offsetY: Float) {
@@ -87,11 +78,11 @@ open class Sprite(private val _bitmap: Bitmap) {
         return RectF(left, top, right, bottom)
     }
 
-    fun getBitmapSrcRec(): Rect {
+    open fun getBitmapSrcRec(): Rect {
         val rect = Rect()
         rect.left = 0
         rect.top = 0
-        rect.right = getWidth()
+        rect.right = getWidth().toInt()
         rect.bottom = getHeight()
         return rect
     }
@@ -126,16 +117,15 @@ open class Sprite(private val _bitmap: Bitmap) {
 
     open fun beforeDraw(canvas: Canvas, paint: Paint, gameView: GameView) {}
 
-    fun onDraw(canvas: Canvas, paint: Paint, gameView: GameView) {
+    open fun onDraw(canvas: Canvas, paint: Paint, gameView: GameView) {
         if (!destroyed && this.bitmap != null && getVisibility()) {
             val srcRef = getBitmapSrcRec()
             val dstRecF = getRectF()
-
             canvas.drawBitmap(bitmap!!, srcRef, dstRecF, paint)
         }
     }
 
-    fun afterDraw(canvas: Canvas, paint: Paint, gameView: GameView) {}
+    open fun afterDraw(canvas: Canvas, paint: Paint, gameView: GameView) {}
 
     fun destroy() {
         bitmap = null

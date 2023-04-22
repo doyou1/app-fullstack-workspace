@@ -6,6 +6,7 @@ import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import com.example.gamesampling.R
 import kotlin.math.floor
@@ -38,7 +39,7 @@ class GameView : View {
     private var fontSize: Float = 12f
     private var fontSize2: Float = 20f
     private var borderSize: Float = 2f
-    private val continueRect: Rect = Rect()
+    private var continueRect: Rect = Rect()
 
     //0:combatAircraft
     //1:explosion
@@ -128,9 +129,15 @@ class GameView : View {
 
         canvas?.let {
             when (status) {
-                STATUS_GAME_STARTED -> drawGameStarted(it)
-                STATUS_GAME_PAUSED -> drawGamePaused(it)
-                STATUS_GAME_OVER -> drawGameOver(it)
+                STATUS_GAME_STARTED -> {
+                    drawGameStarted(it)
+                }
+                STATUS_GAME_PAUSED -> {
+                    drawGamePaused(it)
+                }
+                STATUS_GAME_OVER -> {
+                    drawGameOver(it)
+                }
             }
         }
     }
@@ -255,8 +262,38 @@ class GameView : View {
         canvas.drawLine(0f, 0f, w2.toFloat(), 0f, paint)
 
         val allScore = "${getScore()}"
-        canvas.drawText(allScore, (w2 / 2).toFloat(), ((h3 - fontSize2) / 2 + fontSize2).toFloat(), textPaint)
+        canvas.drawText(
+            allScore,
+            (w2 / 2).toFloat(),
+            ((h3 - fontSize2) / 2 + fontSize2).toFloat(),
+            textPaint
+        )
+        canvas.translate(0f, h3.toFloat())
+        canvas.drawLine(0f, 0f, w2.toFloat(), 0f, paint)
 
+        val rect2 = Rect()
+        rect2.left = ((w2 - buttonWidth) / 2).toInt()
+        rect2.right = (w2 - rect2.left).toInt()
+        rect2.top = ((h4 - buttonHeight) / 2).toInt()
+        rect2.bottom = (h4 - rect2.top).toInt()
+        canvas.drawRect(rect2, paint)
+        canvas.translate(0f, rect2.top.toFloat())
+        canvas.drawText(
+            operation,
+            (w2 / 2).toFloat(),
+            ((buttonHeight - fontSize2) / 2 + fontSize2).toFloat(),
+            textPaint
+        )
+        continueRect = Rect(rect2)
+        continueRect.left = (w1 + rect2.left).toInt()
+        continueRect.right = (continueRect.left + buttonWidth).toInt()
+        continueRect.top = (h1 + h2 + h3 + rect2.top).toInt()
+        continueRect.bottom = (continueRect.top + buttonHeight).toInt()
+
+        textPaint.textSize = originalFontSize
+        textPaint.textAlign = originalFontAlign
+        paint.color = originalColor
+        paint.style = originalStyle
     }
 
     private fun drawScoreAndBombs(canvas: Canvas) {
@@ -340,25 +377,69 @@ class GameView : View {
             sprite.setX(x.toFloat())
             sprite.setY(y.toFloat())
             if (sprite is AutoSprite) {
-                val autoSprite = sprite as AutoSprite
-                autoSprite.setSpeed(speed)
+                val autoSprite = sprite
+                autoSprite.setSpeed(speed.toFloat())
             }
             addSprite(sprite)
         }
     }
 
     /*-------------------------------touch------------------------------------*/
-
-
-    fun destroy() {
-        destroyNotRecycleBitmaps()
-
-        for (bitmap in bitmaps) {
-            bitmap.recycle()
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        val touchType = resolveTouchType(event)
+        when (status) {
+            STATUS_GAME_STARTED -> {
+                when (touchType) {
+                    TOUCH_MOVE -> {
+                        combatAircraft?.centerTo(touchX, touchY)
+                    }
+                    TOUCH_DOUBLE_CLICK -> {
+                        combatAircraft?.bomb(this)
+                    }
+                }
+            }
+            STATUS_GAME_PAUSED -> {
+                if (lastSingleClickTime > 0) postInvalidate()
+            }
+            STATUS_GAME_OVER -> {
+                if (lastSingleClickTime > 0) postInvalidate()
+            }
         }
-        bitmaps.clear()
+        return true
     }
 
+    private fun resolveTouchType(event: MotionEvent?): Int {
+        if (event == null) return -1
+        var touchType = -1
+        val action = event.action
+        touchX = event.x
+        touchY = event.y
+        when (action) {
+            MotionEvent.ACTION_MOVE -> {
+                val deltaTime = System.currentTimeMillis() - touchDownTime
+                if (deltaTime > singleClickDurationTime) {
+                    touchType = TOUCH_MOVE
+                }
+            }
+            MotionEvent.ACTION_DOWN -> {
+                touchDownTime = System.currentTimeMillis()
+            }
+            MotionEvent.ACTION_UP -> {
+                touchUpTime = System.currentTimeMillis()
+                val downUpDurationTime = touchUpTime - touchDownTime
+                if (downUpDurationTime <= singleClickDurationTime) {
+                    touchType = TOUCH_DOUBLE_CLICK
+
+                    lastSingleClickTime = -1
+                    touchDownTime = -1
+                    touchUpTime = -1
+                } else {
+                    lastSingleClickTime = touchUpTime
+                }
+            }
+        }
+        return touchType
+    }
 
     private fun isSingleClick(): Boolean {
         var singleClick = false
@@ -423,6 +504,79 @@ class GameView : View {
         if (combatAircraft != null) {
             combatAircraft!!.destroy()
         }
+        combatAircraft = null
+
+        for (s in sprites) {
+            s.destroy()
+        }
+        sprites.clear()
+    }
+
+    fun destroy() {
+        destroyNotRecycleBitmaps()
+
+        for (bitmap in bitmaps) {
+            bitmap.recycle()
+        }
+        bitmaps.clear()
+    }
+
+
+    /*----- public methods -----*/
+
+    fun addSprite(sprite: Sprite) {
+        spritesNeedAdded.add(sprite)
+    }
+
+    fun addScore(value: Int) {
+        score += value
+    }
+
+    fun getStatus(): Int = this.status
+
+    fun getDensity(): Float = this.density
+
+    fun getYellowBulletBitmap(): Bitmap = bitmaps[2]
+    fun getBlueBulletBitmap(): Bitmap = bitmaps[3]
+    fun getExplosionBitmap(): Bitmap = bitmaps[1]
+    fun getAliveEnemyPlanes(): List<EnemyPlane> {
+        val enemyPlanes = arrayListOf<EnemyPlane>()
+        for (s in sprites) {
+            if (!s.isDestroyed() && s is EnemyPlane) {
+                enemyPlanes.add(s)
+            }
+        }
+        return enemyPlanes
+    }
+
+    fun getAliveBombAwards(): List<BombAward> {
+        val bombAwards = arrayListOf<BombAward>()
+        for (s in sprites) {
+            if (!s.isDestroyed() && s is BombAward) {
+                bombAwards.add(s)
+            }
+        }
+        return bombAwards
+    }
+
+    fun getAliveBulletAwards(): List<BulletAward> {
+        val bulletAwards = arrayListOf<BulletAward>()
+        for (s in sprites) {
+            if (!s.isDestroyed() && s is BulletAward) {
+                bulletAwards.add(s)
+            }
+        }
+        return bulletAwards
+    }
+
+    fun getAliveBullets(): List<Bullet> {
+        val bullets = arrayListOf<Bullet>()
+        for (s in sprites) {
+            if (!s.isDestroyed() && s is Bullet) {
+                bullets.add(s)
+            }
+        }
+        return bullets
     }
 
     companion object {
@@ -430,6 +584,11 @@ class GameView : View {
         const val STATUS_GAME_PAUSED = 2
         const val STATUS_GAME_OVER = 3
         const val STATUS_GAME_DESTROYED = 4
+
+        const val TOUCH_MOVE = 1
+        const val TOUCH_SINGLE_CLICK = 2
+        const val TOUCH_DOUBLE_CLICK = 3
+        const val singleClickDurationTime = 200
         const val doubleClickDurationTime = 300
     }
 }
