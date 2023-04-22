@@ -185,9 +185,77 @@ class GameView : View {
         if (combatAircraft != null) {
             combatAircraft!!.onDraw(canvas, paint, this)
         }
+
+        drawScoreDialog(canvas, "GamePause")
+
+        if (lastSingleClickTime > 0) {
+            postInvalidate()
+        }
     }
 
     private fun drawGameOver(canvas: Canvas) {
+        drawScoreDialog(canvas, "GameOver")
+
+        if (lastSingleClickTime > 0) {
+            postInvalidate()
+        }
+    }
+
+    private fun drawScoreDialog(canvas: Canvas, operation: String) {
+        val canvasWidth = canvas.width
+        val canvasHeight = canvas.height
+
+        val originalFontSize: Float = textPaint.textSize
+        val originalFontAlign: Paint.Align = textPaint.textAlign
+        val originalColor: Int = paint.color
+        val originalStyle: Paint.Style = paint.style
+
+        /*
+       W = 360
+       w1 = 20
+       w2 = 320
+       buttonWidth = 140
+       buttonHeight = 42
+       H = 558
+       h1 = 150
+       h2 = 60
+       h3 = 124
+       h4 = 76
+       */
+        val w1 = (20.0 / 360.0 * canvasWidth)
+        val w2 = canvasWidth - 2 * w1
+        val buttonWidth = (140.0 / 360.0 * canvasWidth)
+
+        val h1 = (150.0 / 558.0 * canvasHeight)
+        val h2 = (60.6 / 558.0 * canvasHeight)
+        val h3 = (124.0 / 558.0 * canvasHeight)
+        val h4 = (76.0 / 558.0 * canvasHeight)
+        val buttonHeight = (42.0 / 558.0 * canvasHeight)
+
+        canvas.translate(w1.toFloat(), h2.toFloat())
+
+        paint.style = Paint.Style.FILL
+        paint.color = 0xFFD7DDDE.toInt()
+        val rect1 = Rect(0, 0, w2.toInt(), (canvasHeight - 2 * h1).toInt())
+        canvas.drawRect(rect1, paint)
+
+        paint.style = Paint.Style.STROKE
+        paint.color = 0xFF515151.toInt()
+        paint.strokeWidth = borderSize
+        paint.strokeJoin = Paint.Join.ROUND
+        canvas.drawRect(rect1, paint)
+
+        textPaint.textSize = fontSize2
+        textPaint.textAlign = Paint.Align.CENTER
+        canvas.drawText(
+            "항공기 점수",
+            (w2 / 2).toFloat(), ((h2 - fontSize2) / 2 + fontSize2).toFloat(), textPaint
+        )
+        canvas.translate(0f, h2.toFloat())
+        canvas.drawLine(0f, 0f, w2.toFloat(), 0f, paint)
+
+        val allScore = "${getScore()}"
+        canvas.drawText(allScore, (w2 / 2).toFloat(), ((h3 - fontSize2) / 2 + fontSize2).toFloat(), textPaint)
 
     }
 
@@ -264,14 +332,14 @@ class GameView : View {
             }
         }
 
-        if(sprite != null) {
+        if (sprite != null) {
             val spriteWidth = sprite.getWidth()
             val spriteHeight = sprite.getHeight()
             val x = (canvasWidth - spriteWidth) * Math.random()
             val y = -spriteHeight
             sprite.setX(x.toFloat())
             sprite.setY(y.toFloat())
-            if(sprite is AutoSprite) {
+            if (sprite is AutoSprite) {
                 val autoSprite = sprite as AutoSprite
                 autoSprite.setSpeed(speed)
             }
@@ -280,7 +348,6 @@ class GameView : View {
     }
 
     /*-------------------------------touch------------------------------------*/
-
 
 
     fun destroy() {
