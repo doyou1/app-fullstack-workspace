@@ -36,11 +36,6 @@ class GameView : View {
     private val sprites = arrayListOf<Sprite>()
     private val spritesNeedAdded = arrayListOf<Sprite>()
 
-    private var fontSize: Float = 12f
-    private var fontSize2: Float = 20f
-    private var borderSize: Float = 2f
-    private var continueRect: Rect = Rect()
-
     //0:combatAircraft
     //1:explosion
     //2:yellowBullet
@@ -61,13 +56,16 @@ class GameView : View {
     private var frame: Long = 0
     private var score: Long = 0
 
+    private var fontSize: Float = 12f
+    private var fontSize2: Float = 20f
+    private var borderSize: Float = 2f
+    private var continueRect: Rect = Rect()
 
     private var lastSingleClickTime: Long = -1
     private var touchDownTime: Long = -1
     private var touchUpTime: Long = -1
     private var touchX: Float = -1f
     private var touchY: Float = -1f
-
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         attrs?.let {
@@ -117,16 +115,15 @@ class GameView : View {
         postInvalidate()
     }
 
-    private fun getScore() = score
+    private fun getScore(): Long = this.score
 
     /*-------------------------------draw-------------------------------------*/
 
     override fun onDraw(canvas: Canvas?) {
-        if (isSingleClick()) {
-            onSingleClick(touchX, touchY)
-        }
+//        if (isSingleClick()) {
+        onSingleClick(touchX, touchY)
+//        }
         super.onDraw(canvas)
-
         canvas?.let {
             when (status) {
                 STATUS_GAME_STARTED -> {
@@ -145,10 +142,10 @@ class GameView : View {
     private fun drawGameStarted(canvas: Canvas) {
         drawScoreAndBombs(canvas)
         if (frame == 0L) {
-            if (combatAircraft != null) {
+            combatAircraft?.let {
                 val centerX = canvas.width / 2
-                val centerY = canvas.height - combatAircraft!!.getHeight() / 2
-                combatAircraft!!.centerTo(centerX.toFloat(), centerY.toFloat())
+                val centerY = canvas.height - it.getHeight() / 2
+                it.centerTo(centerX.toFloat(), centerY.toFloat())
             }
         }
         if (spritesNeedAdded.size > 0) {
@@ -164,11 +161,9 @@ class GameView : View {
         val iterator = sprites.iterator()
         while (iterator.hasNext()) {
             val s = iterator.next()
-
             if (!s.isDestroyed()) {
                 s.draw(canvas, paint, this)
             }
-
             if (s.isDestroyed()) {
                 iterator.remove()
             }
@@ -377,8 +372,7 @@ class GameView : View {
             sprite.setX(x.toFloat())
             sprite.setY(y.toFloat())
             if (sprite is AutoSprite) {
-                val autoSprite = sprite
-                autoSprite.setSpeed(speed.toFloat())
+                sprite.setSpeed(speed.toFloat())
             }
             addSprite(sprite)
         }
@@ -386,7 +380,7 @@ class GameView : View {
 
     /*-------------------------------touch------------------------------------*/
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val touchType = resolveTouchType(event)
+        val touchType = resolveTouchType(event!!)
         when (status) {
             STATUS_GAME_STARTED -> {
                 when (touchType) {
@@ -408,8 +402,7 @@ class GameView : View {
         return true
     }
 
-    private fun resolveTouchType(event: MotionEvent?): Int {
-        if (event == null) return -1
+    private fun resolveTouchType(event: MotionEvent): Int {
         var touchType = -1
         val action = event.action
         touchX = event.x
@@ -428,13 +421,16 @@ class GameView : View {
                 touchUpTime = System.currentTimeMillis()
                 val downUpDurationTime = touchUpTime - touchDownTime
                 if (downUpDurationTime <= singleClickDurationTime) {
-                    touchType = TOUCH_DOUBLE_CLICK
+                    val twoClickDurationTime = touchUpTime - lastSingleClickTime
 
-                    lastSingleClickTime = -1
-                    touchDownTime = -1
-                    touchUpTime = -1
-                } else {
-                    lastSingleClickTime = touchUpTime
+                    if (twoClickDurationTime <= doubleClickDurationTime) {
+                        touchType = TOUCH_DOUBLE_CLICK
+                        lastSingleClickTime = -1
+                        touchDownTime = -1
+                        touchUpTime = -1
+                    } else {
+                        lastSingleClickTime = touchUpTime
+                    }
                 }
             }
         }
@@ -453,7 +449,6 @@ class GameView : View {
                 touchUpTime = -1
             }
         }
-
         return singleClick
     }
 
@@ -477,11 +472,12 @@ class GameView : View {
     }
 
     private fun isClickContinueButton(x: Float, y: Float): Boolean {
-        return continueRect.contains(x.toInt(), y.toInt())
+        return continueRect.contains(x.toInt(), (y + 200).toInt())
     }
 
     private fun isClickRestartButton(x: Float, y: Float): Boolean {
-        return continueRect.contains(x.toInt(), y.toInt())
+//        return continueRect.contains(x.toInt(), y.toInt())
+        return continueRect.contains(x.toInt(), (y + 200).toInt())
     }
 
     private fun getPauseBitmapDstRecF(): RectF {
