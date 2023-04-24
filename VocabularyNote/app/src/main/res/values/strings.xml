@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">VocabularyNote</string>
+    <string name="text_add">Add Note</string>
+    <string name="text_edit">Edit Note</string>
+    <string name="text_game">Game Note</string>
+    <string name="text_setting">Setting</string>
+</resources>
