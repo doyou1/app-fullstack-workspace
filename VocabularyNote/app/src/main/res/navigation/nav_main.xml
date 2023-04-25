@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/fragment_main_default">
+
+    <fragment
+        android:id="@+id/fragment_main_default"
+        android:name="com.example.vocabularynote.main.MainDefaultFragment" />
+
+    <fragment
+        android:id="@+id/fragment_main_add"
+        android:name="com.example.vocabularynote.main.MainAddFragment" />
+
+    <fragment
+        android:id="@+id/fragment_main_edit"
+        android:name="com.example.vocabularynote.main.MainEditFragment" />
+
+    <fragment
+        android:id="@+id/fragment_main_game"
+        android:name="com.example.vocabularynote.main.MainGameFragment" />
+
+    <fragment
+        android:id="@+id/fragment_main_setting"
+        android:name="com.example.vocabularynote.main.MainSettingFragment" />
+
+    <action
+        android:id="@+id/action_default_to_add"
+        app:destination="@id/fragment_main_add" />
+
+    <action
+        android:id="@+id/action_default_to_edit"
+        app:destination="@id/fragment_main_edit" />
+
+    <action
+        android:id="@+id/action_default_to_game"
+        app:destination="@id/fragment_main_game" />
+
+    <action
+        android:id="@+id/action_default_to_setting"
+        app:destination="@id/fragment_main_setting" />
+
+
+</navigation>
