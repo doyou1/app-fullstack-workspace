@@ -4,4 +4,7 @@
     <string name="text_edit">Edit Note</string>
     <string name="text_game">Game Note</string>
     <string name="text_setting">Setting</string>
+    <string name="text_hint_title">Title: Toeic Voca</string>
+    <string name="text_hint_memo">Memo</string>
+    <string name="text_save">Save</string>
 </resources>
