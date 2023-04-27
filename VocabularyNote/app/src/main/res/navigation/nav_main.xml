@@ -40,5 +40,9 @@
         android:id="@+id/action_default_to_setting"
         app:destination="@id/fragment_main_setting" />
 
-
+    <action
+        android:id="@+id/action_add_to_edit"
+        app:destination="@id/fragment_main_edit"
+        app:popUpTo="@+id/fragment_main_add"
+        app:popUpToInclusive="true" />
 </navigation>

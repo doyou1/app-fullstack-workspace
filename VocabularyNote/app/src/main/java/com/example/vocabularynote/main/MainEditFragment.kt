@@ -1,9 +1,11 @@
 package com.example.vocabularynote.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -28,7 +30,22 @@ class MainEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // This callback will only be called when MyFragment is at least Started.
+
+        getBundle()
+        setBackPressEvent()
+    }
+
+    private fun getBundle() {
+        arguments?.let {
+            Toast.makeText(
+                requireContext(),
+                "title: ${it.getString("title")}, memo: ${it.getString("memo")}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun setBackPressEvent() {
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {

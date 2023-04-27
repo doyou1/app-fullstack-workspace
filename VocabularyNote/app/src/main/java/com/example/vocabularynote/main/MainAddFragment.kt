@@ -18,6 +18,9 @@ class MainAddFragment : Fragment() {
 
     private var _binding: FragmentMainAddBinding? = null
     private val binding get() = _binding!!
+    private var _navController: NavController? = null
+    private val navController get() = _navController!!
+
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
@@ -26,6 +29,7 @@ class MainAddFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainAddBinding.inflate(inflater, container, false)
+        _navController = Navigation.findNavController(requireActivity(), R.id.fragment_container)
         return binding.root
     }
 
@@ -34,6 +38,26 @@ class MainAddFragment : Fragment() {
 
         aboutKeyboard()
         setBackPressEvent()
+        setClickEvent()
+    }
+
+    private fun setClickEvent() {
+        binding.btnSave.setOnClickListener {
+            if (isValidate()) {
+                val title = binding.etTitle.text!!.toString()
+                val memo = binding.etMemo.text.toString()
+
+                val bundle = Bundle()
+                bundle.putString("title", title)
+                bundle.putString("memo", memo)
+                navController.navigate(R.id.action_add_to_edit, bundle)
+            }
+        }
+    }
+
+    private fun isValidate(): Boolean {
+        if (binding.etTitle.text == null) return false
+        return true
     }
 
     private fun aboutKeyboard() {
@@ -50,6 +74,7 @@ class MainAddFragment : Fragment() {
         im.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
         requireActivity().currentFocus?.clearFocus()
     }
+
     private fun setBackPressEvent() {
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {
