@@ -4,7 +4,7 @@ import com.example.vocabularynote.entity.Note
 
 object Temp {
 
-    val TEMP_MAIN_EDIT_LIST = listOf(
+    val TEMP_NOTE_LIST = listOf(
         Note(0, "title1", "memo1"),
         Note(1, "title2", "memo2"),
         Note(2, "title3", "memo3"),

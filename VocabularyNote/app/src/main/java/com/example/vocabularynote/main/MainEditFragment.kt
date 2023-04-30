@@ -11,9 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.Temp.DELAY_SHOW_UI
-import com.example.vocabularynote.Temp.TEMP_MAIN_EDIT_LIST
+import com.example.vocabularynote.Temp.TEMP_NOTE_LIST
 import com.example.vocabularynote.databinding.FragmentMainEditBinding
-import com.example.vocabularynote.main.adapter.MainEditRvAdapter
+import com.example.vocabularynote.main.adapter.NoteRvAdapter
 
 class MainEditFragment : Fragment() {
 
@@ -43,7 +43,7 @@ class MainEditFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = MainEditRvAdapter(TEMP_MAIN_EDIT_LIST)
+        binding.recyclerView.adapter = NoteRvAdapter(TEMP_NOTE_LIST)
         binding.showUI = true
     }
 
