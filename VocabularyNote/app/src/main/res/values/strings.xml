@@ -7,4 +7,5 @@
     <string name="text_hint_title">Title: Toeic Voca</string>
     <string name="text_hint_memo">Memo</string>
     <string name="text_save">Save</string>
+    <string name="text_import">Import</string>
 </resources>
