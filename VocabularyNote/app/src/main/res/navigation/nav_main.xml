@@ -24,6 +24,14 @@
         android:id="@+id/fragment_main_setting"
         android:name="com.example.vocabularynote.main.MainSettingFragment" />
 
+    <fragment
+        android:id="@+id/fragment_main_edit_detail"
+        android:name="com.example.vocabularynote.main.MainEditDetailFragment" />
+
+    <fragment
+        android:id="@+id/fragment_main_game_detail"
+        android:name="com.example.vocabularynote.main.MainGameDetailFragment" />
+
     <action
         android:id="@+id/action_default_to_add"
         app:destination="@id/fragment_main_add" />
@@ -45,4 +53,12 @@
         app:destination="@id/fragment_main_edit"
         app:popUpTo="@+id/fragment_main_add"
         app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_edit_to_edit_detail"
+        app:destination="@id/fragment_main_edit_detail" />
+
+    <action
+        android:id="@+id/action_game_to_game_detail"
+        app:destination="@id/fragment_main_game_detail" />
 </navigation>

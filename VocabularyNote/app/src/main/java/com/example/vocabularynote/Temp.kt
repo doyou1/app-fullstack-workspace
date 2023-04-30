@@ -15,5 +15,7 @@ object Temp {
         Note(7, "title8", "memo8"),
     )
 
-    const val DELAY_SHOW_UI = 100L
+    const val DELAY_SHOW_UI = 50L
+    const val TYPE_GAME = 1
+    const val TYPE_EDIT = 2
 }

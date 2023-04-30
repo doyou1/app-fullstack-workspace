@@ -10,6 +10,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layout_wrap"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/cardview_light_background"
