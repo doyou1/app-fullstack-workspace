@@ -24,6 +24,15 @@ object Temp {
         NoteItem(5, 5, "key5", "value5"),
     )
 
+    val TEMP_GAME_NOTE_LIST = listOf(
+        NoteItem(1, 1, "key1", "value1"),
+        NoteItem(2, 2, "key2", "value2"),
+        NoteItem(3, 3, "key3", "value3"),
+        NoteItem(4, 4, "key4", "value4"),
+        NoteItem(5, 5, "key5", "value5"),
+    )
+
+
     const val DELAY_SHOW_UI = 50L
     const val TYPE_GAME = 1
     const val TYPE_EDIT = 2

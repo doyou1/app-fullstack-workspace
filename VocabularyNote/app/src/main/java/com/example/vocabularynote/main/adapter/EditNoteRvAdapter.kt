@@ -12,7 +12,7 @@ import com.example.vocabularynote.databinding.RvItemEditNoteBinding
 import com.example.vocabularynote.entity.NoteItem
 import com.google.android.material.textfield.TextInputEditText
 
-class EditNoteRvAdapter(private val _list: List<NoteItem>) :
+class EditNoteRvAdapter(_list: List<NoteItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val list: MutableList<NoteItem> = _list.toMutableList()
