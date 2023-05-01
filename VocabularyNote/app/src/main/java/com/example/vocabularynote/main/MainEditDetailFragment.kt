@@ -57,7 +57,7 @@ class MainEditDetailFragment : Fragment() {
         }
         binding.btnItemAdd.setOnClickListener {
             val newSize = (binding.recyclerView.adapter as EditNoteRvAdapter).addEditItem()
-            (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeInserted(newSize, 1)
+            (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, 1)
         }
     }
 

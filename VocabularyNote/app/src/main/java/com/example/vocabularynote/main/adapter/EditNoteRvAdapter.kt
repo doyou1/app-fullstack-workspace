@@ -7,13 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.example.vocabularynote.R
-import com.example.vocabularynote.Temp
 import com.example.vocabularynote.databinding.RvItemEditNoteBinding
-import com.example.vocabularynote.databinding.RvItemNoteBinding
-import com.example.vocabularynote.entity.Note
 import com.example.vocabularynote.entity.NoteItem
 import com.google.android.material.textfield.TextInputEditText
 
@@ -34,17 +29,17 @@ class EditNoteRvAdapter(private val _list: List<NoteItem>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (list.size <= position) {
-            if (addCount - additionList.size == 1) {
+            if (addCount - additionList.size >= 1) {
                 val item = NoteItem()
                 additionList.add(item)
-                (holder as EditNoteRvViewHolder).bind(item, position)
+                (holder as EditNoteRvViewHolder).bind(item)
             } else {
                 val item = additionList[position - list.size]
-                (holder as EditNoteRvViewHolder).bind(item, position)
+                (holder as EditNoteRvViewHolder).bind(item)
             }
         } else {
             val item = list[position]
-            (holder as EditNoteRvViewHolder).bind(item, position)
+            (holder as EditNoteRvViewHolder).bind(item)
         }
     }
 
@@ -76,34 +71,39 @@ class EditNoteRvAdapter(private val _list: List<NoteItem>) :
     inner class EditNoteRvViewHolder(private val binding: RvItemEditNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: NoteItem, position: Int) {
+        fun bind(item: NoteItem) {
             binding.item = item
-            binding.etKey.addTextChangedListener {
-                val item = if (list.size <= position) {
-                    additionList[position - list.size]
-                } else {
-                    list[position]
+            binding.etKey.addTextChangedListener(
+                onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
+                    itemCount
+                    val item = if (list.size <= adapterPosition) {
+                        additionList[adapterPosition - list.size]
+                    } else {
+                        list[adapterPosition]
+                    }
+                    item.key = it.toString()
+                    if (list.size <= adapterPosition) {
+                        additionList[adapterPosition - list.size] = item
+                    } else {
+                        list[adapterPosition] = item
+                    }
                 }
-                item.key = it.toString()
-                if (list.size <= position) {
-                    additionList[position - list.size] = item
-                } else {
-                    list[position] = item
+            )
+            binding.etValue.addTextChangedListener(
+                onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
+                    val item = if (list.size <= adapterPosition) {
+                        additionList[adapterPosition - list.size]
+                    } else {
+                        list[adapterPosition]
+                    }
+                    item.value = it.toString()
+                    if (list.size <= adapterPosition) {
+                        additionList[adapterPosition - list.size] = item
+                    } else {
+                        list[adapterPosition] = item
+                    }
                 }
-            }
-            binding.etValue.addTextChangedListener {
-                val item = if (list.size <= position) {
-                    additionList[position - list.size]
-                } else {
-                    list[position]
-                }
-                item.value = it.toString()
-                if (list.size <= position) {
-                    additionList[position - list.size] = item
-                } else {
-                    list[position] = item
-                }
-            }
+            )
 
             binding.root.setOnClickListener {
                 if (it !is TextInputEditText) {
