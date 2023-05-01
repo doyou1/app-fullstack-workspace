@@ -70,9 +70,20 @@ class EditNoteRvAdapter(private val _list: List<NoteItem>) :
 
     inner class EditNoteRvViewHolder(private val binding: RvItemEditNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: NoteItem) {
             binding.item = item
+            setClickEvent()
+            setTextChangeEvent()
+            aboutKeyboard()
+        }
+
+        private fun setClickEvent() {
+            binding.btnRemove.setOnClickListener {
+                Log.e("TAG", "btn remove")
+            }
+        }
+
+        private fun setTextChangeEvent() {
             binding.etKey.addTextChangedListener(
                 onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
                     itemCount
@@ -104,7 +115,9 @@ class EditNoteRvAdapter(private val _list: List<NoteItem>) :
                     }
                 }
             )
+        }
 
+        private fun aboutKeyboard() {
             binding.root.setOnClickListener {
                 if (it !is TextInputEditText) {
                     hideKeyboard()

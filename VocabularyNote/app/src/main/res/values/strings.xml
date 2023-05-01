@@ -9,4 +9,6 @@
     <string name="text_save">Save</string>
     <string name="text_import">Import</string>
     <string name="text_item_add">Item Add</string>
+    <string name="text_hint_key">Key</string>
+    <string name="text_hint_value">Value</string>
 </resources>
