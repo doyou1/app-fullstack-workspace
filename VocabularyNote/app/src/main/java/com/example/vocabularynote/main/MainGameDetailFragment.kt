@@ -8,13 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.Temp
 import com.example.vocabularynote.databinding.FragmentMainGameDetailBinding
 import com.example.vocabularynote.main.adapter.GameNoteRvAdapter
+import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.CarouselLayoutManager
+import com.example.vocabularynote.util.Const
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainGameDetailFragment : Fragment() {
 
@@ -29,7 +35,6 @@ class MainGameDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainGameDetailBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -45,19 +50,33 @@ class MainGameDetailFragment : Fragment() {
         }
         binding.btnStart.setOnClickListener {
             binding.isStart = true
-            handler.postDelayed({
-                setRecyclerView()
-            }, Temp.DELAY_SHOW_UI)
-
+            arguments?.let {
+                val noteId = it.getInt(Const.TEXT_NOTE_ID, -1)
+                handler.postDelayed({
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val list =
+                            (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(
+                                noteId
+                            )
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            val isRandom: Boolean? = binding.isRandom
+                            if (isRandom != null && isRandom) {
+                                setRecyclerView(list.shuffled())
+                            } else {
+                                setRecyclerView(list)
+                            }
+                        }
+                    }
+                }, Const.DELAY_SHOW_UI)
+            }
         }
     }
-
-    private fun setRecyclerView() {
+    private fun setRecyclerView(list: List<NoteItem>) {
         binding.recyclerView.layoutManager =
             CarouselLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.recyclerView)
-        binding.recyclerView.adapter = GameNoteRvAdapter(Temp.TEMP_GAME_NOTE_LIST)
+        binding.recyclerView.adapter = GameNoteRvAdapter(list)
         binding.showUI = true
     }
 

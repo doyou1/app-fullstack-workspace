@@ -1,13 +1,15 @@
 package com.example.vocabularynote.main.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.R
-import com.example.vocabularynote.Temp
 import com.example.vocabularynote.databinding.RvItemNoteBinding
-import com.example.vocabularynote.entity.Note
+import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.util.Const
+import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 
 class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -33,13 +35,17 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             binding.item = item
             binding.layoutWrap.setOnClickListener {
                 when (parentViewType) {
-                    Temp.TYPE_EDIT -> {
+                    Const.TYPE_EDIT -> {
+                        val bundle = Bundle()
+                        bundle.putInt(TEXT_NOTE_ID, item.id)
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_edit_to_edit_detail)
+                            .navigate(R.id.action_edit_to_edit_detail, bundle)
                     }
-                    Temp.TYPE_GAME -> {
+                    Const.TYPE_GAME -> {
+                        val bundle = Bundle()
+                        bundle.putInt(TEXT_NOTE_ID, item.id)
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_game_to_game_detail)
+                            .navigate(R.id.action_game_to_game_detail, bundle)
                     }
                 }
             }

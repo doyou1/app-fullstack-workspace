@@ -26,7 +26,7 @@
             app:layout_constraintWidth_percent="0.8">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_view_setting"
+                android:id="@+id/btn_add_note"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@color/cardview_light_background"
@@ -50,7 +50,7 @@
                     android:autoSizeTextType="uniform"
                     android:gravity="center_horizontal|center_vertical"
                     android:padding="5dp"
-                    android:text="@string/text_setting"
+                    android:text="@string/text_add_note"
                     android:textColor="@color/black" />
 
             </com.google.android.material.card.MaterialCardView>

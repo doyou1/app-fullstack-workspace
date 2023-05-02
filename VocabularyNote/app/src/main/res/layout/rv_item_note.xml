@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.vocabularynote.entity.Note" />
+            type="com.example.vocabularynote.room.entity.Note" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

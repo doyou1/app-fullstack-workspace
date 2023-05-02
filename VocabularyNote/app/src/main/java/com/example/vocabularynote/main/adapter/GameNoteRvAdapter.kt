@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.RvItemGameNoteBinding
-import com.example.vocabularynote.entity.NoteItem
+import com.example.vocabularynote.room.entity.NoteItem
 
 class GameNoteRvAdapter(_list: List<NoteItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
