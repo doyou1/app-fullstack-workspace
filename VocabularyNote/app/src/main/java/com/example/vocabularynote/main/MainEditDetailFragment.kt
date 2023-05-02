@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
+import com.example.vocabularynote.R
 import com.example.vocabularynote.Temp
 import com.example.vocabularynote.databinding.FragmentMainEditDetailBinding
 import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
@@ -22,6 +23,7 @@ import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
 import com.example.vocabularynote.util.Const.TEXT_INSERT_NOTE_ITEM_SUCCESS
+import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,18 +43,22 @@ class MainEditDetailFragment : Fragment() {
         _binding = FragmentMainEditDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            val noteId = it.getInt(Const.TEXT_NOTE_ID, -1)
+            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
             handler.postDelayed({
                 lifecycleScope.launch(Dispatchers.IO) {
                     val list =
                         (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(
                             noteId
                         )
+
+                    val maxId =
+                        (requireActivity().application as BaseApplication).noteDao.getNoteItemMaxId()
                     lifecycleScope.launch(Dispatchers.Main) {
-                        setRecyclerView(list, noteId)
+                        setRecyclerView(list, noteId, maxId + 1)
                     }
                 }
             }, Const.DELAY_SHOW_UI)
@@ -61,6 +67,7 @@ class MainEditDetailFragment : Fragment() {
         setBackPressEvent()
         aboutKeyboard()
     }
+
     private fun setClickEvent() {
         binding.btnSave.setOnClickListener {
             (binding.recyclerView.adapter as EditNoteRvAdapter).print()
@@ -69,6 +76,13 @@ class MainEditDetailFragment : Fragment() {
                 (requireActivity().application as BaseApplication).noteDao.insertNoteItemAll(result)
                 lifecycleScope.launch(Dispatchers.Main) {
                     AppMsgUtil.showMsg(TEXT_INSERT_NOTE_ITEM_SUCCESS, requireActivity())
+                    arguments?.let {
+                        val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+                        val bundle = Bundle()
+                        bundle.putLong(TEXT_NOTE_ID, noteId)
+                        Navigation.findNavController(requireView())
+                            .navigate(R.id.action_refresh_edit_detail, bundle)
+                    }
                 }
             }
         }
@@ -77,13 +91,15 @@ class MainEditDetailFragment : Fragment() {
             (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, 1)
         }
     }
-    private fun setRecyclerView(list: List<NoteItem>, noteId: Int) {
+
+    private fun setRecyclerView(list: List<NoteItem>, noteId: Long, nextId: Long) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = EditNoteRvAdapter(list, noteId)
+        binding.recyclerView.adapter = EditNoteRvAdapter(list, noteId, nextId)
         binding.showUI = true
     }
+
     private fun setBackPressEvent() {
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {

@@ -37,13 +37,13 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                 when (parentViewType) {
                     Const.TYPE_EDIT -> {
                         val bundle = Bundle()
-                        bundle.putInt(TEXT_NOTE_ID, item.id)
+                        bundle.putLong(TEXT_NOTE_ID, item.id)
                         Navigation.findNavController(binding.root)
                             .navigate(R.id.action_edit_to_edit_detail, bundle)
                     }
                     Const.TYPE_GAME -> {
                         val bundle = Bundle()
-                        bundle.putInt(TEXT_NOTE_ID, item.id)
+                        bundle.putLong(TEXT_NOTE_ID, item.id)
                         Navigation.findNavController(binding.root)
                             .navigate(R.id.action_game_to_game_detail, bundle)
                     }

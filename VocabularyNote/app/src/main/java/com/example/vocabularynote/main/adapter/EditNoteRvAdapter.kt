@@ -12,12 +12,13 @@ import com.example.vocabularynote.databinding.RvItemEditNoteBinding
 import com.example.vocabularynote.room.entity.NoteItem
 import com.google.android.material.textfield.TextInputEditText
 
-class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Int) :
+class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId: Long) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val list: MutableList<NoteItem> = _list.toMutableList()
     private var parentContext: Context? = null
     private var addCount = 1
+    private var nextId = _nextId
     private val additionList: MutableList<NoteItem> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -30,9 +31,10 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Int) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (list.size <= position) {
             if (addCount - additionList.size >= 1) {
-                val item = NoteItem(noteId = noteId)
+                val item = NoteItem(id = nextId, noteId = noteId)
                 additionList.add(item)
                 (holder as EditNoteRvViewHolder).bind(item)
+                nextId++
             } else {
                 val item = additionList[position - list.size]
                 (holder as EditNoteRvViewHolder).bind(item)

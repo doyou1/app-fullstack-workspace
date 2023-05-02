@@ -51,7 +51,7 @@ class MainGameDetailFragment : Fragment() {
         binding.btnStart.setOnClickListener {
             binding.isStart = true
             arguments?.let {
-                val noteId = it.getInt(Const.TEXT_NOTE_ID, -1)
+                val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
                 handler.postDelayed({
                     lifecycleScope.launch(Dispatchers.IO) {
                         val list =
