@@ -55,8 +55,17 @@
         app:popUpToInclusive="true" />
 
     <action
+        android:id="@+id/action_edit_to_add"
+        app:destination="@id/fragment_main_add" />
+
+    <action
+        android:id="@+id/action_game_to_edit"
+        app:destination="@id/fragment_main_edit" />
+
+    <action
         android:id="@+id/action_edit_to_edit_detail"
         app:destination="@id/fragment_main_edit_detail" />
+
 
     <action
         android:id="@+id/action_game_to_game_detail"

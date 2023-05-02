@@ -8,13 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.Temp
 import com.example.vocabularynote.databinding.FragmentMainGameBinding
 import com.example.vocabularynote.main.adapter.NoteRvAdapter
+import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.util.Const
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainGameFragment : Fragment() {
 
@@ -35,17 +40,29 @@ class MainGameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handler.postDelayed({
-            setRecyclerView()
-        }, Temp.DELAY_SHOW_UI)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val list = (requireActivity().application as BaseApplication).noteDao.getNoteAll()
+                lifecycleScope.launch(Dispatchers.Main) {
+                    setRecyclerView(list)
+                }
+            }
+        }, Const.DELAY_SHOW_UI)
+        setClickEvent()
         setBackPressEvent()
     }
 
-    private fun setRecyclerView() {
+    private fun setRecyclerView(list: List<Note>) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = NoteRvAdapter(Temp.TEMP_NOTE_LIST, Temp.TYPE_GAME)
+        binding.recyclerView.adapter = NoteRvAdapter(list, Const.TYPE_GAME)
         binding.showUI = true
+    }
+
+    private fun setClickEvent() {
+        binding.btnEditNote.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_game_to_edit)
+        }
     }
 
     private fun setBackPressEvent() {

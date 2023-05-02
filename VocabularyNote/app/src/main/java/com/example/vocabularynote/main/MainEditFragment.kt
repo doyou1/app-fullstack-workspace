@@ -8,13 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.vocabularynote.Temp.DELAY_SHOW_UI
+import com.example.vocabularynote.BaseApplication
+import com.example.vocabularynote.R
 import com.example.vocabularynote.Temp.TEMP_NOTE_LIST
-import com.example.vocabularynote.Temp.TYPE_EDIT
 import com.example.vocabularynote.databinding.FragmentMainEditBinding
 import com.example.vocabularynote.main.adapter.NoteRvAdapter
+import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.util.Const
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainEditFragment : Fragment() {
 
@@ -35,17 +40,29 @@ class MainEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handler.postDelayed({
-            setRecyclerView()
-        }, DELAY_SHOW_UI)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val list = (requireActivity().application as BaseApplication).noteDao.getNoteAll()
+                lifecycleScope.launch(Dispatchers.Main) {
+                    setRecyclerView(list)
+                }
+            }
+        }, Const.DELAY_SHOW_UI)
+        setClickEvent()
         setBackPressEvent()
     }
 
-    private fun setRecyclerView() {
+    private fun setRecyclerView(list: List<Note>) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = NoteRvAdapter(TEMP_NOTE_LIST, TYPE_EDIT)
+        binding.recyclerView.adapter = NoteRvAdapter(list, Const.TYPE_EDIT)
         binding.showUI = true
+    }
+
+    private fun setClickEvent() {
+        binding.btnAddNote.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_edit_to_add)
+        }
     }
 
     private fun setBackPressEvent() {

@@ -1,7 +1,7 @@
 package com.example.vocabularynote
 
-import com.example.vocabularynote.entity.Note
-import com.example.vocabularynote.entity.NoteItem
+import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.room.entity.NoteItem
 
 object Temp {
 
@@ -31,9 +31,4 @@ object Temp {
         NoteItem(4, 4, "key4", "value4"),
         NoteItem(5, 5, "key5", "value5"),
     )
-
-
-    const val DELAY_SHOW_UI = 50L
-    const val TYPE_GAME = 1
-    const val TYPE_EDIT = 2
 }

@@ -9,10 +9,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.databinding.RvItemEditNoteBinding
-import com.example.vocabularynote.entity.NoteItem
+import com.example.vocabularynote.room.entity.NoteItem
 import com.google.android.material.textfield.TextInputEditText
 
-class EditNoteRvAdapter(_list: List<NoteItem>) :
+class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Int) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val list: MutableList<NoteItem> = _list.toMutableList()
@@ -30,7 +30,7 @@ class EditNoteRvAdapter(_list: List<NoteItem>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (list.size <= position) {
             if (addCount - additionList.size >= 1) {
-                val item = NoteItem()
+                val item = NoteItem(noteId = noteId)
                 additionList.add(item)
                 (holder as EditNoteRvViewHolder).bind(item)
             } else {
@@ -57,7 +57,7 @@ class EditNoteRvAdapter(_list: List<NoteItem>) :
         Log.e("tag", printList.toString())
     }
 
-    fun save(): List<NoteItem> {
+    fun getResult(): List<NoteItem> {
         val result = arrayListOf<NoteItem>()
         list.forEach { item ->
             if (!(item.key == "" || item.value == "")) result.add(item)

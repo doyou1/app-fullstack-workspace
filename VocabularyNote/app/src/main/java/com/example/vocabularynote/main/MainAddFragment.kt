@@ -8,19 +8,21 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainAddBinding
+import com.example.vocabularynote.room.entity.Note
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainAddFragment : Fragment() {
 
     private var _binding: FragmentMainAddBinding? = null
     private val binding get() = _binding!!
-    private var _navController: NavController? = null
-    private val navController get() = _navController!!
-
     private val TAG = this::class.java.simpleName
 
     override fun onCreateView(
@@ -29,7 +31,6 @@ class MainAddFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainAddBinding.inflate(inflater, container, false)
-        _navController = Navigation.findNavController(requireActivity(), R.id.fragment_container)
         return binding.root
     }
 
@@ -46,11 +47,13 @@ class MainAddFragment : Fragment() {
             if (isValidate()) {
                 val title = binding.etTitle.text!!.toString()
                 val memo = binding.etMemo.text.toString()
-
-                val bundle = Bundle()
-                bundle.putString("title", title)
-                bundle.putString("memo", memo)
-                navController.navigate(R.id.action_add_to_edit, bundle)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val item = Note(0, title, memo)
+                    (requireActivity().application as BaseApplication).noteDao.insertNote(item)
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        Navigation.findNavController(requireView()).navigate(R.id.action_add_to_edit)
+                    }
+                }
             }
         }
     }
