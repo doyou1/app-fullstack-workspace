@@ -1,32 +1,45 @@
 package com.example.vocabularynote.main
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import org.apache.poi.ss.usermodel.WorkbookFactory
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.webkit.MimeTypeMap
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
-import com.example.vocabularynote.Temp
 import com.example.vocabularynote.databinding.FragmentMainEditDetailBinding
 import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
+import com.example.vocabularynote.util.Const.TEXT_IMPORT
 import com.example.vocabularynote.util.Const.TEXT_INSERT_NOTE_ITEM_SUCCESS
+import com.example.vocabularynote.util.Const.TEXT_KEY
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
+import com.example.vocabularynote.util.Const.TEXT_TEMP
+import com.example.vocabularynote.util.Const.TEXT_VALUE
+import com.example.vocabularynote.util.FileUtil
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.apache.poi.ss.usermodel.Workbook
+import java.io.*
 
 class MainEditDetailFragment : Fragment() {
 
@@ -34,11 +47,10 @@ class MainEditDetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
     private val handler = Handler(Looper.getMainLooper())
+    private val fileExplorerLauncher = getFileExplorerLauncherResultLauncher()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainEditDetailBinding.inflate(inflater, container, false)
         return binding.root
@@ -90,6 +102,13 @@ class MainEditDetailFragment : Fragment() {
             val newSize = (binding.recyclerView.adapter as EditNoteRvAdapter).addEditItem()
             (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, 1)
         }
+
+        binding.btnImport.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "*/*"
+            fileExplorerLauncher.launch(intent)
+        }
     }
 
     private fun setRecyclerView(list: List<NoteItem>, noteId: Long, nextId: Long) {
@@ -124,5 +143,55 @@ class MainEditDetailFragment : Fragment() {
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         im.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
         requireActivity().currentFocus?.clearFocus()
+    }
+
+    private fun getFileExplorerLauncherResultLauncher(): ActivityResultLauncher<Intent> =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                if (result.data?.data != null) {
+                    val uri: Uri? = result.data?.data
+                    if (uri != null) {
+                        val fileExtension = FileUtil.getFileExtension(requireContext(), uri)
+                        if (fileExtension != null) {
+                            val workbook =
+                                FileUtil.getWorkbook(requireContext(), fileExtension, uri)
+                            if (workbook != null) {
+                                val result = getNoteItems(workbook)
+                                if(result != null && result.isNotEmpty()) {
+                                    val newSize = (binding.recyclerView.adapter as EditNoteRvAdapter).addAllEditItem(result)
+                                    (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, result.size)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    private fun getNoteItems(workbook: Workbook): List<NoteItem>? {
+        val sheet = workbook.getSheet(TEXT_IMPORT)
+        val keyTitle = sheet.getRow(0).getCell(0).toString()
+        val valueTitle = sheet.getRow(0).getCell(1).toString()
+        return if (keyTitle == TEXT_KEY && valueTitle == TEXT_VALUE) {
+            val result = arrayListOf<NoteItem>()
+            for (i in 1..sheet.lastRowNum) {
+                val row = sheet.getRow(i)
+                val key =
+                    if (row.getCell(0) == null || row.getCell(0).toString()
+                            .trim().isEmpty()
+                    ) null else row.getCell(0)
+                val value =
+                    if (row.getCell(1) == null || row.getCell(1).toString()
+                            .trim().isEmpty()
+                    ) null else row.getCell(1)
+                if (key == null || value == null) continue
+                val item = NoteItem(key = key.toString(), value = value.toString())
+                result.add(item)
+            }
+            result
+        } else null
     }
 }

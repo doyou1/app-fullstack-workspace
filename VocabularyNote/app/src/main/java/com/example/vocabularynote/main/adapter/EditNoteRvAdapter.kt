@@ -52,6 +52,16 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
         return list.size + addCount
     }
 
+    fun addAllEditItem(list: List<NoteItem>): Int {
+        for (_item in list) {
+            val item = NoteItem(id = nextId, noteId = noteId, key = _item.key, value = _item.value)
+            additionList.add(item)
+            nextId++
+        }
+        addCount += list.size
+        return list.size + addCount
+    }
+
     fun print() {
         val printList = arrayListOf<NoteItem>()
         printList.addAll(list)
