@@ -91,7 +91,13 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
 
         private fun setClickEvent() {
             binding.btnRemove.setOnClickListener {
-                Log.e("TAG", "btn remove")
+                if (list.size <= adapterPosition) {
+                    additionList.removeAt(adapterPosition - list.size)
+                    addCount--
+                } else {
+                    list.removeAt(adapterPosition)
+                }
+                notifyItemRemoved(adapterPosition)
             }
         }
 
@@ -127,16 +133,6 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
                     }
                 }
             )
-
-            binding.btnRemove.setOnClickListener {
-                if (list.size <= adapterPosition) {
-                    additionList.removeAt(adapterPosition - list.size)
-                    addCount--
-                } else {
-                    list.removeAt(adapterPosition)
-                }
-                notifyItemRemoved(adapterPosition)
-            }
         }
 
         private fun aboutKeyboard() {
