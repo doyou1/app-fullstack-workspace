@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.vocabularynote"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -58,4 +58,9 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
 
     implementation 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
+
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    implementation 'org.apache.poi:poi:5.2.3'
 }
