@@ -104,7 +104,6 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
         private fun setTextChangeEvent() {
             binding.etKey.addTextChangedListener(
                 onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
-                    itemCount
                     val item = if (list.size <= adapterPosition) {
                         additionList[adapterPosition - list.size]
                     } else {
