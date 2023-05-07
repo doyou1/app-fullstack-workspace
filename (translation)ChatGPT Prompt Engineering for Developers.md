@@ -159,115 +159,22 @@
     
     그리고 이것의 길이를 다시 한번 확인해 보겠습니다. 그래서 저는 반응을 가지고, 공간이 어디에 있는지에 따라 나누면, 당신은 길이를 출력할 것입니다. 그래서 52개의 단어입니다. 사실 나쁘지 않아요. 큰 언어 모델은 괜찮지만, 매우 정확한 단어 수에 대한 지침을 따르는 데는 그다지 능숙하지 않습니다. 하지만 이것은 사실 나쁘지 않습니다. 때로는 60개나 65개 등의 단어로 인쇄하기도 하지만, 그것은 일종의 합리적인 것입니다. 다시 한 번 실행하게 해주세요. 하지만 이것들은 여러분이 원하는 출력의 길이가 얼마인지를 큰 언어의 모델에게 알려주는 다른 방법입니다. 자, 하나, 둘, 셋입니다. 저는 이 문장들을 세어 봅니다. 제가 꽤 잘 해낸 것 같습니다. 그리고 저는 또한 사람들이 때때로 280자까지 사용하는 것을 보았습니다. 언어가 큰 모델들은, 텍스트를 해석하는 방식 때문에, 토키저라고 불리는 것을 사용합니다. 이것에 대해서는 이야기하지 않겠습니다. 하지만 그들은 캐릭터를 세는 데는 그렇게 하는 경향이 있습니다. 자, 281자. 그것은 사실 놀라울 정도로 가깝습니다. 일반적으로 큰 언어 모델은 이 정도로 가까이 접근하지 못합니다. 하지만 이것들은 여러분이 얻을 수 있는 출력의 길이를 조절하기 위해 사용할 수 있는 다른 방법들입니다. 하지만 최대 50개의 단어를 사용할 수 있도록 다시 전환합니다.
     
+    And that's that result that we had just now. As we continue to refine this text for our website, we might decide that, boy, this website isn't selling direct to consumers, it's actually intended to sell furniture to furniture retailers that would be more interested in the technical details of the chair and the materials of the chair. In that case, you can take this prompt and say, I want to modify this prompt to get it to be more precise about the technical details. So let me keep on modifying this prompt. And I'm going to say, this description is intended for furniture retailers, so it should be technical and focus on materials, products and constructs it from.
     
+    이것이 바로 우리가 방금 얻은 결과입니다. 우리가 우리 웹사이트를 위해 이 텍스트를 계속 다듬으면서, 우리는 이 웹사이트가 소비자들에게 직접 판매하는 것이 아니라 의자의 기술적인 세부 사항과 의자의 재료에 더 관심을 가질 가구 소매상들에게 가구를 판매하기 위한 것이라고 결정할 수도 있습니다. 그런 경우에는 이 프롬프트를 사용하여 기술적 세부 정보를 보다 정확하게 파악할 수 있도록 이 프롬프트를 수정할 수 있습니다. 그래서 이 프롬프트를 계속 수정하겠습니다. 그리고 이 설명은 가구 소매상들을 위한 것이므로, 기술적이어야 하고 재료, 제품, 그리고 그것을 구성하는 것에 초점을 맞추어야 합니다.
     
+    Well, let's run that. And let's see. Not bad. It says, coated aluminum base and pneumatic chair. High-quality materials. So by changing the prompt, you can get it to focus more on specific characters, on specific characteristics you want it to. And when I look at this, I might decide, hmm, at the end of the description, I also wanted to include the product ID. So the two offerings of this chair, SWC 110, SOC 100. So maybe I can further improve this prompt. And to get it to give me the product IDs, I can add this instruction at the end of the description, include every 7 character product ID in the technical specification. And let's run it and see what happens. And so it says, introduce you to our mid-century inspired office chair, shell colors, talks about plastic coating aluminum base, practical, some options, talks about the two product IDs.
     
-
-And that's that result that we had just now. 
-As we continue to refine this text for our website, 
-we might decide that, boy, this website isn't 
-selling direct to consumers, it's actually intended to sell 
-furniture to furniture retailers that would 
-be more interested in the technical details of the chair and the 
-materials of the chair. In that case, you can 
-take this prompt and say, I want to modify this prompt to get it to 
-be more precise about the technical details. 
-So let me keep on modifying this prompt. 
-And I'm going to say, 
-this description is intended for furniture retailers, 
-so it should be technical and focus on materials, 
-products and constructs it from. 
-Well, let's run that. 
-And let's see. 
-Not bad. It says, coated aluminum base 
-and pneumatic chair. 
-High-quality materials. So by changing the prompt, you 
-can get it to focus more on specific characters, on 
-specific characteristics you want it to. And 
-when I look at this, I might decide, hmm, at the end of the description, 
-I also wanted to include 
-the product ID. So the two offerings of this chair, 
-SWC 110, SOC 100. So 
-maybe I can further improve this prompt. 
-And to get it to give me the product IDs, 
-I can add this instruction at the end of the description, 
-include every 7 character product ID 
-in the technical specification. And let's run it 
-and see what happens. 
-And so it says, introduce you to our mid-century 
-inspired office chair, shell colors, talks about plastic coating 
-aluminum base, 
-practical, some options, 
-talks about the two product IDs. So this looks pretty good. 
-And what you've just seen is a short example of the iterative 
-prompt development that many developers will 
-go through. 
-And I think a guideline is, in the last video, 
-you saw Yisa share a number of best practices. And so what I 
-usually do is keep best practices like that in mind, 
-be clear and specific, and if necessary, 
-give the model time to think. With those in mind, it's 
-worthwhile to often take a first attempt at 
-writing a prompt, see what happens, and then go from there 
-to iteratively refine the prompt to get closer 
-and closer to the result that you need. And 
-so a lot of the successful prompts that 
-you may see used in various programs was 
-arrived at an iterative process like this. Just 
-for fun, let me show you an example of an even 
-more complex prompt that might give you a sense of what ChatGPT 
-can do, which is I've just added a few extra 
-instructions here. After description, include a 
-table that gives the product dimensions, and then 
-you'll format everything as HTML. So let's run 
-that. 
-And in practice, you would end up with a prompt like this, 
-really only after multiple iterations. I don't think I know anyone 
-that would write this exact prompt the first 
-time they were trying to get the system 
-to process a fact sheet. 
-And so this actually outputs a bunch of HTML. Let's 
-display the HTML to see if this is even valid 
-HTML and see if this works. And I don't actually know it's going to 
-work, but let's see. Oh, cool. All right. Looks like a rendit. 
-So it has this really nice looking description of 
-a chair. Construction, materials, product dimensions. 
-
-Oh, it looks like I left out the use at most 50 words instruction, 
-so this is a little bit long, but if you want that, 
-you can even feel free to pause the video, tell it to be more 
-succinct and regenerate this and see what results you get. 
-So I hope you take away from this video that prompt development 
-is an iterative process. Try something, 
-see how it does not yet, fulfill exactly what you want, 
-and then think about how to clarify your instructions, 
-or in some cases, think about how to give 
-it more space to think, to get it closer to 
-delivering the results that you want. And I think the 
-key to being an effective prompt engineer isn't 
-so much about knowing the perfect prompt, it's about 
-having a good process to develop prompts that are 
-effective for your application. And in 
-this video I illustrated developing a prompt using 
-just one example. For more sophisticated applications, sometimes you 
-will have multiple examples, say a 
-list of 10 or even 50 or 100 fact sheets, and iteratively 
-develop a prompt and evaluate it against a 
-large set of cases. 
-But for the early development of most applications, 
-I see many people developing it sort of the way 
-I am with just one example, but then for more mature applications, 
-sometimes it could be useful to evaluate prompts against 
-a larger set of examples, such as to test 
-different prompts on dozens of fact sheets to 
-see how this average or worst case performance 
-is on multiple fact sheets. But usually you end up doing 
-that only when an application is more mature and you have to 
-have those metrics to drive that incremental last few 
-steps of prompt improvement. 
-So with that, please do play with the Jupyter code notebook 
-examples and try out different variations and see 
-what results you get. And when you're done, let's go 
-on to the next video where we'll talk about one very common use of large 
-language models in software applications, which is to 
-summarize text.
+    자, 그것을 실행해 봅시다. 그리고 어디 보자꾸나. 나쁘지 않은데요. 코팅된 알루미늄 베이스와 공압 의자라고 쓰여 있습니다. 고품질의 재료. 따라서 프롬프트를 변경함으로써 특정 문자, 원하는 특정 특성에 더 초점을 맞출 수 있습니다. 제가 이것을 볼 때, 음, 설명의 마지막에 제품 ID도 포함하고 싶다고 생각할 수도 있습니다. 그래서 이 의자의 두 가지 제품, SWC 110, SOC 100. 그래서 아마도 이 프롬프트를 더 개선할 수 있을 것입니다. 그리고 제품 ID를 알려주기 위해 기술 사양에 7자 제품 ID를 모두 포함하여 설명의 끝에 이 지침을 추가할 수 있습니다. 실행해보고 무슨 일이 일어나는지 봅시다. 그래서, 여러분께 저희 회사의 20세기 중반에 영감을 받은 사무용 의자를 소개해 드리죠. 쉘 색상, 플라스틱 코팅 알루미늄 베이스, 실용적이고, 몇 가지 옵션, 두 제품 ID에 대해 말씀드리겠습니다.
+    
+    So this looks pretty good. And what you've just seen is a short example of the iterative prompt development that many developers will go through. And I think a guideline is, in the last video, you saw Yisa share a number of best practices. And so what I usually do is keep best practices like that in mind, be clear and specific, and if necessary, give the model time to think. With those in mind, it's worthwhile to often take a first attempt at writing a prompt, see what happens, and then go from there to iteratively refine the prompt to get closer and closer to the result that you need. And so a lot of the successful prompts that you may see used in various programs was arrived at an iterative process like this. Just for run, let me show you an example of an even more complex prompt that might give you a sense of what ChatGPT can do, which is I've just added a few extra instructions here. After description, include a table that gives the product dimensions, and then you'll format everything as HTML. So let's run that.
+    
+    그래서 이것은 꽤 좋아 보입니다. 그리고 여러분이 방금 보신 것은 많은 개발자들이 겪을 반복적인 신속한 개발의 짧은 예입니다. 마지막 비디오에서 이사가 여러 가지 모범 사례를 공유하는 것을 보셨을 겁니다. 그래서 제가 보통 하는 일은 모범 사례를 염두에 두고 명확하고 구체적으로 설명하고, 필요하다면 모델에게 생각할 시간을 주는 것입니다. 이러한 사람들을 염두에 두고, 종종 프롬프트를 작성하는 첫 번째 시도를 하고, 무슨 일이 일어나는지 확인한 다음, 필요한 결과에 더 가까워지기 위해 프롬프트를 반복적으로 세분화하는 것이 가치가 있습니다. 그래서 다양한 프로그램에서 사용되는 많은 성공적인 프롬프트들이 이와 같은 반복적인 과정에 도달했습니다. 실행을 위해 ChatGPT가 수행할 수 있는 기능을 알려주는 훨씬 더 복잡한 프롬프트의 예를 보여드리겠습니다. 여기에 몇 가지 지침을 추가했습니다. 설명 후에 제품의 치수를 나타내는 표를 포함하면 모든 것이 HTML로 포맷됩니다. 실행해 보겠습니다.
+    
+    And in practice, you would end up with a prompt like this, really only after multiple iterations. I don't think I know anyone that would write this exact prompt the first time they were trying to get the system to process a fact sheet. And so this actually outputs a bunch of HTML. Let's display the HTML to see if this is even valid HTML and see if this works. And I don't actually know it's going to work, but let's see. Oh, cool. All right, Looks like a rendit. So it has this really nice looking description of a chair. Construction, materials, product dimensions. Oh, it looks like I left out the use at most 50 words instruction, so this is a little bit long, but if you want that, you can even feel free to pause the video, tell it to be more succinct and regenerate this and see what results you get. So I hope you take away from this video that prompt development is an iterative process. Try something, see how it does not yet, fulfill exactly what you want, and then think about how to clarify your instructions, or in some cases, think about how to give it more space to think, to get it closer to delivering the results that you want. And I think the key to being an effective prompt engineer isn't so much about knowing the perfect prompt, it's about having a good process to develop prompts that are effective for your application.
+    
+    실제로 이런 프롬프트는 여러 번 반복한 후에 나타납니다. 저는 시스템이 팩트시트를 처리하도록 처음 시도했을 때 이 정확한 프롬프트를 작성할 사람을 모른다고 생각합니다. 그래서 이것은 실제로 많은 HTML을 출력합니다. HTML을 표시하여 이것이 유효한 HTML인지 확인하고 이것이 작동하는지 확인해 보겠습니다. 효과가 있을지는 모르겠지만, 어디 봅시다. 오, 좋아요. 좋아요, 렌딧 같네요. 의자에 대한 아주 멋진 묘사가 있습니다. 구조, 재료, 제품 치수. 오, 제가 최대 50단어의 사용법을 생략한 것 같습니다. 그래서 이것은 약간 긴 것입니다. 하지만 여러분이 원한다면, 여러분은 비디오를 잠시 멈추고, 더 간결하게 하고, 이것을 재생하고, 여러분이 어떤 결과를 얻을 수 있는지 볼 수 있습니다. 그래서 저는 여러분이 이 비디오에서 즉각적인 개발은 반복적인 과정이라는 것을 제거하기를 바랍니다. 무엇인가를 시도하고, 어떻게 아직 그것이 여러분이 원하는 것을 정확하게 이행하지 않는지 확인하고, 그 다음에 여러분의 지시를 명확히 하는 방법에 대해 생각해보세요. 어떤 경우에는 여러분이 원하는 결과를 전달하기 위해 더 많은 생각의 공간을 주는 방법에 대해 생각해보세요. 효율적인 프롬프트 엔지니어가 되는 비결은 완벽한 프롬프트를 아는 것이 아니라 애플리케이션에 효과적인 프롬프트를 개발하는 좋은 프로세스를 갖는 것이라고 생각합니다.
+    
+    And in this video I illustreated developing a prompt using just one example. For more sophisticated applications, sometimes you will have multiple examples, say a list of 10 or even 50 or 100 fact sheets, and iteratively develop a prompt and evaluate it against a large set of cases. But for early development of most applications, I see many people developing it sort of the way. I am with just one example, but then for more mature applications, sometimes it could be useful to evaludate prompts against a larger set of examples, such as to test different prompts on dozens of fact sheets to see how this average or worst case performance is on multiple fact sheets. But usually you end up doing that only when an application is more mature and you have to have those metrics to drive that incremental last few steps of prompt improvement. So with that, please do play with the Jupyter code notebook examples and try out different variations and see what results you get. And when you're done, let's go on to the next video where we'll talk about one very common use of large language models in software applications, which is to summarize text.
+    
+    그리고 이 비디오에서 저는 단 하나의 예를 사용하여 프롬프트를 개발하는 것을 묘사했습니다. 보다 정교한 애플리케이션의 경우, 때로는 여러 예제를 사용하여 10개 또는 50개 또는 100개의 팩트시트 목록을 작성하고 반복적으로 프롬프트를 작성하여 대규모 사례에 대해 평가합니다. 그러나 대부분의 애플리케이션의 초기 개발을 위해 많은 사람들이 일종의 방식으로 개발하고 있습니다. 예를 하나 들어보겠습니다. 하지만 좀 더 성숙한 애플리케이션의 경우 수십 개의 팩트 시트에서 서로 다른 프롬프트를 테스트하여 여러 팩트 시트에서 평균 또는 최악의 경우 성능이 어떻게 되는지 확인하는 것과 같이 대규모 예제 세트에 대해 프롬프트를 평가하는 것이 유용할 수 있습니다. 그러나 일반적으로 애플리케이션이 더 성숙한 경우에만 이러한 작업을 수행하게 되며, 이러한 메트릭을 사용하여 신속한 개선을 위한 마지막 단계를 점진적으로 진행해야 합니다. 따라서 주피터 코드 노트북 예제를 사용하여 다양한 버전을 사용해 보고 어떤 결과를 얻을 수 있는지 확인해 보십시오. 작업이 끝나면 다음 비디오로 넘어가겠습니다. 소프트웨어 애플리케이션에서 큰 언어 모델을 사용하는 매우 일반적인 방법 중 하나인 텍스트 요약에 대해 이야기해 보겠습니다.
