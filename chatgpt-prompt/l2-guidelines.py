@@ -497,11 +497,10 @@ In korean, Tell me about AeroGlide UltraSlim Smart Toothbrush by Boie.
 To answer, do the following.
 - First, look for quotes related to the text.
 - Use the quote to answer the question in korean.
-- If you can't give an appropriate answer, make it clear that you can't give an answer, and then simply write \"No steps provided.\"
+- If you can't give an appropriate answer, make it clear that you can't give an answer, and then simply write \"No answer provided.\"
 """
 
 response = get_completion(prompt)
 print("Fix prompt 3")
 print(response)
-# "No steps provided."
-
+# "No answer provided."
