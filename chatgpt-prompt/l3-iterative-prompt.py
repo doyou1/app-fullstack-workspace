@@ -268,5 +268,7 @@ print(response)
 # </table>
 # </div>
 
+# Product IDs: SWC-100, SWC-110.
+
 # Load Python libraries to view HTML
 display(HTML(response))
