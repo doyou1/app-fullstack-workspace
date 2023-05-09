@@ -8,9 +8,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
+import com.example.vocabularynote.api.TranslationApiHelper
 import com.example.vocabularynote.databinding.RvItemEditNoteBinding
 import com.example.vocabularynote.room.entity.NoteItem
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId: Long) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -115,6 +119,20 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
                     } else {
                         list[adapterPosition] = item
                     }
+
+                    if (isNessaryHint()) {
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val value = TranslationApiHelper.getValue(
+                                source = "en",
+                                target = "ko",
+                                key = it.toString()
+                            )
+                            GlobalScope.launch(Dispatchers.Main) {
+                                binding.etValue.hint = value
+                            }
+                        }
+                    }
+
                 }
             )
             binding.etValue.addTextChangedListener(
@@ -147,6 +165,10 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
                 parentContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             im.hideSoftInputFromWindow((parentContext as Activity?)?.currentFocus?.windowToken, 0)
             (parentContext as Activity?)?.currentFocus?.clearFocus()
+        }
+
+        private fun isNessaryHint(): Boolean {
+            return false
         }
     }
 }
