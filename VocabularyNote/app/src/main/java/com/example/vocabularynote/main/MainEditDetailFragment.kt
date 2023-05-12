@@ -69,8 +69,11 @@ class MainEditDetailFragment : Fragment() {
 
                     val maxId =
                         (requireActivity().application as BaseApplication).noteDao.getNoteItemMaxId()
+
+                    val note = (requireActivity().application as BaseApplication).noteDao.getNoteById(noteId)
+
                     lifecycleScope.launch(Dispatchers.Main) {
-                        setRecyclerView(list, noteId, maxId + 1)
+                        setRecyclerView(list, noteId, maxId + 1, note.useTranslation)
                     }
                 }
             }, Const.DELAY_SHOW_UI)
@@ -115,11 +118,11 @@ class MainEditDetailFragment : Fragment() {
         }
     }
 
-    private fun setRecyclerView(list: List<NoteItem>, noteId: Long, nextId: Long) {
+    private fun setRecyclerView(list: List<NoteItem>, noteId: Long, nextId: Long, useTranslation: Boolean) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = EditNoteRvAdapter(list, noteId, nextId)
+        binding.recyclerView.adapter = EditNoteRvAdapter(list, noteId, nextId, useTranslation)
         binding.showUI = true
     }
 

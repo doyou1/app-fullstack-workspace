@@ -58,12 +58,13 @@ class MainAddFragment : Fragment() {
             if (isValidate()) {
                 val title = binding.etTitle.text!!.toString()
                 val memo = binding.etMemo.text.toString()
+                val useTranslation = binding.swiUseTranslation.isChecked
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (prev != null) {
-                        val item = Note(prev!!.id, title, memo)
+                        val item = Note(prev!!.id, title, memo, useTranslation)
                         (requireActivity().application as BaseApplication).noteDao.updateNote(item)
                     } else {
-                        val item = Note(0, title, memo)
+                        val item = Note(0, title, memo, useTranslation)
                         (requireActivity().application as BaseApplication).noteDao.insertNote(item)
                     }
 
@@ -91,6 +92,7 @@ class MainAddFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.Main) {
                     binding.etTitle.setText(item.title)
                     binding.etMemo.setText(item.memo)
+                    binding.swiUseTranslation.isChecked = item.useTranslation
                     prev = item
                 }
             }

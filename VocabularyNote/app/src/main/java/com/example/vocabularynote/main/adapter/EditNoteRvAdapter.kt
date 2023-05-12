@@ -16,7 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId: Long) :
+class EditNoteRvAdapter(
+    _list: List<NoteItem>,
+    private val noteId: Long,
+    _nextId: Long,
+    private val useTranslation: Boolean
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val list: MutableList<NoteItem> = _list.toMutableList()
@@ -86,6 +91,8 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
 
     inner class EditNoteRvViewHolder(private val binding: RvItemEditNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        private var isExecute = false
         fun bind(item: NoteItem) {
             binding.item = item
             setClickEvent()
@@ -120,15 +127,19 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
                         list[adapterPosition] = item
                     }
 
-                    if (isNessaryHint()) {
-                        GlobalScope.launch(Dispatchers.IO) {
-                            val value = TranslationApiHelper.getValue(
-                                source = "en",
-                                target = "ko",
-                                key = it.toString()
-                            )
-                            GlobalScope.launch(Dispatchers.Main) {
-                                binding.etValue.hint = value
+                    if (useTranslation) {
+                        if (isNecessaryHint() && !isExecute) {
+                            isExecute = true
+                            GlobalScope.launch(Dispatchers.IO) {
+                                val value = TranslationApiHelper.getValue(
+                                    source = "en",
+                                    target = "ko",
+                                    key = it.toString()
+                                )
+                                GlobalScope.launch(Dispatchers.Main) {
+                                    binding.etValue.hint = value
+                                    isExecute = false
+                                }
                             }
                         }
                     }
@@ -166,8 +177,9 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
             (parentContext as Activity?)?.currentFocus?.clearFocus()
         }
 
-        private fun isNessaryHint(): Boolean {
-            return false
+        private fun isNecessaryHint(): Boolean {
+            val text = binding.etValue.text?.toString()
+            return text.isNullOrEmpty()
         }
     }
 }

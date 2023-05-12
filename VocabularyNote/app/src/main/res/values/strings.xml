@@ -16,4 +16,5 @@
     <string name="text_add_note">Add Note</string>
     <string name="text_edit_note">Edit Note</string>
     <string name="text_back">Back</string>
+    <string name="text_use_translation">use Translation</string>
 </resources>
