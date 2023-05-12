@@ -63,6 +63,10 @@ class MainEditFragment : Fragment() {
         binding.btnAddNote.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_edit_to_add)
         }
+        binding.btnBack.setOnClickListener {
+            // Handle the back button event
+            Navigation.findNavController(requireView()).navigateUp()
+        }
     }
 
     private fun setBackPressEvent() {

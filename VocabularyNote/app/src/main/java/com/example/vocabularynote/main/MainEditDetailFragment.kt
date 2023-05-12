@@ -109,6 +109,10 @@ class MainEditDetailFragment : Fragment() {
             intent.type = "*/*"
             fileExplorerLauncher.launch(intent)
         }
+        binding.btnBack.setOnClickListener {
+            // Handle the back button event
+            Navigation.findNavController(requireView()).navigateUp()
+        }
     }
 
     private fun setRecyclerView(list: List<NoteItem>, noteId: Long, nextId: Long) {

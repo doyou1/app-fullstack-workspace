@@ -56,6 +56,11 @@ class MainAddFragment : Fragment() {
                 }
             }
         }
+
+        binding.btnBack.setOnClickListener {
+            // Handle the back button event
+            Navigation.findNavController(requireView()).navigateUp()
+        }
     }
 
     private fun isValidate(): Boolean {

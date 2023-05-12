@@ -70,7 +70,12 @@ class MainGameDetailFragment : Fragment() {
                 }, Const.DELAY_SHOW_UI)
             }
         }
+        binding.btnBack.setOnClickListener {
+            // Handle the back button event
+            Navigation.findNavController(requireView()).navigateUp()
+        }
     }
+
     private fun setRecyclerView(list: List<NoteItem>) {
         binding.recyclerView.layoutManager =
             CarouselLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

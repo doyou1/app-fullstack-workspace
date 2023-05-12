@@ -9,14 +9,14 @@ class TranslationApiHelper {
 
     companion object {
         private const val baseUrl = "https://openapi.naver.com/"
+        private val env = dotenv {
+            directory = "/assets"
+            filename = "env"
+        }
+        private val clientId = env["TRANSLATION_NAVER_API_CLIENT_ID"]
+        private val clientSecret = env["TRANSLATION_NAVER_API_CLIENT_SECRET"]
 
         fun getValue(source: String, target: String, key: String): String? {
-            val env = dotenv {
-                directory = "/assets"
-                filename = "env"
-            }
-            val clientId = env["TRANSLATION_NAVER_API_CLIENT_ID"]
-            val clientSecret = env["TRANSLATION_NAVER_API_CLIENT_SECRET"]
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())

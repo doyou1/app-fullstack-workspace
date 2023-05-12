@@ -132,7 +132,6 @@ class EditNoteRvAdapter(_list: List<NoteItem>, private val noteId: Long, _nextId
                             }
                         }
                     }
-
                 }
             )
             binding.etValue.addTextChangedListener(

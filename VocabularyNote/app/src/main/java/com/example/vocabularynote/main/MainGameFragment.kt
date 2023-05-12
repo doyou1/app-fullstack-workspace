@@ -63,6 +63,10 @@ class MainGameFragment : Fragment() {
         binding.btnEditNote.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_game_to_edit)
         }
+        binding.btnBack.setOnClickListener {
+            // Handle the back button event
+            Navigation.findNavController(requireView()).navigateUp()
+        }
     }
 
     private fun setBackPressEvent() {

@@ -1,6 +1,7 @@
 package com.example.vocabularynote.main.adapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
@@ -48,6 +49,10 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                             .navigate(R.id.action_game_to_game_detail, bundle)
                     }
                 }
+            }
+
+            binding.btnSetting.setOnClickListener {
+                Log.e("TAG", "btn setting")
             }
 
         }
