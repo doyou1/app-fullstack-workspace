@@ -12,4 +12,6 @@ object Const {
     const val TEXT_VALUE = "value"
     const val TEXT_IMPORT = "import"
     const val TEXT_TEMP = "TEMP"
+    const val TEXT_EDIT = "EDIT"
+    const val TEXT_CANCEL = "CANCEL"
 }

@@ -2,6 +2,8 @@ package com.example.vocabularynote.main
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainAddBinding
 import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.util.Const
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +27,8 @@ class MainAddFragment : Fragment() {
     private var _binding: FragmentMainAddBinding? = null
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
+    private val handler = Handler(Looper.getMainLooper())
+    private var prev: Note? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +42,12 @@ class MainAddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.let {
+            val id = it.getLong(Const.TEXT_NOTE_ID, -1)
+            if (id != -1L) {
+                setPrevNote(id)
+            }
+        }
         aboutKeyboard()
         setBackPressEvent()
         setClickEvent()
@@ -48,10 +59,17 @@ class MainAddFragment : Fragment() {
                 val title = binding.etTitle.text!!.toString()
                 val memo = binding.etMemo.text.toString()
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val item = Note(0, title, memo)
-                    (requireActivity().application as BaseApplication).noteDao.insertNote(item)
+                    if (prev != null) {
+                        val item = Note(prev!!.id, title, memo)
+                        (requireActivity().application as BaseApplication).noteDao.updateNote(item)
+                    } else {
+                        val item = Note(0, title, memo)
+                        (requireActivity().application as BaseApplication).noteDao.insertNote(item)
+                    }
+
                     lifecycleScope.launch(Dispatchers.Main) {
-                        Navigation.findNavController(requireView()).navigate(R.id.action_add_to_edit)
+                        Navigation.findNavController(requireView())
+                            .navigate(R.id.action_add_to_edit)
                     }
                 }
             }
@@ -61,6 +79,22 @@ class MainAddFragment : Fragment() {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
         }
+    }
+
+    private fun setPrevNote(id: Long) {
+        handler.postDelayed({
+            lifecycleScope.launch(Dispatchers.IO) {
+                val item =
+                    (requireActivity().application as BaseApplication).noteDao.getNoteById(
+                        id
+                    )
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.etTitle.setText(item.title)
+                    binding.etMemo.setText(item.memo)
+                    prev = item
+                }
+            }
+        }, Const.DELAY_SHOW_UI)
     }
 
     private fun isValidate(): Boolean {

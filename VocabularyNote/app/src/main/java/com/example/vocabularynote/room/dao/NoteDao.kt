@@ -16,11 +16,15 @@ interface NoteDao {
     @Query("SELECT * FROM Note")
     fun getNoteAll(): List<Note>
 
+    @Query("SELECT * FROM Note WHERE id = :id")
+    fun getNoteById(id: Long): Note
+
     @Query("SELECT max(id) FROM NoteItem GROUP BY id")
-    fun getNoteItemMaxId() : Long
+    fun getNoteItemMaxId(): Long
 
     @Query("SELECT * FROM NoteItem WHERE noteId = :noteId")
     fun getNoteItemAllByNoteId(noteId: Long): List<NoteItem>
+
 
     @Insert
     fun insertNote(item: Note)
