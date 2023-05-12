@@ -2,7 +2,6 @@ package com.example.vocabularynote.main.adapter
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -75,7 +74,6 @@ class EditNoteRvAdapter(
         val printList = arrayListOf<NoteItem>()
         printList.addAll(list)
         printList.addAll(additionList)
-        Log.e("tag", printList.toString())
     }
 
     fun getResult(): List<NoteItem> {

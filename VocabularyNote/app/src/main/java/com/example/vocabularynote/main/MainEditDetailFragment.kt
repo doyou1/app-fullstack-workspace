@@ -5,14 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import org.apache.poi.ss.usermodel.WorkbookFactory
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.webkit.MimeTypeMap
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,14 +29,12 @@ import com.example.vocabularynote.util.Const.TEXT_IMPORT
 import com.example.vocabularynote.util.Const.TEXT_INSERT_NOTE_ITEM_SUCCESS
 import com.example.vocabularynote.util.Const.TEXT_KEY
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
-import com.example.vocabularynote.util.Const.TEXT_TEMP
 import com.example.vocabularynote.util.Const.TEXT_VALUE
 import com.example.vocabularynote.util.FileUtil
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.apache.poi.ss.usermodel.Workbook
-import java.io.*
 
 class MainEditDetailFragment : Fragment() {
 

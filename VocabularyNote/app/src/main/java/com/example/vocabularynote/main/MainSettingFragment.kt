@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.example.vocabularynote.R
-import com.example.vocabularynote.databinding.FragmentMainGameBinding
 import com.example.vocabularynote.databinding.FragmentMainSettingBinding
 
 class MainSettingFragment : Fragment() {

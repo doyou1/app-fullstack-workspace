@@ -13,7 +13,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
-import com.example.vocabularynote.Temp.TEMP_NOTE_LIST
 import com.example.vocabularynote.databinding.FragmentMainEditBinding
 import com.example.vocabularynote.main.adapter.NoteRvAdapter
 import com.example.vocabularynote.room.entity.Note
