@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 
 class CarouselLayoutManager : LinearLayoutManager {
-    private val mShrinkAmount = 0.35f
-    private val mShrinkDistance = 13f
+
+    var isScrollEnabled = true
+    private val mShrinkAmount = 0.10f
+    private val mShrinkDistance = 15f
 
     constructor(context: Context?) : super(context) {}
     constructor(context: Context?, orientation: Int, reverseLayout: Boolean) : super(
@@ -54,5 +56,9 @@ class CarouselLayoutManager : LinearLayoutManager {
         } else {
             0
         }
+    }
+
+    override fun canScrollHorizontally(): Boolean {
+        return isScrollEnabled && super.canScrollHorizontally()
     }
 }
