@@ -1,6 +1,7 @@
 package com.example.vocabularynote.util
 
 import com.example.vocabularynote.room.entity.NoteItem
+import com.example.vocabularynote.room.viewmodel.GameNoteItemViewModel
 import com.example.vocabularynote.room.viewmodel.NoteItemViewModel
 
 class DataUtil {
@@ -18,6 +19,14 @@ class DataUtil {
                         value = item.value
                     )
                 )
+            }
+            return result
+        }
+
+        fun convertToGameNoteItemViewModel(list: List<NoteItem>) : List<GameNoteItemViewModel>{
+            val result = arrayListOf<GameNoteItemViewModel>()
+            for(item in list) {
+                result.add(GameNoteItemViewModel(id=item.id, noteId = item.noteId, key = item.key, value = item.value, showKey = true))
             }
             return result
         }
