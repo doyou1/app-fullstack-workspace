@@ -10,14 +10,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.databinding.FragmentMainGameDetailBinding
-import com.example.vocabularynote.main.adapter.GameNoteRvAdapter
+import com.example.vocabularynote.main.adapter.GameNoteVPAdapter
 import com.example.vocabularynote.room.entity.NoteItem
-import com.example.vocabularynote.util.CarouselLayoutManager
 import com.example.vocabularynote.util.Const
+import com.example.vocabularynote.util.DataUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -60,9 +58,9 @@ class MainGameDetailFragment : Fragment() {
                         lifecycleScope.launch(Dispatchers.Main) {
                             val isRandom: Boolean? = binding.isRandom
                             if (isRandom != null && isRandom) {
-                                setRecyclerView(list.shuffled())
+                                setViewPager(list.shuffled())
                             } else {
-                                setRecyclerView(list)
+                                setViewPager(list)
                             }
                         }
                     }
@@ -75,12 +73,8 @@ class MainGameDetailFragment : Fragment() {
         }
     }
 
-    private fun setRecyclerView(list: List<NoteItem>) {
-        binding.recyclerView.layoutManager =
-            CarouselLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        val snapHelper = PagerSnapHelper()
-//        snapHelper.attachToRecyclerView(binding.recyclerView)
-        binding.recyclerView.adapter = GameNoteRvAdapter(list)
+    private fun setViewPager(list: List<NoteItem>) {
+        binding.viewPager.adapter = GameNoteVPAdapter(DataUtil.convertToGameNoteItemViewModel(list), requireActivity())
         binding.showUI = true
     }
 
