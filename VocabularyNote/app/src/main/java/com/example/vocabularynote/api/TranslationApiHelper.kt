@@ -24,7 +24,6 @@ class TranslationApiHelper {
             target: String,
             key: String
         ): TranslationResponseBody? = withContext(Dispatchers.IO) {
-            Log.e("TAG", "getValue")
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())

@@ -273,29 +273,31 @@ class EditNoteRvAdapter(
 
         @OptIn(DelicateCoroutinesApi::class)
         private fun processTranslation(key: String) {
-            GlobalScope.launch(Dispatchers.IO) {
-                val translatedText = TranslationApiHelper.getValue(
-                    source = "en", target = "ko", key = key
-                )?.message?.result?.get("translatedText")
-                GlobalScope.launch(Dispatchers.Main) {
-                    if (translatedText != null) {
-                        val item = if (list.size <= adapterPosition) {
-                            additionList[adapterPosition - list.size]
-                        } else {
-                            list[adapterPosition]
-                        }
-                        item.translatedText = translatedText
-                        binding.translatedText = translatedText
-                        if (list.size <= adapterPosition) {
-                            additionList[adapterPosition - list.size] = item
-                        } else {
-                            list[adapterPosition] = item
+            if (useTranslation && isNecessaryHint()) {
+                GlobalScope.launch(Dispatchers.IO) {
+                    val translatedText = TranslationApiHelper.getValue(
+                        source = "en", target = "ko", key = key
+                    )?.message?.result?.get("translatedText")
+                    GlobalScope.launch(Dispatchers.Main) {
+                        if (translatedText != null) {
+                            val item = if (list.size <= adapterPosition) {
+                                additionList[adapterPosition - list.size]
+                            } else {
+                                list[adapterPosition]
+                            }
+                            item.translatedText = translatedText
+                            binding.translatedText = translatedText
+                            if (list.size <= adapterPosition) {
+                                additionList[adapterPosition - list.size] = item
+                            } else {
+                                list[adapterPosition] = item
+                            }
                         }
                     }
-                    prevTextChangedTime = -1
-                    binding.isExecute = false
                 }
             }
+            prevTextChangedTime = -1
+            binding.isExecute = false
         }
     }
 }

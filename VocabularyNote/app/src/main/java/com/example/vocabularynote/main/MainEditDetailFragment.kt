@@ -115,6 +115,9 @@ class MainEditDetailFragment : Fragment() {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
         }
+        binding.btnImportDescription.setOnClickListener {
+            binding.showImportDescription = true
+        }
     }
 
     private fun setRecyclerView(
@@ -150,6 +153,9 @@ class MainEditDetailFragment : Fragment() {
         binding.layoutWrap.setOnClickListener {
             if (it !is TextInputEditText) {
                 hideKeyboard()
+            }
+            if (it.id != R.id.layout_import_description) {
+                binding.showImportDescription = false
             }
         }
     }

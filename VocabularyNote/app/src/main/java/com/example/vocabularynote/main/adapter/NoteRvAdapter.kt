@@ -22,6 +22,7 @@ import com.example.vocabularynote.util.Const
 import com.example.vocabularynote.util.Const.TEXT_CANCEL
 import com.example.vocabularynote.util.Const.TEXT_DELETE
 import com.example.vocabularynote.util.Const.TEXT_EDIT
+import com.example.vocabularynote.util.Const.TEXT_EXPORT
 import com.example.vocabularynote.util.Const.TEXT_NO
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 import com.example.vocabularynote.util.Const.TEXT_YES
@@ -82,6 +83,7 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                     Const.TYPE_EDIT -> {
                         popup.menu.add(TEXT_EDIT)
                         popup.menu.add(TEXT_DELETE)
+                        popup.menu.add(TEXT_EXPORT)
                         popup.menu.add(TEXT_CANCEL)
                     }
                     Const.TYPE_GAME -> {
@@ -100,6 +102,9 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                         TEXT_DELETE -> {
                             showDeletePrompt(item)
                         }
+                        TEXT_EXPORT -> {
+                            AppMsgUtil.showMsg("please write to export note", (context as Activity))
+                        }
                         TEXT_CANCEL -> {
                             popup.dismiss()
                         }
@@ -116,13 +121,15 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                 .setMessage("Do you want to DELETE \"${item.title}\" Note? \n※If deleted, it cannot be reversed.")
                 .setCancelable(true)
                 .setPositiveButton(TEXT_YES) { _, _ ->
-                    Log.e(TAG, "positive button")
                     GlobalScope.launch(Dispatchers.IO) {
                         ((context as Activity).application as BaseApplication).noteDao.deleteNote(
                             item
                         )
                         GlobalScope.launch(Dispatchers.Main) {
-                            AppMsgUtil.showMsg(Const.TEXT_DELETE_NOTE_SUCCESS, (context as Activity))
+                            AppMsgUtil.showMsg(
+                                Const.TEXT_DELETE_NOTE_SUCCESS,
+                                (context as Activity)
+                            )
                             Navigation.findNavController(binding.root)
                                 .navigate(R.id.action_refresh_edit)
                         }
@@ -130,7 +137,6 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
 
                 }
                 .setNegativeButton(TEXT_NO) { _, _ ->
-//                    Log.e(TAG, "negative button")
                 }.create()
             alert.setTitle("Check to delete note")
             alert.show()

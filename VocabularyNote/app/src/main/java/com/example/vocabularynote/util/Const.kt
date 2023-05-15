@@ -17,6 +17,7 @@ object Const {
     const val TEXT_EDIT = "EDIT"
     const val TEXT_CANCEL = "CANCEL"
     const val TEXT_DELETE = "DELETE"
+    const val TEXT_EXPORT = "EXPORT"
     const val TEXT_YES = "Yes"
     const val TEXT_NO = "No"
 }
