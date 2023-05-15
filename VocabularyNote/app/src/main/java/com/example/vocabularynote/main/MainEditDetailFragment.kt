@@ -25,10 +25,10 @@ import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
-import com.example.vocabularynote.util.Const.TEXT_IMPORT
 import com.example.vocabularynote.util.Const.TEXT_INSERT_NOTE_ITEM_SUCCESS
 import com.example.vocabularynote.util.Const.TEXT_KEY
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
+import com.example.vocabularynote.util.Const.TEXT_RESULT
 import com.example.vocabularynote.util.Const.TEXT_VALUE
 import com.example.vocabularynote.util.DataUtil
 import com.example.vocabularynote.util.FileUtil
@@ -200,7 +200,7 @@ class MainEditDetailFragment : Fragment() {
         }
 
     private fun getNoteItems(workbook: Workbook): List<NoteItem>? {
-        val sheet = workbook.getSheet(TEXT_IMPORT)
+        val sheet = workbook.getSheet(TEXT_RESULT)
         val keyTitle = sheet.getRow(0).getCell(0).toString()
         val valueTitle = sheet.getRow(0).getCell(1).toString()
         return if (keyTitle == TEXT_KEY && valueTitle == TEXT_VALUE) {
