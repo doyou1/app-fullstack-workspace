@@ -4,22 +4,16 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Environment
-import android.provider.DocumentsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.core.net.toUri
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.BaseApplication
@@ -125,9 +119,6 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
 //                            if (!isExecuteExternalStoragePermission()) {
 //                            selectDirectory()
 //                            }
-                            // android 13 above
-                            // android 13 under
-                            // android 11 under
                         }
                         TEXT_CANCEL -> {
                             popup.dismiss()
@@ -173,21 +164,67 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             Log.e(TAG, "${binding.item?.id} ${binding.item?.title}")
             binding.item?.id?.let { id ->
                 binding.item?.title?.let { title ->
-                    processSaveNote(id, title)
+                    if (SDK_INT > Build.VERSION_CODES.S_V2) {
+                        // android 13 above
+                         processSaveNoteToAndroid13Above(id, title)
+                    } else {
+                        // android 13 under
+                         processSaveNoteToAndroid13Under(id, title)
+                    }
                 }
             }
 //            }
         }
 
+        private fun processSaveNoteToAndroid13Above(id: Long, title: String) {
+            if (!isExecuteExternalStoragePermissionToAndroid13Above()) {
+                saveNoteToAndroid13Under(id, title)
+            }
+
+
+        }
+
+        private fun processSaveNoteToAndroid13Under(id: Long, title: String) {
+            if (!isExecuteExternalStoragePermissionToAndroid13Under()) {
+                saveNoteToAndroid13Under(id, title)
+            }
+        }
+
         @OptIn(DelicateCoroutinesApi::class)
-        private fun processSaveNote(id: Long, title: String) {
+        private fun saveNoteToAndroid13Above(id: Long, title: String) {
             GlobalScope.launch(Dispatchers.IO) {
                 val list =
                     ((context as Activity).application as BaseApplication).noteDao.getNoteItemAllByNoteId(
                         id
                     )
                 val workbook = writeWorkBook(list)
-                val fileName = "$title-${DateUtil.getCurrentTime()}.xlsx"
+                val fileName = "${Environment.getExternalStorageDirectory()}/$title-${DateUtil.getCurrentTime()}.xlsx"
+                val file = File(fileName)
+                if (!file.exists()) {
+                    file.createNewFile()
+                }
+
+                val fout = FileOutputStream(file)
+                try {
+                    workbook.write(fout)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    fout.flush()
+                    fout.close()
+                }
+            }
+        }
+
+        @OptIn(DelicateCoroutinesApi::class)
+        private fun saveNoteToAndroid13Under(id: Long, title: String) {
+            GlobalScope.launch(Dispatchers.IO) {
+                val list =
+                    ((context as Activity).application as BaseApplication).noteDao.getNoteItemAllByNoteId(
+                        id
+                    )
+                val workbook = writeWorkBook(list)
+                val fileName = "${Environment.getExternalStorageDirectory()}/$title-${DateUtil.getCurrentTime()}.xlsx"
                 val file = File(fileName)
                 if (!file.exists()) {
                     file.createNewFile()
@@ -226,22 +263,19 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             return workbook
         }
 
-        private fun isExecuteExternalStoragePermission(): Boolean {
+        private fun isExecuteExternalStoragePermissionToAndroid13Above() : Boolean {
+            return true
+        }
+
+        private fun isExecuteExternalStoragePermissionToAndroid13Under(): Boolean {
             return if (SDK_INT >= Build.VERSION_CODES.R) {
-                Log.e(
-                    TAG,
-                    "Environment.isExternalStorageManager(): ${Environment.isExternalStorageManager()}"
-                )
                 if (!Environment.isExternalStorageManager()) {
-                    Log.e(TAG, "requestPermission")
                     (context as Activity).requestPermissions(
                         arrayOf(
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                             Manifest.permission.MANAGE_EXTERNAL_STORAGE
                         ), EXTERNAL_STORAGE_PERMISSION_CODE
                     ) //permission request code is just an int
-                    Log.e(TAG, "requestPermission end")
-
                     true
                 } else true
             } else {
@@ -269,10 +303,12 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             grantResults: IntArray
         ) {
             if (requestCode == EXTERNAL_STORAGE_PERMISSION_CODE) {
-                if (SDK_INT > Build.VERSION_CODES.S_V2) {
-                    selectDirectory()
-                } else if (SDK_INT >= Build.VERSION_CODES.R && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    selectDirectory()
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    binding.item?.id?.let { id ->
+                        binding.item?.title?.let { title ->
+                            saveNoteToAndroid13Under(id, title)
+                        }
+                    }
                 }
             }
         }
