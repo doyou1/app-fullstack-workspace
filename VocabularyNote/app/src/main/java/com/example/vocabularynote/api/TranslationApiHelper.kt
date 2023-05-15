@@ -1,5 +1,7 @@
 package com.example.vocabularynote.api
 
+import android.os.Message
+import android.util.Log
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +19,12 @@ class TranslationApiHelper {
         private val clientId = env["TRANSLATION_NAVER_API_CLIENT_ID"]
         private val clientSecret = env["TRANSLATION_NAVER_API_CLIENT_SECRET"]
 
-        suspend fun getValue(source: String, target: String, key: String): String? = withContext(Dispatchers.IO) {
+        suspend fun getValue(
+            source: String,
+            target: String,
+            key: String
+        ): TranslationResponseBody? = withContext(Dispatchers.IO) {
+            Log.e("TAG", "getValue")
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())

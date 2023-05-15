@@ -7,6 +7,10 @@
         <variable
             name="item"
             type="com.example.vocabularynote.room.entity.NoteItem" />
+
+        <variable
+            name="translatedText"
+            type="String" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -39,6 +43,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/text_hint_key"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:text="@{item.key}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,7 +64,7 @@
                     android:id="@+id/et_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/text_hint_value"
+                    android:hint="@{translatedText ?? @string/text_hint_value}"
                     android:text="@{item.value}" />
             </com.google.android.material.textfield.TextInputLayout>
 

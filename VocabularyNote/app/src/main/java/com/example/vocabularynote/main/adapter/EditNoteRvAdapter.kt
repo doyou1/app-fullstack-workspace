@@ -2,6 +2,9 @@ package com.example.vocabularynote.main.adapter
 
 import android.app.Activity
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.api.TranslationApiHelper
 import com.example.vocabularynote.databinding.RvItemEditNoteBinding
 import com.example.vocabularynote.room.entity.NoteItem
+import com.example.vocabularynote.util.Const
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,14 +24,15 @@ class EditNoteRvAdapter(
     private val noteId: Long,
     _nextId: Long,
     private val useTranslation: Boolean
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val TAG = this::class.java.simpleName
     private val list: MutableList<NoteItem> = _list.toMutableList()
     private var parentContext: Context? = null
     private var addCount = 1
     private var nextId = _nextId
     private val additionList: MutableList<NoteItem> = mutableListOf()
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -91,6 +96,8 @@ class EditNoteRvAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         private var isExecute = false
+        private var prevTextChangedTime: Long = -1L
+
         fun bind(item: NoteItem) {
             binding.item = item
             setClickEvent()
@@ -111,53 +118,47 @@ class EditNoteRvAdapter(
         }
 
         private fun setTextChangeEvent() {
-            binding.etKey.addTextChangedListener(
-                onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
-                    val item = if (list.size <= adapterPosition) {
-                        additionList[adapterPosition - list.size]
-                    } else {
-                        list[adapterPosition]
-                    }
-                    item.key = it.toString()
-                    if (list.size <= adapterPosition) {
-                        additionList[adapterPosition - list.size] = item
-                    } else {
-                        list[adapterPosition] = item
-                    }
+            binding.etKey.addTextChangedListener(onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
+                val item = if (list.size <= adapterPosition) {
+                    additionList[adapterPosition - list.size]
+                } else {
+                    list[adapterPosition]
+                }
+                item.key = it.toString()
+                if (list.size <= adapterPosition) {
+                    additionList[adapterPosition - list.size] = item
+                } else {
+                    list[adapterPosition] = item
+                }
 
-                    if (useTranslation) {
-                        if (isNecessaryHint() && !isExecute) {
-                            isExecute = true
-                            GlobalScope.launch(Dispatchers.IO) {
-                                val value = TranslationApiHelper.getValue(
-                                    source = "en",
-                                    target = "ko",
-                                    key = it.toString()
-                                )
-                                GlobalScope.launch(Dispatchers.Main) {
-                                    binding.etValue.hint = value
-                                    isExecute = false
-                                }
-                            }
-                        }
+            },
+                afterTextChanged = {
+                    val currentTextChangedTime = System.currentTimeMillis()
+                    if (currentTextChangedTime - prevTextChangedTime < Const.DELAY_EXECUTE_TRANSLATION) {
+                        handler.removeCallbacksAndMessages(null)
                     }
+                    prevTextChangedTime = currentTextChangedTime
+
+                    handler.postDelayed({
+                        processTranslation(it.toString())
+                        prevTextChangedTime = -1
+                    }, Const.DELAY_EXECUTE_TRANSLATION)
+
+
+                })
+            binding.etValue.addTextChangedListener(onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
+                val item = if (list.size <= adapterPosition) {
+                    additionList[adapterPosition - list.size]
+                } else {
+                    list[adapterPosition]
                 }
-            )
-            binding.etValue.addTextChangedListener(
-                onTextChanged = { it: CharSequence?, _: Int, _: Int, _: Int ->
-                    val item = if (list.size <= adapterPosition) {
-                        additionList[adapterPosition - list.size]
-                    } else {
-                        list[adapterPosition]
-                    }
-                    item.value = it.toString()
-                    if (list.size <= adapterPosition) {
-                        additionList[adapterPosition - list.size] = item
-                    } else {
-                        list[adapterPosition] = item
-                    }
+                item.value = it.toString()
+                if (list.size <= adapterPosition) {
+                    additionList[adapterPosition - list.size] = item
+                } else {
+                    list[adapterPosition] = item
                 }
-            )
+            })
         }
 
         private fun aboutKeyboard() {
@@ -178,6 +179,27 @@ class EditNoteRvAdapter(
         private fun isNecessaryHint(): Boolean {
             val text = binding.etValue.text?.toString()
             return text.isNullOrEmpty()
+        }
+
+        private fun processTranslation(key: String) {
+            if (useTranslation) {
+                if (isNecessaryHint() && !isExecute) {
+                    isExecute = true
+                    GlobalScope.launch(Dispatchers.IO) {
+                        Log.e(TAG, "key: $key")
+                        val translatedText = TranslationApiHelper.getValue(
+                            source = "en", target = "ko", key = key
+                        )?.message?.result?.get("translatedText")
+                        GlobalScope.launch(Dispatchers.Main) {
+                            Log.e(TAG, "translatedText: $translatedText")
+                            if (translatedText != null) {
+                                binding.translatedText = translatedText
+                            }
+                            isExecute = false
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.vocabularynote.util
 object Const {
 
     const val DELAY_SHOW_UI = 50L
+    const val DELAY_EXECUTE_TRANSLATION = 1000L
     const val TYPE_GAME = 1
     const val TYPE_EDIT = 2
     const val DB_NAME = "VocabularyNote"
