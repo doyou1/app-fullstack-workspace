@@ -30,6 +30,7 @@ import com.example.vocabularynote.util.Const.TEXT_INSERT_NOTE_ITEM_SUCCESS
 import com.example.vocabularynote.util.Const.TEXT_KEY
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 import com.example.vocabularynote.util.Const.TEXT_VALUE
+import com.example.vocabularynote.util.DataUtil
 import com.example.vocabularynote.util.FileUtil
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
@@ -65,7 +66,10 @@ class MainEditDetailFragment : Fragment() {
                     val maxId =
                         (requireActivity().application as BaseApplication).noteDao.getNoteItemMaxId()
 
-                    val note = (requireActivity().application as BaseApplication).noteDao.getNoteById(noteId)
+                    val note =
+                        (requireActivity().application as BaseApplication).noteDao.getNoteById(
+                            noteId
+                        )
 
                     lifecycleScope.launch(Dispatchers.Main) {
                         setRecyclerView(list, noteId, maxId + 1, note.useTranslation)
@@ -113,11 +117,21 @@ class MainEditDetailFragment : Fragment() {
         }
     }
 
-    private fun setRecyclerView(list: List<NoteItem>, noteId: Long, nextId: Long, useTranslation: Boolean) {
+    private fun setRecyclerView(
+        list: List<NoteItem>,
+        noteId: Long,
+        nextId: Long,
+        useTranslation: Boolean
+    ) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = EditNoteRvAdapter(list, noteId, nextId, useTranslation)
+        binding.recyclerView.adapter = EditNoteRvAdapter(
+            DataUtil.convertToNoteItemViewModel(list),
+            noteId,
+            nextId,
+            useTranslation
+        )
         binding.showUI = true
     }
 
@@ -162,9 +176,15 @@ class MainEditDetailFragment : Fragment() {
                                 FileUtil.getWorkbook(requireContext(), fileExtension, uri)
                             if (workbook != null) {
                                 val result = getNoteItems(workbook)
-                                if(result != null && result.isNotEmpty()) {
-                                    val newSize = (binding.recyclerView.adapter as EditNoteRvAdapter).addAllEditItem(result)
-                                    (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, result.size)
+                                if (result != null && result.isNotEmpty()) {
+                                    val newSize =
+                                        (binding.recyclerView.adapter as EditNoteRvAdapter).addAllEditItem(
+                                            DataUtil.convertToNoteItemViewModel(result)
+                                        )
+                                    (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(
+                                        newSize,
+                                        result.size
+                                    )
                                 }
                             }
                         }

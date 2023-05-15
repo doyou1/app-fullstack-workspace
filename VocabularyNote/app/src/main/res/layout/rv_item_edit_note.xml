@@ -6,11 +6,17 @@
 
         <variable
             name="item"
-            type="com.example.vocabularynote.room.entity.NoteItem" />
+            type="com.example.vocabularynote.room.viewmodel.NoteItemViewModel" />
+
+        <import type="android.view.View" />
 
         <variable
             name="translatedText"
             type="String" />
+
+        <variable
+            name="isExecute"
+            type="Boolean" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -21,7 +27,7 @@
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
-        app:rippleColor="@android:color/transparent">
+        app:rippleColor="@null">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,7 +42,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/input_layout_value"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_key"
@@ -64,25 +71,39 @@
                     android:id="@+id/et_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@{translatedText ?? @string/text_hint_value}"
+                    android:hint='@{translatedText != "" ? translatedText : @string/text_hint_value}'
                     android:text="@{item.value}" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progress="0"
+                android:visibility="@{isExecute ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/input_layout_value"
+                app:layout_constraintEnd_toEndOf="@+id/input_layout_value"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/input_layout_value"
+                app:layout_constraintTop_toTopOf="@+id/input_layout_value" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_remove"
-                style="@style/Widget.Material3.Button.IconButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                app:icon="@drawable/baseline_cancel_60"
+                app:icon="@drawable/baseline_cancel_24"
                 app:iconGravity="textEnd"
                 app:iconTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/input_layout_value"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.1"
+                app:strokeColor="@color/white" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
