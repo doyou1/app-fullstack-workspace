@@ -10,5 +10,5 @@ class GameNoteVPAdapter(private val _list: List<GameNoteItemViewModel>, fa: Frag
     FragmentStateAdapter(fa) {
     private val list: MutableList<GameNoteItemViewModel> = _list.toMutableList()
     override fun getItemCount(): Int = list.size
-    override fun createFragment(position: Int): Fragment = GameNoteVPFragment(list[position], position)
+    override fun createFragment(position: Int): Fragment = GameNoteVPFragment(list[position])
 }

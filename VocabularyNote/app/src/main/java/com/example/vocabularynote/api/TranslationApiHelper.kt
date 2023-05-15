@@ -1,7 +1,5 @@
 package com.example.vocabularynote.api
 
-import android.os.Message
-import android.util.Log
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
