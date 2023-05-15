@@ -78,8 +78,8 @@ class MainGameDetailFragment : Fragment() {
     private fun setRecyclerView(list: List<NoteItem>) {
         binding.recyclerView.layoutManager =
             CarouselLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(binding.recyclerView)
+//        val snapHelper = PagerSnapHelper()
+//        snapHelper.attachToRecyclerView(binding.recyclerView)
         binding.recyclerView.adapter = GameNoteRvAdapter(list)
         binding.showUI = true
     }

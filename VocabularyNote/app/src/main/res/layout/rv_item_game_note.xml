@@ -16,7 +16,6 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/layout_wrap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cardview_light_background"
@@ -28,76 +27,83 @@
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_key"
+            android:id="@+id/layout_wrap"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/teal_700"
-            android:visibility="@{showKey == null ? View.VISIBLE : (showKey ? View.VISIBLE : View.GONE)}">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_key"
-                android:textColor="@color/black"
-                android:textSize="24dp"
-                android:textStyle="bold"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_key"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/teal_700"
+                android:visibility="@{showKey == null ? View.VISIBLE : (showKey ? View.VISIBLE : View.GONE)}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_key"
+                    android:textColor="@color/black"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{item.key}"
+                    android:textColor="@color/black"
+                    android:textSize="35dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/teal_200"
+                android:visibility="@{showKey == null ? View.GONE : (!showKey ? View.VISIBLE : View.GONE)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{item.key}"
-                android:textColor="@color/black"
-                android:textSize="35dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_value"
+                    android:textColor="@color/black"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{item.value}"
+                    android:textColor="@color/black"
+                    android:textSize="27dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/teal_200"
-            android:visibility="@{showKey == null ? View.GONE : (!showKey ? View.VISIBLE : View.GONE)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_value"
-                android:textColor="@color/black"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{item.value}"
-                android:textColor="@color/black"
-                android:textSize="27dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
 
