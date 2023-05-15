@@ -223,12 +223,7 @@ class EditNoteRvAdapter(
                     }
                 },
                 afterTextChanged = {
-                    Log.e(
-                        "afterTextChanged",
-                        "useTranslation: $useTranslation,  isNecessaryHint(): ${isNecessaryHint()}"
-                    )
                     if (useTranslation && isNecessaryHint()) {
-                        Log.e(TAG, "afterTextChanged")
                         binding.isExecute = true
                         val currentTextChangedTime = System.currentTimeMillis()
                         if (currentTextChangedTime - prevTextChangedTime < Const.DELAY_EXECUTE_TRANSLATION) {
