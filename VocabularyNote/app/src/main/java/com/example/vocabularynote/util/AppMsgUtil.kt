@@ -13,5 +13,12 @@ class AppMsgUtil {
             appMsg.duration = 500
             appMsg.show()
         }
+
+        fun showErrMsg(text: String, activity: Activity) {
+            val appMsg =
+                AppMsg.makeText(activity, text, AppMsg.Style(AppMsg.LENGTH_SHORT, com.devspark.appmsg.R.color.alert))
+            appMsg.duration = 500
+            appMsg.show()
+        }
     }
 }

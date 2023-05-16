@@ -1,17 +1,15 @@
 package com.example.vocabularynote.main.adapter.itemfragment
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import com.example.vocabularynote.databinding.FragmentGameNoteVpBinding
 import com.example.vocabularynote.room.viewmodel.GameNoteItemViewModel
+import com.example.vocabularynote.util.Const.TEXT_SCALE_X
 
 
 class GameNoteVPFragment(private val item: GameNoteItemViewModel) : Fragment() {
@@ -36,8 +34,8 @@ class GameNoteVPFragment(private val item: GameNoteItemViewModel) : Fragment() {
     private fun setClickEvent() {
         binding.layoutWrap.setOnClickListener {
             val backAnimation =
-                if (item.showKey) ObjectAnimator.ofFloat(binding.layoutValue, "scaleX", 0f, 1f)
-                else ObjectAnimator.ofFloat(binding.layoutKey, "scaleX", 0f, 1f)
+                if (item.showKey) ObjectAnimator.ofFloat(binding.layoutValue, TEXT_SCALE_X, 0f, 1f)
+                else ObjectAnimator.ofFloat(binding.layoutKey, TEXT_SCALE_X, 0f, 1f)
             backAnimation.interpolator = AccelerateDecelerateInterpolator()
             backAnimation.start()
             item.showKey = !item.showKey

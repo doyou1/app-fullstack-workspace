@@ -1,5 +1,8 @@
 package com.example.vocabularynote.main
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -7,6 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -16,9 +22,18 @@ import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainEditBinding
 import com.example.vocabularynote.main.adapter.NoteRvAdapter
 import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
+import com.example.vocabularynote.util.Const.MIME_TYPE_XLSX
+import com.example.vocabularynote.util.Const.TEXT_SAVE_FAILED
+import com.example.vocabularynote.util.Const.TEXT_SAVE_SUCCESS
+import com.example.vocabularynote.util.Const.TEXT_XLSX
+import com.example.vocabularynote.util.DateUtil
+import com.example.vocabularynote.util.FileUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.io.FileOutputStream
 
 class MainEditFragment : Fragment() {
 
@@ -26,6 +41,7 @@ class MainEditFragment : Fragment() {
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
     private val handler = Handler(Looper.getMainLooper())
+    private val documentTreeLauncher: ActivityResultLauncher<Intent> = getDocumentTreeLauncher()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,11 +65,13 @@ class MainEditFragment : Fragment() {
         setClickEvent()
         setBackPressEvent()
     }
+
     private fun setRecyclerView(list: List<Note>) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = NoteRvAdapter(list, Const.TYPE_EDIT)
+        binding.recyclerView.adapter =
+            NoteRvAdapter(list, Const.TYPE_EDIT, documentTreeLauncher)
         binding.showUI = true
     }
 
@@ -65,6 +83,64 @@ class MainEditFragment : Fragment() {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
         }
+    }
+
+    private fun getDocumentTreeLauncher(): ActivityResultLauncher<Intent> {
+        return registerForActivityResult(
+            ActivityResultContracts
+                .StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                result.data?.let {
+                    it.data?.let { uri ->
+                        val takeFlags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        requireContext().contentResolver.takePersistableUriPermission(
+                            uri,
+                            takeFlags
+                        )
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            val id = (binding.recyclerView.adapter as NoteRvAdapter).currentId
+                            val title = (binding.recyclerView.adapter as NoteRvAdapter).currentTitle
+                            if (id != -1L && title != "") {
+                                val list = (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(id)
+                                lifecycleScope.launch(Dispatchers.Main) {
+                                    val fileName = "$title-${DateUtil.getCurrentTime()}.$TEXT_XLSX"
+                                    val isSuccess = saveExcel(uri, fileName, FileUtil.makeExcel(list))
+                                    if(isSuccess) AppMsgUtil.showMsg("$fileName $TEXT_SAVE_SUCCESS", requireActivity())
+                                    else AppMsgUtil.showErrMsg("$fileName $TEXT_SAVE_FAILED", requireActivity())
+
+                                    // refresh
+                                    (binding.recyclerView.adapter as NoteRvAdapter).currentId = -1
+                                    (binding.recyclerView.adapter as NoteRvAdapter).currentTitle = ""
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private fun saveExcel(uri: Uri, fileName: String, workbook: XSSFWorkbook): Boolean {
+        DocumentFile.fromTreeUri(requireContext(), uri)?.let { directory ->
+            directory.createFile(MIME_TYPE_XLSX, fileName)?.let { file ->
+                val pfd = requireContext().contentResolver.openFileDescriptor(file.uri, "w")
+                if (pfd != null) {
+                    val fos = FileOutputStream(pfd.fileDescriptor)
+                    try {
+                        workbook.write(fos)
+                        return true
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        pfd.close()
+                        fos.flush()
+                        fos.close()
+                    }
+                }
+            }
+        }
+        return false
     }
 
     private fun setBackPressEvent() {

@@ -13,11 +13,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.databinding.FragmentMainViewBinding
-import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
 import com.example.vocabularynote.main.adapter.ViewNoteRvAdapter
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.Const
-import com.example.vocabularynote.util.DataUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

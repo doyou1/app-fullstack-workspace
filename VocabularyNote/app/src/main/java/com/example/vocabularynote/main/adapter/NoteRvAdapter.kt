@@ -3,10 +3,14 @@ package com.example.vocabularynote.main.adapter
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.activity.result.ActivityResultLauncher
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.BaseApplication
@@ -23,17 +27,25 @@ import com.example.vocabularynote.util.Const.TEXT_NO
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 import com.example.vocabularynote.util.Const.TEXT_VIEW
 import com.example.vocabularynote.util.Const.TEXT_YES
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: Int) :
+
+class NoteRvAdapter(
+    private val _list: List<Note>,
+    private val parentViewType: Int,
+    private val documentTreeLauncher: ActivityResultLauncher<Intent>?
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = this::class.java.simpleName
     private val list = _list
     private var _context: Context? = null
     private val context get() = _context!!
+    var currentId: Long = -1
+    var currentTitle: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -50,7 +62,6 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
 
     inner class NoteRvViewHolder(private val binding: RvItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: Note) {
             binding.item = item
             setClickEvent(item)
@@ -80,8 +91,8 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                     Const.TYPE_EDIT -> {
                         popup.menu.add(TEXT_EDIT)
                         popup.menu.add(TEXT_VIEW)
-                        popup.menu.add(TEXT_DELETE)
                         popup.menu.add(TEXT_EXPORT)
+                        popup.menu.add(TEXT_DELETE)
                         popup.menu.add(TEXT_CANCEL)
                     }
                     Const.TYPE_GAME -> {
@@ -108,7 +119,10 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                             showDeletePrompt(item)
                         }
                         TEXT_EXPORT -> {
-                            AppMsgUtil.showMsg("please write to export note", (context as Activity))
+                            // android 13 above
+                            if (SDK_INT > Build.VERSION_CODES.S_V2) processExportExcelAboveAndroid13()
+                            // android 13 under
+                            else processExportExcelUnderAndroid13()
                         }
                         TEXT_CANCEL -> {
                             popup.dismiss()
@@ -120,6 +134,7 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             }
         }
 
+        @OptIn(DelicateCoroutinesApi::class)
         private fun showDeletePrompt(item: Note) {
             val builder = AlertDialog.Builder(context)
             val alert = builder
@@ -147,5 +162,31 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             alert.show()
         }
 
+        private fun processExportExcelAboveAndroid13() {
+            binding.item?.id?.let { id ->
+                binding.item?.title?.let { title ->
+                    documentTreeLauncher?.let { launcher ->
+                        currentId = id
+                        currentTitle = title
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                        launcher.launch(intent)
+                    }
+                }
+            }
+        }
+
+        private fun processExportExcelUnderAndroid13() {
+            // **Need to check if it works**
+            binding.item?.id?.let { id ->
+                binding.item?.title?.let { title ->
+                    documentTreeLauncher?.let { launcher ->
+                        currentId = id
+                        currentTitle = title
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                        launcher.launch(intent)
+                    }
+                }
+            }
+        }
     }
 }
