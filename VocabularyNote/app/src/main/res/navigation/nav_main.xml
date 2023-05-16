@@ -17,6 +17,10 @@
         android:name="com.example.vocabularynote.main.MainEditFragment" />
 
     <fragment
+        android:id="@+id/fragment_main_view"
+        android:name="com.example.vocabularynote.main.MainViewFragment" />
+
+    <fragment
         android:id="@+id/fragment_main_game"
         android:name="com.example.vocabularynote.main.MainGameFragment" />
 
@@ -55,8 +59,12 @@
         app:popUpToInclusive="true" />
 
     <action
-        android:id="@+id/action_edit_to_add"
+        android:id="@+id/action_edit_or_game_to_add"
         app:destination="@id/fragment_main_add" />
+
+    <action
+        android:id="@+id/action_edit_or_game_to_view"
+        app:destination="@id/fragment_main_view" />
 
     <action
         android:id="@+id/action_game_to_edit"

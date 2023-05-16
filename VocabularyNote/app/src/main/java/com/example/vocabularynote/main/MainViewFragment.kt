@@ -12,17 +12,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
-import com.example.vocabularynote.R
-import com.example.vocabularynote.databinding.FragmentMainEditBinding
-import com.example.vocabularynote.main.adapter.NoteRvAdapter
-import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.databinding.FragmentMainViewBinding
+import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
+import com.example.vocabularynote.main.adapter.ViewNoteRvAdapter
+import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.Const
+import com.example.vocabularynote.util.DataUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainEditFragment : Fragment() {
+class MainViewFragment : Fragment() {
 
-    private var _binding: FragmentMainEditBinding? = null
+    private var _binding: FragmentMainViewBinding? = null
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
     private val handler = Handler(Looper.getMainLooper())
@@ -31,43 +32,45 @@ class MainEditFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainEditBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentMainViewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handler.postDelayed({
-            lifecycleScope.launch(Dispatchers.IO) {
-                val list = (requireActivity().application as BaseApplication).noteDao.getNoteAll()
-                lifecycleScope.launch(Dispatchers.Main) {
-                    setRecyclerView(list)
+        arguments?.let {
+            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+            handler.postDelayed({
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val list =
+                        (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(
+                            noteId
+                        )
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        val merged = arrayListOf<NoteItem>()
+                        // add title
+                        merged.add(NoteItem(-1, -1, "Key", "Value"))
+                        merged.addAll(list)
+                        setRecyclerView(merged)
+                    }
                 }
-            }
-        }, Const.DELAY_SHOW_UI)
-        setClickEvent()
+            }, Const.DELAY_SHOW_UI)
+        }
+
         setBackPressEvent()
     }
-    private fun setRecyclerView(list: List<Note>) {
+
+    private fun setRecyclerView(list: List<NoteItem>) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = NoteRvAdapter(list, Const.TYPE_EDIT)
+        binding.recyclerView.adapter = ViewNoteRvAdapter(list)
         binding.showUI = true
     }
 
-    private fun setClickEvent() {
-        binding.btnAddNote.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_edit_or_game_to_add)
-        }
-        binding.btnBack.setOnClickListener {
-            // Handle the back button event
-            Navigation.findNavController(requireView()).navigateUp()
-        }
-    }
-
     private fun setBackPressEvent() {
+        // This callback will only be called when MyFragment is at least Started.
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {
