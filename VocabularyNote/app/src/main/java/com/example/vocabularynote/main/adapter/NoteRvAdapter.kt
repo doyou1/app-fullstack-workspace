@@ -32,6 +32,7 @@ import com.example.vocabularynote.util.Const.TEXT_NO
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 import com.example.vocabularynote.util.Const.TEXT_RESULT
 import com.example.vocabularynote.util.Const.TEXT_VALUE
+import com.example.vocabularynote.util.Const.TEXT_VIEW
 import com.example.vocabularynote.util.Const.TEXT_YES
 import com.example.vocabularynote.util.DateUtil
 import kotlinx.coroutines.*
@@ -94,12 +95,14 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                 when (parentViewType) {
                     Const.TYPE_EDIT -> {
                         popup.menu.add(TEXT_EDIT)
+                        popup.menu.add(TEXT_VIEW)
                         popup.menu.add(TEXT_DELETE)
                         popup.menu.add(TEXT_EXPORT)
                         popup.menu.add(TEXT_CANCEL)
                     }
                     Const.TYPE_GAME -> {
                         popup.menu.add(TEXT_EDIT)
+                        popup.menu.add(TEXT_VIEW)
                         popup.menu.add(TEXT_CANCEL)
                     }
                 }
@@ -109,7 +112,13 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                             val bundle = Bundle()
                             bundle.putLong(TEXT_NOTE_ID, item.id)
                             Navigation.findNavController(binding.root)
-                                .navigate(R.id.action_edit_to_add, bundle)
+                                .navigate(R.id.action_edit_or_game_to_add, bundle)
+                        }
+                        TEXT_VIEW -> {
+                            val bundle = Bundle()
+                            bundle.putLong(TEXT_NOTE_ID, item.id)
+                            Navigation.findNavController(binding.root)
+                                .navigate(R.id.action_edit_or_game_to_view, bundle)
                         }
                         TEXT_DELETE -> {
                             showDeletePrompt(item)
