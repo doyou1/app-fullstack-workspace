@@ -1,6 +1,6 @@
 package com.example.vocabularynote.room.viewmodel
 
-data class GameNoteItemViewModel(
+data class GameNoteItemFlipViewModel(
     val id: Long = -1,
     val noteId: Long = -1,
     var key: String = "",

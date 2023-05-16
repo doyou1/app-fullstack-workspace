@@ -10,9 +10,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.example.vocabularynote.BaseApplication
+import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainGameDetailBinding
-import com.example.vocabularynote.main.adapter.GameNoteVPAdapter
+import com.example.vocabularynote.main.adapter.GameNoteExamVPAdapter
+import com.example.vocabularynote.main.adapter.GameNoteFlipVPAdapter
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.Const
 import com.example.vocabularynote.util.DataUtil
@@ -37,8 +40,15 @@ class MainGameDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // init
+        initUI()
         setClickEvent()
         setBackPressEvent()
+    }
+    private fun initUI() {
+        binding.isSelectedExam = false
+        Glide.with(requireContext()).load(R.drawable.gif_temp1).into(binding.ivFlip)
+        Glide.with(requireContext()).load(R.drawable.gif_temp2).into(binding.ivExam)
     }
 
     private fun setClickEvent() {
@@ -71,10 +81,17 @@ class MainGameDetailFragment : Fragment() {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
         }
+        binding.layoutFlip.setOnClickListener {
+            binding.isSelectedExam = false
+        }
+        binding.layoutExam.setOnClickListener {
+            binding.isSelectedExam = true
+        }
     }
 
     private fun setViewPager(list: List<NoteItem>) {
-        binding.viewPager.adapter = GameNoteVPAdapter(DataUtil.convertToGameNoteItemViewModel(list), requireActivity())
+        binding.viewPager.adapter = if(!(binding.isSelectedExam!!)) GameNoteFlipVPAdapter(DataUtil.convertToGameNoteItemFlipViewModel(list), requireActivity())
+                                    else GameNoteExamVPAdapter(DataUtil.convertToGameNoteItemExamViewModel(list), requireActivity())
         binding.showUI = true
     }
 

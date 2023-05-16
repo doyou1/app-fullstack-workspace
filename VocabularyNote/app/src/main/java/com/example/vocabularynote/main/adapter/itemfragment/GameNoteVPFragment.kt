@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import com.example.vocabularynote.databinding.FragmentGameNoteVpBinding
-import com.example.vocabularynote.room.viewmodel.GameNoteItemViewModel
+import com.example.vocabularynote.room.viewmodel.GameNoteItemFlipViewModel
 import com.example.vocabularynote.util.Const.TEXT_SCALE_X
 
 
-class GameNoteVPFragment(private val item: GameNoteItemViewModel) : Fragment() {
+class GameNoteVPFragment(private val item: GameNoteItemFlipViewModel) : Fragment() {
     private var _binding: FragmentGameNoteVpBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(

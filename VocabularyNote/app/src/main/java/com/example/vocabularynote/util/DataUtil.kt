@@ -1,7 +1,7 @@
 package com.example.vocabularynote.util
 
 import com.example.vocabularynote.room.entity.NoteItem
-import com.example.vocabularynote.room.viewmodel.GameNoteItemViewModel
+import com.example.vocabularynote.room.viewmodel.GameNoteItemFlipViewModel
 import com.example.vocabularynote.room.viewmodel.NoteItemViewModel
 import org.apache.poi.ss.usermodel.Workbook
 
@@ -24,11 +24,26 @@ class DataUtil {
             return result
         }
 
-        fun convertToGameNoteItemViewModel(list: List<NoteItem>): List<GameNoteItemViewModel> {
-            val result = arrayListOf<GameNoteItemViewModel>()
+        fun convertToGameNoteItemFlipViewModel(list: List<NoteItem>): List<GameNoteItemFlipViewModel> {
+            val result = arrayListOf<GameNoteItemFlipViewModel>()
             for (item in list) {
                 result.add(
-                    GameNoteItemViewModel(
+                    GameNoteItemFlipViewModel(
+                        id = item.id,
+                        noteId = item.noteId,
+                        key = item.key,
+                        value = item.value,
+                        showKey = true
+                    )
+                )
+            }
+            return result
+        }
+        fun convertToGameNoteItemExamViewModel(list: List<NoteItem>): List<GameNoteItemFlipViewModel> {
+            val result = arrayListOf<GameNoteItemFlipViewModel>()
+            for (item in list) {
+                result.add(
+                    GameNoteItemFlipViewModel(
                         id = item.id,
                         noteId = item.noteId,
                         key = item.key,

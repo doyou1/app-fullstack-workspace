@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.vocabularynote.main.adapter.itemfragment.GameNoteVPFragment
 import com.example.vocabularynote.room.viewmodel.GameNoteItemFlipViewModel
 
-class GameNoteFlipVPAdapter(private val _list: List<GameNoteItemFlipViewModel>, fa: FragmentActivity) :
+class GameNoteExamVPAdapter(private val _list: List<GameNoteItemFlipViewModel>, fa: FragmentActivity) :
     FragmentStateAdapter(fa) {
     private val list: MutableList<GameNoteItemFlipViewModel> = _list.toMutableList()
     override fun getItemCount(): Int = list.size
