@@ -22,4 +22,10 @@ object Const {
     const val TEXT_VIEW = "VIEW"
     const val TEXT_YES = "Yes"
     const val TEXT_NO = "No"
+    const val TEXT_XLSX = "xlsx"
+    const val CACHE_FILE_NAME = "cache.xlsx"
+    const val MIME_TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    const val TEXT_SAVE_SUCCESS = "saving success!"
+    const val TEXT_SAVE_FAILED = "saving failed!"
+    const val TEXT_SCALE_X = "scaleX"
 }

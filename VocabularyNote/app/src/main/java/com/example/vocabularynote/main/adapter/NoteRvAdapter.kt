@@ -1,55 +1,51 @@
 package com.example.vocabularynote.main.adapter
 
-import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.ActivityResultLauncher
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.RvItemNoteBinding
 import com.example.vocabularynote.room.entity.Note
-import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
 import com.example.vocabularynote.util.Const.TEXT_CANCEL
 import com.example.vocabularynote.util.Const.TEXT_DELETE
 import com.example.vocabularynote.util.Const.TEXT_EDIT
 import com.example.vocabularynote.util.Const.TEXT_EXPORT
-import com.example.vocabularynote.util.Const.TEXT_KEY
 import com.example.vocabularynote.util.Const.TEXT_NO
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
-import com.example.vocabularynote.util.Const.TEXT_RESULT
-import com.example.vocabularynote.util.Const.TEXT_VALUE
 import com.example.vocabularynote.util.Const.TEXT_VIEW
 import com.example.vocabularynote.util.Const.TEXT_YES
-import com.example.vocabularynote.util.DateUtil
-import kotlinx.coroutines.*
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import java.io.File
-import java.io.FileOutputStream
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
-class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: Int) :
+class NoteRvAdapter(
+    private val _list: List<Note>,
+    private val parentViewType: Int,
+    private val documentTreeLauncher: ActivityResultLauncher<Intent>?
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = this::class.java.simpleName
     private val list = _list
     private var _context: Context? = null
     private val context get() = _context!!
-    private val EXTERNAL_STORAGE_PERMISSION_CODE = 100
-    private val CREATE_FILE = 100
+    var currentId: Long = -1
+    var currentTitle: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -65,8 +61,7 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
     override fun getItemCount(): Int = list.size
 
     inner class NoteRvViewHolder(private val binding: RvItemNoteBinding) :
-        RecyclerView.ViewHolder(binding.root), ActivityCompat.OnRequestPermissionsResultCallback {
-
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Note) {
             binding.item = item
             setClickEvent(item)
@@ -96,8 +91,8 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                     Const.TYPE_EDIT -> {
                         popup.menu.add(TEXT_EDIT)
                         popup.menu.add(TEXT_VIEW)
-                        popup.menu.add(TEXT_DELETE)
                         popup.menu.add(TEXT_EXPORT)
+                        popup.menu.add(TEXT_DELETE)
                         popup.menu.add(TEXT_CANCEL)
                     }
                     Const.TYPE_GAME -> {
@@ -124,10 +119,10 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
                             showDeletePrompt(item)
                         }
                         TEXT_EXPORT -> {
-//                            AppMsgUtil.showMsg("please write to export note", (context as Activity))
-//                            if (!isExecuteExternalStoragePermission()) {
-//                            selectDirectory()
-//                            }
+                            // android 13 above
+                            if (SDK_INT > Build.VERSION_CODES.S_V2) processExportExcelAboveAndroid13()
+                            // android 13 under
+                            else processExportExcelUnderAndroid13()
                         }
                         TEXT_CANCEL -> {
                             popup.dismiss()
@@ -139,6 +134,7 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             }
         }
 
+        @OptIn(DelicateCoroutinesApi::class)
         private fun showDeletePrompt(item: Note) {
             val builder = AlertDialog.Builder(context)
             val alert = builder
@@ -166,157 +162,28 @@ class NoteRvAdapter(private val _list: List<Note>, private val parentViewType: I
             alert.show()
         }
 
-        private fun selectDirectory() {
-//            val folder = (context as Activity).getExternalFilesDir("JH")
-//            if(folder != null) {
-
-            Log.e(TAG, "${binding.item?.id} ${binding.item?.title}")
+        private fun processExportExcelAboveAndroid13() {
             binding.item?.id?.let { id ->
                 binding.item?.title?.let { title ->
-                    if (SDK_INT > Build.VERSION_CODES.S_V2) {
-                        // android 13 above
-                         processSaveNoteToAndroid13Above(id, title)
-                    } else {
-                        // android 13 under
-                         processSaveNoteToAndroid13Under(id, title)
+                    documentTreeLauncher?.let { launcher ->
+                        currentId = id
+                        currentTitle = title
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                        launcher.launch(intent)
                     }
                 }
             }
-//            }
         }
 
-        private fun processSaveNoteToAndroid13Above(id: Long, title: String) {
-            if (!isExecuteExternalStoragePermissionToAndroid13Above()) {
-                saveNoteToAndroid13Under(id, title)
-            }
-
-
-        }
-
-        private fun processSaveNoteToAndroid13Under(id: Long, title: String) {
-            if (!isExecuteExternalStoragePermissionToAndroid13Under()) {
-                saveNoteToAndroid13Under(id, title)
-            }
-        }
-
-        @OptIn(DelicateCoroutinesApi::class)
-        private fun saveNoteToAndroid13Above(id: Long, title: String) {
-            GlobalScope.launch(Dispatchers.IO) {
-                val list =
-                    ((context as Activity).application as BaseApplication).noteDao.getNoteItemAllByNoteId(
-                        id
-                    )
-                val workbook = writeWorkBook(list)
-                val fileName = "${Environment.getExternalStorageDirectory()}/$title-${DateUtil.getCurrentTime()}.xlsx"
-                val file = File(fileName)
-                if (!file.exists()) {
-                    file.createNewFile()
-                }
-
-                val fout = FileOutputStream(file)
-                try {
-                    workbook.write(fout)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    fout.flush()
-                    fout.close()
-                }
-            }
-        }
-
-        @OptIn(DelicateCoroutinesApi::class)
-        private fun saveNoteToAndroid13Under(id: Long, title: String) {
-            GlobalScope.launch(Dispatchers.IO) {
-                val list =
-                    ((context as Activity).application as BaseApplication).noteDao.getNoteItemAllByNoteId(
-                        id
-                    )
-                val workbook = writeWorkBook(list)
-                val fileName = "${Environment.getExternalStorageDirectory()}/$title-${DateUtil.getCurrentTime()}.xlsx"
-                val file = File(fileName)
-                if (!file.exists()) {
-                    file.createNewFile()
-                }
-
-                val fout = FileOutputStream(file)
-                try {
-                    workbook.write(fout)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    fout.flush()
-                    fout.close()
-                }
-            }
-        }
-
-        private fun writeWorkBook(list: List<NoteItem>): XSSFWorkbook {
-            val workbook = XSSFWorkbook()
-            val sheet = workbook.createSheet(TEXT_RESULT)
-            var rowIdx = 0
-            val row = sheet.createRow(rowIdx++)
-            val keyCellIdx = 0
-            val valueCellIdx = 1
-            val keyCell = row.createCell(keyCellIdx)
-            val valueCell = row.createCell(valueCellIdx)
-            keyCell.setCellValue(TEXT_KEY)
-            valueCell.setCellValue(TEXT_VALUE)
-            for (item in list) {
-                val itemRow = sheet.createRow(rowIdx++)
-                val itemKeyCell = itemRow.createCell(keyCellIdx)
-                val itemValueCell = itemRow.createCell(valueCellIdx)
-                itemKeyCell.setCellValue(item.key)
-                itemValueCell.setCellValue(item.value)
-            }
-            return workbook
-        }
-
-        private fun isExecuteExternalStoragePermissionToAndroid13Above() : Boolean {
-            return true
-        }
-
-        private fun isExecuteExternalStoragePermissionToAndroid13Under(): Boolean {
-            return if (SDK_INT >= Build.VERSION_CODES.R) {
-                if (!Environment.isExternalStorageManager()) {
-                    (context as Activity).requestPermissions(
-                        arrayOf(
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.MANAGE_EXTERNAL_STORAGE
-                        ), EXTERNAL_STORAGE_PERMISSION_CODE
-                    ) //permission request code is just an int
-                    true
-                } else true
-            } else {
-                if ((context as Activity).checkSelfPermission(
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED || (context as Activity).checkSelfPermission(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    (context as Activity).requestPermissions(
-                        arrayOf(
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        ),
-                        EXTERNAL_STORAGE_PERMISSION_CODE
-                    )
-                    true
-                } else false
-            }
-        }
-
-        override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
-        ) {
-            if (requestCode == EXTERNAL_STORAGE_PERMISSION_CODE) {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    binding.item?.id?.let { id ->
-                        binding.item?.title?.let { title ->
-                            saveNoteToAndroid13Under(id, title)
-                        }
+        private fun processExportExcelUnderAndroid13() {
+            // **Need to check if it works**
+            binding.item?.id?.let { id ->
+                binding.item?.title?.let { title ->
+                    documentTreeLauncher?.let { launcher ->
+                        currentId = id
+                        currentTitle = title
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                        launcher.launch(intent)
                     }
                 }
             }

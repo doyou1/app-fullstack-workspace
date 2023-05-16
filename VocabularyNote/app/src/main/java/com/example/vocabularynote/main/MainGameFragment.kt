@@ -54,7 +54,7 @@ class MainGameFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = NoteRvAdapter(list, Const.TYPE_GAME)
+        binding.recyclerView.adapter = NoteRvAdapter(list, Const.TYPE_GAME, null)
         binding.showUI = true
     }
 
