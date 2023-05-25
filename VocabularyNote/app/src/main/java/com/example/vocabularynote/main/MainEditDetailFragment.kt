@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class MainEditDetailFragment : Fragment() {
         _binding = FragmentMainEditDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
@@ -53,10 +55,15 @@ class MainEditDetailFragment : Fragment() {
             handler.postDelayed({
                 lifecycleScope.launch(Dispatchers.IO) {
                     val list =
-                        (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(noteId)
-                    val maxId = (requireActivity().application as BaseApplication).noteDao.getNoteItemMaxId()
+                        (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(
+                            noteId
+                        )
+                    val maxId =
+                        (requireActivity().application as BaseApplication).noteDao.getNoteItemMaxId()
                     val note =
-                        (requireActivity().application as BaseApplication).noteDao.getNoteById(noteId)
+                        (requireActivity().application as BaseApplication).noteDao.getNoteById(
+                            noteId
+                        )
                     lifecycleScope.launch(Dispatchers.Main) {
                         setRecyclerView(list, noteId, maxId + 1, note.useTranslation)
                     }
@@ -144,6 +151,7 @@ class MainEditDetailFragment : Fragment() {
             }
         }
     }
+
     private fun processImportExcelAboveAndroid13() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -175,7 +183,7 @@ class MainEditDetailFragment : Fragment() {
             if (result.resultCode == RESULT_OK) {
                 result.data?.let {
                     it.data?.let { uri ->
-                        if (FileUtil.isXlsxType(uri)) {
+                        try {
                             val takeFlags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                             requireContext().contentResolver.takePersistableUriPermission(
                                 uri,
@@ -183,11 +191,21 @@ class MainEditDetailFragment : Fragment() {
                             )
                             FileUtil.readExcel(uri, requireContext())?.let { workbook ->
                                 DataUtil.convertExcelToItems(workbook)?.let { list ->
-                                    val newSize = (binding.recyclerView.adapter as EditNoteRvAdapter).addAllEditItem(DataUtil.convertToNoteItemViewModel(list))
-                                    (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, list.size)
+                                    val newSize =
+                                        (binding.recyclerView.adapter as EditNoteRvAdapter).addAllEditItem(
+                                            DataUtil.convertToNoteItemViewModel(list)
+                                        )
+                                    (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(
+                                        newSize,
+                                        list.size
+                                    )
                                 }
                             }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            AppMsgUtil.showErrMsg("Fail to import excel!", requireActivity())
                         }
+
                     }
                 }
             }
