@@ -205,7 +205,6 @@ class MainEditDetailFragment : Fragment() {
                             e.printStackTrace()
                             AppMsgUtil.showErrMsg("Fail to import excel!", requireActivity())
                         }
-
                     }
                 }
             }

@@ -19,6 +19,8 @@
     <string name="text_use_translation">use Translation</string>
     <string name="text_key">key</string>
     <string name="text_value">value</string>
+    <string name="text_label_key">key: </string>
+    <string name="text_label_value">value: </string>
     <string name="text_flip">flip</string>
     <string name="text_exam">exam</string>
     <string name="text_title_note_item_import_description">How to import Excel data</string>

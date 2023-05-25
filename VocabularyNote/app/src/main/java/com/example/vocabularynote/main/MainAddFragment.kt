@@ -15,7 +15,9 @@ import androidx.navigation.Navigation
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainAddBinding
+import com.example.vocabularynote.main.adapter.SelectLanguageAdapter
 import com.example.vocabularynote.room.entity.Note
+import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +52,8 @@ class MainAddFragment : Fragment() {
         aboutKeyboard()
         setBackPressEvent()
         setClickEvent()
+        setSwitchOnChangedEvent()
+        setSelectLanguageSpinner()
     }
 
     private fun setClickEvent() {
@@ -58,15 +62,26 @@ class MainAddFragment : Fragment() {
                 val title = binding.etTitle.text!!.toString()
                 val memo = binding.etMemo.text.toString()
                 val useTranslation = binding.swiUseTranslation.isChecked
+                var keyCountryCode = ""
+                var valueCountryCode = ""
+                if(useTranslation) {
+                    val keyId = binding.spinnerKey.selectedItemId
+                    val valueId = binding.spinnerValue.selectedItemId
+                    if(keyId == valueId) {
+                        AppMsgUtil.showErrMsg("The key language and value language cannot be the same.", requireActivity())
+                        return@setOnClickListener
+                    }
+                    keyCountryCode = Const.SELECT_LANGUAGE_LIST[keyId.toInt()].countryCode
+                    valueCountryCode = Const.SELECT_LANGUAGE_LIST[valueId.toInt()].countryCode
+                }
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (prev != null) {
-                        val item = Note(prev!!.id, title, memo, useTranslation)
+                        val item = Note(prev!!.id, title, memo, useTranslation, keyCountryCode, valueCountryCode)
                         (requireActivity().application as BaseApplication).noteDao.updateNote(item)
                     } else {
-                        val item = Note(0, title, memo, useTranslation)
+                        val item = Note(0, title, memo, useTranslation, keyCountryCode, valueCountryCode)
                         (requireActivity().application as BaseApplication).noteDao.insertNote(item)
                     }
-
                     lifecycleScope.launch(Dispatchers.Main) {
                         Navigation.findNavController(requireView())
                             .navigate(R.id.action_add_to_edit)
@@ -81,6 +96,13 @@ class MainAddFragment : Fragment() {
         }
     }
 
+    private fun setSwitchOnChangedEvent() {
+        binding.swiUseTranslation.setOnCheckedChangeListener { _, isChecked ->
+            binding.layoutSelectTranslationLanguage.visibility =
+                if (isChecked) View.VISIBLE else View.INVISIBLE
+        }
+    }
+
     private fun setPrevNote(id: Long) {
         handler.postDelayed({
             lifecycleScope.launch(Dispatchers.IO) {
@@ -92,10 +114,25 @@ class MainAddFragment : Fragment() {
                     binding.etTitle.setText(item.title)
                     binding.etMemo.setText(item.memo)
                     binding.swiUseTranslation.isChecked = item.useTranslation
+
+                    if (item.useTranslation) {
+                        binding.layoutSelectTranslationLanguage.visibility = View.VISIBLE
+                        val prevKeyIdx = Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.keyLanguage }[0].id.toInt()
+                        val prevValueIdx = Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.valueLanguage }[0].id.toInt()
+                        binding.spinnerKey.setSelection(prevKeyIdx)
+                        binding.spinnerValue.setSelection(prevValueIdx)
+                    }
                     prev = item
                 }
             }
         }, Const.DELAY_SHOW_UI)
+    }
+
+    private fun setSelectLanguageSpinner() {
+        binding.spinnerKey.adapter = SelectLanguageAdapter(Const.SELECT_LANGUAGE_LIST)
+        binding.spinnerKey.setSelection(1)
+        binding.spinnerValue.adapter = SelectLanguageAdapter(Const.SELECT_LANGUAGE_LIST)
+        binding.spinnerValue.setSelection(2)
     }
 
     private fun isValidate(): Boolean {
