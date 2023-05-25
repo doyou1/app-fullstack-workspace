@@ -1,8 +1,10 @@
 package com.example.vocabularynote.util
 
 import com.example.vocabularynote.room.entity.NoteItem
+import com.example.vocabularynote.room.viewmodel.GameNoteItemExamViewModel
 import com.example.vocabularynote.room.viewmodel.GameNoteItemFlipViewModel
 import com.example.vocabularynote.room.viewmodel.NoteItemViewModel
+import com.example.vocabularynote.util.Const.MAX_SIZE_QUESTION
 import org.apache.poi.ss.usermodel.Workbook
 
 class DataUtil {
@@ -39,19 +41,47 @@ class DataUtil {
             }
             return result
         }
-        fun convertToGameNoteItemExamViewModel(list: List<NoteItem>): List<GameNoteItemFlipViewModel> {
-            val result = arrayListOf<GameNoteItemFlipViewModel>()
-            for (item in list) {
-                result.add(
-                    GameNoteItemFlipViewModel(
-                        id = item.id,
-                        noteId = item.noteId,
-                        key = item.key,
-                        value = item.value,
-                        showKey = true
+
+        fun convertToGameNoteItemExamViewModel(list: List<NoteItem>): List<GameNoteItemExamViewModel> {
+            val result = arrayListOf<GameNoteItemExamViewModel>()
+            if (list.size < MAX_SIZE_QUESTION) {
+                val questions = arrayListOf<String>()
+                for (item in list) {
+                    questions.add(item.value)
+                }
+                for (item in list) {
+                    result.add(
+                        GameNoteItemExamViewModel(
+                            id = item.id,
+                            noteId = item.noteId,
+                            key = item.key,
+                            value = item.value,
+                            questions = questions
+                        )
                     )
-                )
+                }
+            } else {
+                for (item in list) {
+                    val questions = arrayListOf<String>()
+                    questions.add(item.value)
+                    while (questions.size < MAX_SIZE_QUESTION) {
+                        getAnotherValue(list.shuffled(), questions)?.let { anotherValue ->
+                            questions.add(anotherValue)
+                        }
+                    }
+                    result.add(
+                        GameNoteItemExamViewModel(
+                            id = item.id,
+                            noteId = item.noteId,
+                            key = item.key,
+                            value = item.value,
+                            questions = questions.shuffled()
+                        )
+                    )
+                }
             }
+
+
             return result
         }
 
@@ -73,6 +103,16 @@ class DataUtil {
                 }
                 result
             } else null
+        }
+
+        private fun getAnotherValue(
+            shuffled: List<NoteItem>,
+            prevQuestions: List<String>
+        ): String? {
+            for (item in shuffled) {
+                if (!prevQuestions.contains(item.value)) return item.value
+            }
+            return null
         }
     }
 }

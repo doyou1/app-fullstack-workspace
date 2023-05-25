@@ -45,6 +45,7 @@ class MainGameDetailFragment : Fragment() {
         setClickEvent()
         setBackPressEvent()
     }
+
     private fun initUI() {
         binding.isSelectedExam = false
         Glide.with(requireContext()).load(R.drawable.gif_temp1).into(binding.ivFlip)
@@ -66,6 +67,7 @@ class MainGameDetailFragment : Fragment() {
                                 noteId
                             )
                         lifecycleScope.launch(Dispatchers.Main) {
+                            if (list.isEmpty()) return@launch
                             val isRandom: Boolean? = binding.isRandom
                             if (isRandom != null && isRandom) {
                                 setViewPager(list.shuffled())
@@ -78,8 +80,7 @@ class MainGameDetailFragment : Fragment() {
             }
         }
         binding.btnBack.setOnClickListener {
-            // Handle the back button event
-            Navigation.findNavController(requireView()).navigateUp()
+            onBackPressed()
         }
         binding.layoutFlip.setOnClickListener {
             binding.isSelectedExam = false
@@ -90,9 +91,33 @@ class MainGameDetailFragment : Fragment() {
     }
 
     private fun setViewPager(list: List<NoteItem>) {
-        binding.viewPager.adapter = if(!(binding.isSelectedExam!!)) GameNoteFlipVPAdapter(DataUtil.convertToGameNoteItemFlipViewModel(list), requireActivity())
-                                    else GameNoteExamVPAdapter(DataUtil.convertToGameNoteItemExamViewModel(list), requireActivity())
+        // prevent to user swipe motion
+        binding.viewPager.isUserInputEnabled = !(binding.isSelectedExam!!)
+        binding.viewPager.adapter = if (!(binding.isSelectedExam!!)) GameNoteFlipVPAdapter(
+            DataUtil.convertToGameNoteItemFlipViewModel(list), requireActivity()
+        )
+        else GameNoteExamVPAdapter(
+            DataUtil.convertToGameNoteItemExamViewModel(list),
+            requireActivity(),
+            binding.viewPager,
+            Navigation.findNavController(requireView())
+        )
         binding.showUI = true
+    }
+
+    private fun onBackPressed() {
+        if(binding.viewPager.adapter != null) {
+            arguments?.let {
+                val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+                val bundle = Bundle()
+                bundle.putLong(Const.TEXT_NOTE_ID, noteId)
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_refresh_game_detail, bundle)
+            }
+        } else {
+            // Handle the back button event
+            Navigation.findNavController(requireView()).navigateUp()
+        }
     }
 
     private fun setBackPressEvent() {
@@ -100,7 +125,8 @@ class MainGameDetailFragment : Fragment() {
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {
                     // Handle the back button event
-                    Navigation.findNavController(requireView()).navigateUp()
+//                    Navigation.findNavController(requireView()).navigateUp()
+                    onBackPressed()
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
