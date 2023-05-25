@@ -4,6 +4,8 @@ object Const {
 
     const val DELAY_SHOW_UI = 50L
     const val DELAY_EXECUTE_TRANSLATION = 1000L
+    const val DELAY_DISABLE_CLICK_EVENT = 300L
+    const val DELAY_CORRECT_EVENT = 100L
     const val TYPE_GAME = 1
     const val TYPE_EDIT = 2
     const val DB_NAME = "VocabularyNote"
@@ -28,4 +30,5 @@ object Const {
     const val TEXT_SAVE_SUCCESS = "saving success!"
     const val TEXT_SAVE_FAILED = "saving failed!"
     const val TEXT_SCALE_X = "scaleX"
+    const val MAX_SIZE_QUESTION = 5
 }

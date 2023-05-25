@@ -87,6 +87,13 @@
         app:popUpToInclusive="true" />
 
     <action
+        android:id="@+id/action_refresh_game_detail"
+        app:destination="@id/fragment_main_game_detail"
+        app:popUpTo="@+id/fragment_main_game_detail"
+        app:popUpToInclusive="true" />
+
+    <action
         android:id="@+id/action_game_to_game_detail"
         app:destination="@id/fragment_main_game_detail" />
+
 </navigation>

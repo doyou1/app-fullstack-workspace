@@ -7,20 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
-import com.example.vocabularynote.databinding.FragmentGameNoteVpBinding
+import com.example.vocabularynote.databinding.FragmentGameNoteFlipVpBinding
 import com.example.vocabularynote.room.viewmodel.GameNoteItemFlipViewModel
 import com.example.vocabularynote.util.Const.TEXT_SCALE_X
 
 
-class GameNoteVPFragment(private val item: GameNoteItemFlipViewModel) : Fragment() {
-    private var _binding: FragmentGameNoteVpBinding? = null
+class GameNoteFlipVPFragment(private val item: GameNoteItemFlipViewModel) : Fragment() {
+    private var _binding: FragmentGameNoteFlipVpBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentGameNoteVpBinding.inflate(inflater, container, false)
+        _binding = FragmentGameNoteFlipVpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
