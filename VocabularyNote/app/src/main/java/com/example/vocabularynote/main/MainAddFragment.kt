@@ -19,6 +19,7 @@ import com.example.vocabularynote.main.adapter.SelectLanguageAdapter
 import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
+import com.example.vocabularynote.util.Const.TEXT_SELECT_EQUAL_LANGUAGE
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,7 +69,7 @@ class MainAddFragment : Fragment() {
                     val keyId = binding.spinnerKey.selectedItemId
                     val valueId = binding.spinnerValue.selectedItemId
                     if(keyId == valueId) {
-                        AppMsgUtil.showErrMsg("The key language and value language cannot be the same.", requireActivity())
+                        AppMsgUtil.showErrMsg(TEXT_SELECT_EQUAL_LANGUAGE, requireActivity())
                         return@setOnClickListener
                     }
                     keyCountryCode = Const.SELECT_LANGUAGE_LIST[keyId.toInt()].countryCode

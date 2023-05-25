@@ -10,14 +10,18 @@ class AppMsgUtil {
         fun showMsg(text: String, activity: Activity) {
             val appMsg =
                 AppMsg.makeText(activity, text, AppMsg.Style(AppMsg.LENGTH_SHORT, R.color.teal_700))
-            appMsg.duration = 500
+            appMsg.duration = Const.DELAY_SHOW_MSG
             appMsg.show()
         }
 
         fun showErrMsg(text: String, activity: Activity) {
             val appMsg =
-                AppMsg.makeText(activity, text, AppMsg.Style(AppMsg.LENGTH_SHORT, com.devspark.appmsg.R.color.alert))
-            appMsg.duration = 500
+                AppMsg.makeText(
+                    activity,
+                    text,
+                    AppMsg.Style(AppMsg.LENGTH_SHORT, com.devspark.appmsg.R.color.alert)
+                )
+            appMsg.duration = Const.DELAY_SHOW_MSG
             appMsg.show()
         }
     }

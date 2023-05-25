@@ -17,6 +17,7 @@ import com.example.vocabularynote.databinding.FragmentMainGameDetailBinding
 import com.example.vocabularynote.main.adapter.GameNoteExamVPAdapter
 import com.example.vocabularynote.main.adapter.GameNoteFlipVPAdapter
 import com.example.vocabularynote.room.entity.NoteItem
+import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
 import com.example.vocabularynote.util.DataUtil
 import kotlinx.coroutines.Dispatchers
@@ -67,7 +68,11 @@ class MainGameDetailFragment : Fragment() {
                                 noteId
                             )
                         lifecycleScope.launch(Dispatchers.Main) {
-                            if (list.isEmpty()) return@launch
+                            if (list.isEmpty()) {
+                                AppMsgUtil.showErrMsg(Const.TEXT_EMPTY_ITEM, requireActivity())
+                                refresh()
+                                return@launch
+                            }
                             val isRandom: Boolean? = binding.isRandom
                             if (isRandom != null && isRandom) {
                                 setViewPager(list.shuffled())
@@ -107,16 +112,20 @@ class MainGameDetailFragment : Fragment() {
 
     private fun onBackPressed() {
         if(binding.viewPager.adapter != null) {
-            arguments?.let {
-                val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
-                val bundle = Bundle()
-                bundle.putLong(Const.TEXT_NOTE_ID, noteId)
-                Navigation.findNavController(requireView())
-                    .navigate(R.id.action_refresh_game_detail, bundle)
-            }
+            refresh()
         } else {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
+        }
+    }
+
+    private fun refresh() {
+        arguments?.let {
+            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+            val bundle = Bundle()
+            bundle.putLong(Const.TEXT_NOTE_ID, noteId)
+            Navigation.findNavController(requireView())
+                .navigate(R.id.action_refresh_game_detail, bundle)
         }
     }
 

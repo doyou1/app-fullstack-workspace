@@ -34,6 +34,11 @@ object Const {
     const val TEXT_SCALE_X = "scaleX"
     const val MAX_SIZE_QUESTION = 5
 
+    const val TEXT_EMPTY_ITEM = "item list is empty. please add item in edit note"
+    const val TEXT_SELECT_EQUAL_LANGUAGE = "The key language and value language cannot be the same."
+    const val TEXT_FAIL_IMPORT_EXCEL = "Fail to import excel!"
+    const val DELAY_SHOW_MSG = 1000
+
     val SELECT_LANGUAGE_LIST = listOf(
         SelectLanguageItem(id=0, displayCountry = "Korean", countryCode = "ko", flag = R.drawable.flag_ko),
         SelectLanguageItem(id=1, displayCountry = "English", countryCode = "en", flag = R.drawable.flag_en),

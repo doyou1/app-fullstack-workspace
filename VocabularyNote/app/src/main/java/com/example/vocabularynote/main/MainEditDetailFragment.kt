@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,7 @@ import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
+import com.example.vocabularynote.util.Const.TEXT_FAIL_IMPORT_EXCEL
 import com.example.vocabularynote.util.Const.TEXT_INSERT_NOTE_ITEM_SUCCESS
 import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 import com.example.vocabularynote.util.DataUtil
@@ -203,7 +203,7 @@ class MainEditDetailFragment : Fragment() {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            AppMsgUtil.showErrMsg("Fail to import excel!", requireActivity())
+                            AppMsgUtil.showErrMsg(TEXT_FAIL_IMPORT_EXCEL, requireActivity())
                         }
                     }
                 }
