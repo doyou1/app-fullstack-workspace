@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vocabularynote.api.TranslationApiHelper
 import com.example.vocabularynote.databinding.RvItemEditNoteBinding
+import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.room.viewmodel.NoteItemViewModel
 import com.example.vocabularynote.util.Const
@@ -25,7 +26,7 @@ class EditNoteRvAdapter(
     _list: List<NoteItemViewModel>,
     private val noteId: Long,
     _nextId: Long,
-    private val useTranslation: Boolean
+    private val note: Note
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = this::class.java.simpleName
@@ -223,7 +224,7 @@ class EditNoteRvAdapter(
                     }
                 },
                 afterTextChanged = {
-                    if (useTranslation && isNecessaryHint()) {
+                    if (note.useTranslation && isNecessaryHint()) {
                         binding.isExecute = true
                         val currentTextChangedTime = System.currentTimeMillis()
                         if (currentTextChangedTime - prevTextChangedTime < Const.DELAY_EXECUTE_TRANSLATION) {
@@ -231,7 +232,7 @@ class EditNoteRvAdapter(
                         }
                         prevTextChangedTime = currentTextChangedTime
                         handler.postDelayed({
-                            processTranslation(it.toString())
+                            processTranslation(it.toString(), note.keyLanguage, note.valueLanguage)
                         }, Const.DELAY_EXECUTE_TRANSLATION)
                     }
                 })
@@ -266,17 +267,17 @@ class EditNoteRvAdapter(
         }
 
         private fun isNecessaryHint(): Boolean {
-            val key = binding.etValue.text?.toString() ?: return false
+            val key = binding.etKey.text?.toString() ?: return false
             val value = binding.etValue.text?.toString()
             return key.isNotEmpty() && value.isNullOrEmpty()
         }
 
         @OptIn(DelicateCoroutinesApi::class)
-        private fun processTranslation(key: String) {
-            if (useTranslation && isNecessaryHint()) {
+        private fun processTranslation(key: String, source: String, target: String) {
+            if (note.useTranslation && isNecessaryHint()) {
                 GlobalScope.launch(Dispatchers.IO) {
                     val translatedText = TranslationApiHelper.getValue(
-                        source = "en", target = "ko", key = key
+                        source = source, target = target, key = key
                     )?.message?.result?.get("translatedText")
                     GlobalScope.launch(Dispatchers.Main) {
                         if (translatedText != null) {

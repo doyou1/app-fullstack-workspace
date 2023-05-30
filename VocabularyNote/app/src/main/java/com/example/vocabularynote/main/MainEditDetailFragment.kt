@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainEditDetailBinding
 import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
+import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
@@ -65,7 +67,7 @@ class MainEditDetailFragment : Fragment() {
                             noteId
                         )
                     lifecycleScope.launch(Dispatchers.Main) {
-                        setRecyclerView(list, noteId, maxId + 1, note.useTranslation)
+                        setRecyclerView(list, noteId, maxId + 1, note)
                     }
                 }
             }, Const.DELAY_SHOW_UI)
@@ -116,16 +118,17 @@ class MainEditDetailFragment : Fragment() {
         list: List<NoteItem>,
         noteId: Long,
         nextId: Long,
-        useTranslation: Boolean
+        note: Note
     ) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
+
         binding.recyclerView.adapter = EditNoteRvAdapter(
             DataUtil.convertToNoteItemViewModel(list),
             noteId,
             nextId,
-            useTranslation
+            note
         )
         binding.showUI = true
     }
