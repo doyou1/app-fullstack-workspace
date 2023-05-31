@@ -51,3 +51,6 @@
 
 # LiveData(勉強要)
 - [references](https://kotlinworld.com/47)
+
+# 20230531 - VocabularyNote
+- feedback link : [here](https://docs.google.com/spreadsheets/d/1xiK0DtNJV101cxfbeTtoUxRMc3O5iUmQcQOeIptf8u4/edit?usp=sharing)
