@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main
+package com.example.vocabularynote.main.game
 
 import android.os.Bundle
 import android.os.Handler
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainGameBinding
-import com.example.vocabularynote.main.adapter.NoteRvAdapter
+import com.example.vocabularynote.main.NoteRvAdapter
 import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.util.Const
 import kotlinx.coroutines.Dispatchers

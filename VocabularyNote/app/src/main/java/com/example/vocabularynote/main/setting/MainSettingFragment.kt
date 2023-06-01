@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main
+package com.example.vocabularynote.main.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater

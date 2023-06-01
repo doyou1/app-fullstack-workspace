@@ -10,11 +10,11 @@
 
     <fragment
         android:id="@+id/fragment_main_add"
-        android:name="com.example.vocabularynote.main.MainAddFragment" />
+        android:name="com.example.vocabularynote.main.add.MainAddFragment" />
 
     <fragment
         android:id="@+id/fragment_main_edit"
-        android:name="com.example.vocabularynote.main.MainEditFragment" />
+        android:name="com.example.vocabularynote.main.edit.MainEditFragment" />
 
     <fragment
         android:id="@+id/fragment_main_view"
@@ -22,19 +22,19 @@
 
     <fragment
         android:id="@+id/fragment_main_game"
-        android:name="com.example.vocabularynote.main.MainGameFragment" />
+        android:name="com.example.vocabularynote.main.game.MainGameFragment" />
 
     <fragment
         android:id="@+id/fragment_main_setting"
-        android:name="com.example.vocabularynote.main.MainSettingFragment" />
+        android:name="com.example.vocabularynote.main.setting.MainSettingFragment" />
 
     <fragment
         android:id="@+id/fragment_main_edit_detail"
-        android:name="com.example.vocabularynote.main.MainEditDetailFragment" />
+        android:name="com.example.vocabularynote.main.edit.MainEditDetailFragment" />
 
     <fragment
         android:id="@+id/fragment_main_game_detail"
-        android:name="com.example.vocabularynote.main.MainGameDetailFragment" />
+        android:name="com.example.vocabularynote.main.game.MainGameDetailFragment" />
 
     <action
         android:id="@+id/action_default_to_add"

@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main.adapter.itemfragment
+package com.example.vocabularynote.main.game
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,7 +11,6 @@ import androidx.navigation.NavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentGameNoteExamVpBinding
-import com.example.vocabularynote.main.adapter.GameNoteExamQuestionLVAdapter
 import com.example.vocabularynote.room.viewmodel.GameNoteItemExamViewModel
 import com.example.vocabularynote.util.Const
 

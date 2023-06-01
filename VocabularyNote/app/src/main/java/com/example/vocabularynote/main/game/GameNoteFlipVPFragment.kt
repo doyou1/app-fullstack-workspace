@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main.adapter.itemfragment
+package com.example.vocabularynote.main.game
 
 import android.animation.ObjectAnimator
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main
+package com.example.vocabularynote.main.edit
 
 import android.app.Activity.RESULT_OK
 import android.content.Context
@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainEditDetailBinding
-import com.example.vocabularynote.main.adapter.EditNoteRvAdapter
 import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil

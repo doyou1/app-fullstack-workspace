@@ -1,11 +1,10 @@
-package com.example.vocabularynote.main.adapter
+package com.example.vocabularynote.main.game
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.vocabularynote.main.adapter.itemfragment.GameNoteExamVPFragment
 import com.example.vocabularynote.room.viewmodel.GameNoteItemExamViewModel
 
 class GameNoteExamVPAdapter(

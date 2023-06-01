@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main.adapter
+package com.example.vocabularynote.main.edit
 
 import android.app.Activity
 import android.content.Context
