@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main
+package com.example.vocabularynote.main.edit
 
 import android.app.Activity
 import android.content.Intent
@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainEditBinding
-import com.example.vocabularynote.main.adapter.NoteRvAdapter
+import com.example.vocabularynote.main.NoteRvAdapter
 import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const

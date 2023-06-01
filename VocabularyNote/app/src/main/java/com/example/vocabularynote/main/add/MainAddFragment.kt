@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main
+package com.example.vocabularynote.main.add
 
 import android.content.Context
 import android.os.Bundle
@@ -15,7 +15,6 @@ import androidx.navigation.Navigation
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainAddBinding
-import com.example.vocabularynote.main.adapter.SelectLanguageAdapter
 import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const

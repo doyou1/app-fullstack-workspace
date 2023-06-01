@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main
+package com.example.vocabularynote.main.game
 
 import android.os.Bundle
 import android.os.Handler
@@ -14,8 +14,6 @@ import com.bumptech.glide.Glide
 import com.example.vocabularynote.BaseApplication
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainGameDetailBinding
-import com.example.vocabularynote.main.adapter.GameNoteExamVPAdapter
-import com.example.vocabularynote.main.adapter.GameNoteFlipVPAdapter
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const

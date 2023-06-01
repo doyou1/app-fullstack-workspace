@@ -1,4 +1,4 @@
-package com.example.vocabularynote.main.adapter
+package com.example.vocabularynote.main.game
 
 import android.os.Handler
 import android.os.Looper
