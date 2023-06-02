@@ -25,15 +25,18 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_wrap"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_top"
             android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/layout_content"
-            app:layout_constraintEnd_toEndOf="@+id/layout_content"
-            app:layout_constraintStart_toStartOf="@+id/layout_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintWidth_percent="0.8">
@@ -41,7 +44,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btn_back"
                 android:layout_width="0dp"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 android:background="@color/cardview_light_background"
                 android:clickable="true"
                 android:focusable="true"
@@ -59,7 +62,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:autoSizeTextType="uniform"
                     android:gravity="center_horizontal|center_vertical"
                     android:padding="5dp"
                     android:text="@string/text_back"
@@ -72,11 +74,12 @@
             android:id="@+id/layout_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_top"
             app:layout_constraintWidth_percent="0.8">
 
             <androidx.constraintlayout.widget.ConstraintLayout
