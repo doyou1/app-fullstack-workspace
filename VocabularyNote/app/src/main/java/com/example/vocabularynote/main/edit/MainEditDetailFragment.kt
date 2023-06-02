@@ -10,6 +10,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -143,6 +144,7 @@ class MainEditDetailFragment : Fragment() {
     }
 
     private fun aboutKeyboard() {
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding.layoutWrap.setOnClickListener {
             if (it !is TextInputEditText) {
                 hideKeyboard()
