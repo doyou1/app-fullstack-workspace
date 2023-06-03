@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
+import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentGameNoteFlipVpBinding
 import com.example.vocabularynote.room.viewmodel.GameNoteItemFlipViewModel
-import com.example.vocabularynote.util.Const.TEXT_SCALE_X
 
 
 class GameNoteFlipVPFragment(private val item: GameNoteItemFlipViewModel) : Fragment() {
@@ -34,8 +34,18 @@ class GameNoteFlipVPFragment(private val item: GameNoteItemFlipViewModel) : Frag
     private fun setClickEvent() {
         binding.layoutWrap.setOnClickListener {
             val backAnimation =
-                if (item.showKey) ObjectAnimator.ofFloat(binding.layoutValue, TEXT_SCALE_X, 0f, 1f)
-                else ObjectAnimator.ofFloat(binding.layoutKey, TEXT_SCALE_X, 0f, 1f)
+                if (item.showKey) ObjectAnimator.ofFloat(
+                    binding.layoutValue,
+                    requireContext().getString(R.string.text_scale_x),
+                    0f,
+                    1f
+                )
+                else ObjectAnimator.ofFloat(
+                    binding.layoutKey,
+                    requireContext().getString(R.string.text_scale_x),
+                    0f,
+                    1f
+                )
             backAnimation.interpolator = AccelerateDecelerateInterpolator()
             backAnimation.start()
             item.showKey = !item.showKey

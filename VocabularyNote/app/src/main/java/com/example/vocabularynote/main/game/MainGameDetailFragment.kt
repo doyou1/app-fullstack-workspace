@@ -58,7 +58,7 @@ class MainGameDetailFragment : Fragment() {
         binding.btnStart.setOnClickListener {
             binding.isStart = true
             arguments?.let {
-                val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+                val noteId = it.getLong(requireContext().getString(R.string.text_note_id), -1)
                 handler.postDelayed({
                     lifecycleScope.launch(Dispatchers.IO) {
                         val list =
@@ -67,7 +67,7 @@ class MainGameDetailFragment : Fragment() {
                             )
                         lifecycleScope.launch(Dispatchers.Main) {
                             if (list.isEmpty()) {
-                                AppMsgUtil.showErrMsg(Const.TEXT_EMPTY_ITEM, requireActivity())
+                                AppMsgUtil.showErrMsg(requireContext().getString(R.string.text_empty_item), requireActivity())
                                 refresh()
                                 return@launch
                             }
@@ -119,9 +119,9 @@ class MainGameDetailFragment : Fragment() {
 
     private fun refresh() {
         arguments?.let {
-            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+            val noteId = it.getLong(requireContext().getString(R.string.text_note_id), -1)
             val bundle = Bundle()
-            bundle.putLong(Const.TEXT_NOTE_ID, noteId)
+            bundle.putLong(requireContext().getString(R.string.text_note_id), noteId)
             Navigation.findNavController(requireView())
                 .navigate(R.id.action_refresh_game_detail, bundle)
         }

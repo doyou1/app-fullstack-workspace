@@ -19,14 +19,6 @@ import com.example.vocabularynote.databinding.RvItemNoteBinding
 import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
-import com.example.vocabularynote.util.Const.TEXT_CANCEL
-import com.example.vocabularynote.util.Const.TEXT_DELETE
-import com.example.vocabularynote.util.Const.TEXT_EDIT
-import com.example.vocabularynote.util.Const.TEXT_EXPORT
-import com.example.vocabularynote.util.Const.TEXT_NO
-import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
-import com.example.vocabularynote.util.Const.TEXT_VIEW
-import com.example.vocabularynote.util.Const.TEXT_YES
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -72,13 +64,13 @@ class NoteRvAdapter(
                 when (parentViewType) {
                     Const.TYPE_EDIT -> {
                         val bundle = Bundle()
-                        bundle.putLong(TEXT_NOTE_ID, item.id)
+                        bundle.putLong(context.getString(R.string.text_note_id), item.id)
                         Navigation.findNavController(binding.root)
                             .navigate(R.id.action_edit_to_edit_detail, bundle)
                     }
                     Const.TYPE_GAME -> {
                         val bundle = Bundle()
-                        bundle.putLong(TEXT_NOTE_ID, item.id)
+                        bundle.putLong(context.getString(R.string.text_note_id), item.id)
                         Navigation.findNavController(binding.root)
                             .navigate(R.id.action_game_to_game_detail, bundle)
                     }
@@ -89,42 +81,42 @@ class NoteRvAdapter(
                 val popup = PopupMenu(context, binding.btnEdit)
                 when (parentViewType) {
                     Const.TYPE_EDIT -> {
-                        popup.menu.add(TEXT_EDIT)
-                        popup.menu.add(TEXT_VIEW)
-                        popup.menu.add(TEXT_EXPORT)
-                        popup.menu.add(TEXT_DELETE)
-                        popup.menu.add(TEXT_CANCEL)
+                        popup.menu.add(context.getString(R.string.text_edit))
+                        popup.menu.add(context.getString(R.string.text_view))
+                        popup.menu.add(context.getString(R.string.text_export))
+                        popup.menu.add(context.getString(R.string.text_delete))
+                        popup.menu.add(context.getString(R.string.text_cancel))
                     }
                     Const.TYPE_GAME -> {
-                        popup.menu.add(TEXT_EDIT)
-                        popup.menu.add(TEXT_VIEW)
-                        popup.menu.add(TEXT_CANCEL)
+                        popup.menu.add(context.getString(R.string.text_edit))
+                        popup.menu.add(context.getString(R.string.text_view))
+                        popup.menu.add(context.getString(R.string.text_cancel))
                     }
                 }
                 popup.setOnMenuItemClickListener {
                     when (it.title) {
-                        TEXT_EDIT -> {
+                        context.getString(R.string.text_edit) -> {
                             val bundle = Bundle()
-                            bundle.putLong(TEXT_NOTE_ID, item.id)
+                            bundle.putLong(context.getString(R.string.text_note_id), item.id)
                             Navigation.findNavController(binding.root)
                                 .navigate(R.id.action_edit_or_game_to_add, bundle)
                         }
-                        TEXT_VIEW -> {
+                        context.getString(R.string.text_view) -> {
                             val bundle = Bundle()
-                            bundle.putLong(TEXT_NOTE_ID, item.id)
+                            bundle.putLong(context.getString(R.string.text_note_id), item.id)
                             Navigation.findNavController(binding.root)
                                 .navigate(R.id.action_edit_or_game_to_view, bundle)
                         }
-                        TEXT_DELETE -> {
+                        context.getString(R.string.text_delete) -> {
                             showDeletePrompt(item)
                         }
-                        TEXT_EXPORT -> {
+                        context.getString(R.string.text_export) -> {
                             // android 13 above
                             if (SDK_INT > Build.VERSION_CODES.S_V2) processExportExcelAboveAndroid13()
                             // android 13 under
                             else processExportExcelUnderAndroid13()
                         }
-                        TEXT_CANCEL -> {
+                        context.getString(R.string.text_cancel) -> {
                             popup.dismiss()
                         }
                     }
@@ -140,14 +132,14 @@ class NoteRvAdapter(
             val alert = builder
                 .setMessage("Do you want to DELETE \"${item.title}\" Note? \n※If deleted, it cannot be reversed.")
                 .setCancelable(true)
-                .setPositiveButton(TEXT_YES) { _, _ ->
+                .setPositiveButton(context.getString(R.string.text_yes)) { _, _ ->
                     GlobalScope.launch(Dispatchers.IO) {
                         ((context as Activity).application as BaseApplication).noteDao.deleteNote(
                             item
                         )
                         GlobalScope.launch(Dispatchers.Main) {
                             AppMsgUtil.showMsg(
-                                Const.TEXT_DELETE_NOTE_SUCCESS,
+                                context.getString(R.string.text_delete_note_success),
                                 (context as Activity)
                             )
                             Navigation.findNavController(binding.root)
@@ -156,7 +148,7 @@ class NoteRvAdapter(
                     }
 
                 }
-                .setNegativeButton(TEXT_NO) { _, _ ->
+                .setNegativeButton(context.getString(R.string.text_no)) { _, _ ->
                 }.create()
             alert.setTitle("Check to delete note")
             alert.show()

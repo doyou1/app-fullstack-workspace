@@ -25,8 +25,6 @@ import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
 import com.example.vocabularynote.util.Const.MIME_TYPE_XLSX
-import com.example.vocabularynote.util.Const.TEXT_SAVE_FAILED
-import com.example.vocabularynote.util.Const.TEXT_SAVE_SUCCESS
 import com.example.vocabularynote.util.Const.TEXT_XLSX
 import com.example.vocabularynote.util.DateUtil
 import com.example.vocabularynote.util.FileUtil
@@ -103,16 +101,33 @@ class MainEditFragment : Fragment() {
                             val id = (binding.recyclerView.adapter as NoteRvAdapter).currentId
                             val title = (binding.recyclerView.adapter as NoteRvAdapter).currentTitle
                             if (id != -1L && title != "") {
-                                val list = (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(id)
+                                val list =
+                                    (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(
+                                        id
+                                    )
                                 lifecycleScope.launch(Dispatchers.Main) {
                                     val fileName = "$title-${DateUtil.getCurrentTime()}.$TEXT_XLSX"
-                                    val isSuccess = saveExcel(uri, fileName, FileUtil.makeExcel(list))
-                                    if(isSuccess) AppMsgUtil.showMsg("$fileName $TEXT_SAVE_SUCCESS", requireActivity())
-                                    else AppMsgUtil.showErrMsg("$fileName $TEXT_SAVE_FAILED", requireActivity())
+                                    val isSuccess =
+                                        saveExcel(uri, fileName, FileUtil.makeExcel(list))
+                                    if (isSuccess) AppMsgUtil.showMsg(
+                                        "$fileName ${
+                                            requireContext().getString(
+                                                R.string.text_save_success
+                                            )
+                                        }", requireActivity()
+                                    )
+                                    else AppMsgUtil.showErrMsg(
+                                        "$fileName ${
+                                            requireContext().getString(
+                                                R.string.text_save_failed
+                                            )
+                                        }", requireActivity()
+                                    )
 
                                     // refresh
                                     (binding.recyclerView.adapter as NoteRvAdapter).currentId = -1
-                                    (binding.recyclerView.adapter as NoteRvAdapter).currentTitle = ""
+                                    (binding.recyclerView.adapter as NoteRvAdapter).currentTitle =
+                                        ""
                                 }
                             }
                         }
@@ -121,6 +136,7 @@ class MainEditFragment : Fragment() {
             }
         }
     }
+
     private fun saveExcel(uri: Uri, fileName: String, workbook: XSSFWorkbook): Boolean {
         DocumentFile.fromTreeUri(requireContext(), uri)?.let { directory ->
             directory.createFile(MIME_TYPE_XLSX, fileName)?.let { file ->

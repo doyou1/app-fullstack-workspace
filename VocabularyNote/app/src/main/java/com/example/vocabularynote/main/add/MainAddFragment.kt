@@ -7,7 +7,6 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -19,7 +18,6 @@ import com.example.vocabularynote.databinding.FragmentMainAddBinding
 import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
-import com.example.vocabularynote.util.Const.TEXT_SELECT_EQUAL_LANGUAGE
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,7 +43,7 @@ class MainAddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val id = it.getLong(Const.TEXT_NOTE_ID, -1)
+            val id = it.getLong(requireContext().getString(R.string.text_note_id), -1)
             if (id != -1L) {
                 setPrevNote(id)
             }
@@ -65,11 +63,14 @@ class MainAddFragment : Fragment() {
                 val useTranslation = binding.swiUseTranslation.isChecked
                 var keyCountryCode = ""
                 var valueCountryCode = ""
-                if(useTranslation) {
+                if (useTranslation) {
                     val keyId = binding.spinnerKey.selectedItemId
                     val valueId = binding.spinnerValue.selectedItemId
-                    if(keyId == valueId) {
-                        AppMsgUtil.showErrMsg(TEXT_SELECT_EQUAL_LANGUAGE, requireActivity())
+                    if (keyId == valueId) {
+                        AppMsgUtil.showErrMsg(
+                            requireContext().getString(R.string.text_select_equal_language),
+                            requireActivity()
+                        )
                         return@setOnClickListener
                     }
                     keyCountryCode = Const.SELECT_LANGUAGE_LIST[keyId.toInt()].countryCode
@@ -77,10 +78,18 @@ class MainAddFragment : Fragment() {
                 }
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (prev != null) {
-                        val item = Note(prev!!.id, title, memo, useTranslation, keyCountryCode, valueCountryCode)
+                        val item = Note(
+                            prev!!.id,
+                            title,
+                            memo,
+                            useTranslation,
+                            keyCountryCode,
+                            valueCountryCode
+                        )
                         (requireActivity().application as BaseApplication).noteDao.updateNote(item)
                     } else {
-                        val item = Note(0, title, memo, useTranslation, keyCountryCode, valueCountryCode)
+                        val item =
+                            Note(0, title, memo, useTranslation, keyCountryCode, valueCountryCode)
                         (requireActivity().application as BaseApplication).noteDao.insertNote(item)
                     }
                     lifecycleScope.launch(Dispatchers.Main) {
@@ -118,8 +127,10 @@ class MainAddFragment : Fragment() {
 
                     if (item.useTranslation) {
                         binding.layoutSelectTranslationLanguage.visibility = View.VISIBLE
-                        val prevKeyIdx = Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.keyLanguage }[0].id.toInt()
-                        val prevValueIdx = Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.valueLanguage }[0].id.toInt()
+                        val prevKeyIdx =
+                            Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.keyLanguage }[0].id.toInt()
+                        val prevValueIdx =
+                            Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.valueLanguage }[0].id.toInt()
                         binding.spinnerKey.setSelection(prevKeyIdx)
                         binding.spinnerValue.setSelection(prevValueIdx)
                     }
@@ -142,7 +153,6 @@ class MainAddFragment : Fragment() {
     }
 
     private fun aboutKeyboard() {
-//        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding.layoutWrap.setOnClickListener {
             if (it !is TextInputEditText) {
                 hideKeyboard()

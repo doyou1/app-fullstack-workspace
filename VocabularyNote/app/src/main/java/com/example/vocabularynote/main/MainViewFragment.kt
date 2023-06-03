@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vocabularynote.BaseApplication
+import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentMainViewBinding
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.Const
@@ -37,7 +38,7 @@ class MainViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+            val noteId = it.getLong(requireContext().getString(R.string.text_note_id), -1)
             handler.postDelayed({
                 lifecycleScope.launch(Dispatchers.IO) {
                     val list =

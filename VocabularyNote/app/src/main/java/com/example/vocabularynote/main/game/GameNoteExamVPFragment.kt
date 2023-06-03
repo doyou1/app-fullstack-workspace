@@ -64,7 +64,7 @@ class GameNoteExamVPFragment(
 
     private fun refreshInCompleted() {
         val bundle = Bundle()
-        bundle.putLong(Const.TEXT_NOTE_ID, item.noteId)
+        bundle.putLong(requireContext().getString(R.string.text_note_id), item.noteId)
         navController
             .navigate(R.id.action_refresh_game_detail, bundle)
     }

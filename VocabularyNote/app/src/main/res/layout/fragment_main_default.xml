@@ -85,7 +85,7 @@
                     android:autoSizeTextType="uniform"
                     android:gravity="center_vertical|center_horizontal"
                     android:padding="10dp"
-                    android:text="@string/text_edit"
+                    android:text="@string/text_edit_note"
                     android:textColor="@color/white" />
 
             </com.google.android.material.card.MaterialCardView>

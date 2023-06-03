@@ -26,9 +26,6 @@ import com.example.vocabularynote.room.entity.Note
 import com.example.vocabularynote.room.entity.NoteItem
 import com.example.vocabularynote.util.AppMsgUtil
 import com.example.vocabularynote.util.Const
-import com.example.vocabularynote.util.Const.TEXT_FAIL_IMPORT_EXCEL
-import com.example.vocabularynote.util.Const.TEXT_INSERT_NOTE_ITEM_SUCCESS
-import com.example.vocabularynote.util.Const.TEXT_NOTE_ID
 import com.example.vocabularynote.util.DataUtil
 import com.example.vocabularynote.util.FileUtil
 import com.google.android.material.textfield.TextInputEditText
@@ -52,7 +49,7 @@ class MainEditDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            val noteId = it.getLong(TEXT_NOTE_ID, -1)
+            val noteId = it.getLong(requireContext().getString(R.string.text_note_id), -1)
             handler.postDelayed({
                 lifecycleScope.launch(Dispatchers.IO) {
                     val list =
@@ -85,11 +82,15 @@ class MainEditDetailFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO) {
                 (requireActivity().application as BaseApplication).noteDao.insertNoteItemAll(result)
                 lifecycleScope.launch(Dispatchers.Main) {
-                    AppMsgUtil.showMsg(TEXT_INSERT_NOTE_ITEM_SUCCESS, requireActivity())
+                    AppMsgUtil.showMsg(
+                        requireContext().getString(R.string.text_insert_note_item_success),
+                        requireActivity()
+                    )
                     arguments?.let {
-                        val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+                        val noteId =
+                            it.getLong(requireContext().getString(R.string.text_note_id), -1)
                         val bundle = Bundle()
-                        bundle.putLong(TEXT_NOTE_ID, noteId)
+                        bundle.putLong(requireContext().getString(R.string.text_note_id), noteId)
                         Navigation.findNavController(requireView())
                             .navigate(R.id.action_refresh_edit_detail, bundle)
                     }
@@ -210,7 +211,10 @@ class MainEditDetailFragment : Fragment() {
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            AppMsgUtil.showErrMsg(TEXT_FAIL_IMPORT_EXCEL, requireActivity())
+                            AppMsgUtil.showErrMsg(
+                                requireContext().getString(R.string.text_fail_import_excel),
+                                requireActivity()
+                            )
                         }
                     }
                 }
@@ -218,6 +222,8 @@ class MainEditDetailFragment : Fragment() {
         }
 
     private fun moveToBottom() {
-        binding.recyclerView.scrollToPosition(binding.recyclerView.adapter?.itemCount?.minus(1) ?: 0)
+        binding.recyclerView.scrollToPosition(
+            binding.recyclerView.adapter?.itemCount?.minus(1) ?: 0
+        )
     }
 }
