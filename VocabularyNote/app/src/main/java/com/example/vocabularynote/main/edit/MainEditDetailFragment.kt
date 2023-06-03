@@ -99,6 +99,7 @@ class MainEditDetailFragment : Fragment() {
         binding.btnItemAdd.setOnClickListener {
             val newSize = (binding.recyclerView.adapter as EditNoteRvAdapter).addEditItem()
             (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, 1)
+            moveToBottom()
         }
         binding.btnImport.setOnClickListener {
             // android 13 above
@@ -132,6 +133,7 @@ class MainEditDetailFragment : Fragment() {
             note
         )
         binding.showUI = true
+        moveToBottom()
     }
 
     private fun setBackPressEvent() {
@@ -214,4 +216,8 @@ class MainEditDetailFragment : Fragment() {
                 }
             }
         }
+
+    private fun moveToBottom() {
+        binding.recyclerView.scrollToPosition(binding.recyclerView.adapter?.itemCount?.minus(1) ?: 0)
+    }
 }

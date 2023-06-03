@@ -194,6 +194,7 @@ class EditNoteRvAdapter(
             setClickEvent()
             setTextChangeEvent()
             aboutKeyboard()
+
         }
 
         private fun setClickEvent() {
