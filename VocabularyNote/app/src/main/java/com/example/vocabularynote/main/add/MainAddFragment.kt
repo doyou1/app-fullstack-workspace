@@ -142,7 +142,7 @@ class MainAddFragment : Fragment() {
     }
 
     private fun aboutKeyboard() {
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+//        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         binding.layoutWrap.setOnClickListener {
             if (it !is TextInputEditText) {
                 hideKeyboard()
