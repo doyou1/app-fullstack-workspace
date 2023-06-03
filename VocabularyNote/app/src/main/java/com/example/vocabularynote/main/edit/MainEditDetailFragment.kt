@@ -66,7 +66,7 @@ class MainEditDetailFragment : Fragment() {
                             noteId
                         )
                     lifecycleScope.launch(Dispatchers.Main) {
-                        setRecyclerView(list, noteId, maxId + 1, note)
+                        setRecyclerView(list.sortedBy { id }, noteId, maxId + 1, note)
                     }
                 }
             }, Const.DELAY_SHOW_UI)
