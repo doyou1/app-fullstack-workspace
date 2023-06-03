@@ -71,6 +71,8 @@ class MainEditDetailFragment : Fragment() {
                 }
             }, Const.DELAY_SHOW_UI)
         }
+        binding.showImportDescription = false
+
         setClickEvent()
         setBackPressEvent()
         aboutKeyboard()
@@ -109,7 +111,7 @@ class MainEditDetailFragment : Fragment() {
             Navigation.findNavController(requireView()).navigateUp()
         }
         binding.btnImportDescription.setOnClickListener {
-            binding.showImportDescription = true
+            binding.showImportDescription = !(binding.showImportDescription!!)
         }
     }
 
