@@ -43,7 +43,7 @@ class MainAddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            val id = it.getLong(requireContext().getString(R.string.text_note_id), -1)
+            val id = it.getLong(Const.TEXT_NOTE_ID, -1)
             if (id != -1L) {
                 setPrevNote(id)
             }

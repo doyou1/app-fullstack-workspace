@@ -50,7 +50,7 @@ class MainEditDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            val noteId = it.getLong(requireContext().getString(R.string.text_note_id), -1)
+            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
             handler.postDelayed({
                 lifecycleScope.launch(Dispatchers.IO) {
                     val list =
@@ -93,9 +93,9 @@ class MainEditDetailFragment : Fragment() {
                     )
                     arguments?.let {
                         val noteId =
-                            it.getLong(requireContext().getString(R.string.text_note_id), -1)
+                            it.getLong(Const.TEXT_NOTE_ID, -1)
                         val bundle = Bundle()
-                        bundle.putLong(requireContext().getString(R.string.text_note_id), noteId)
+                        bundle.putLong(Const.TEXT_NOTE_ID, noteId)
                         Navigation.findNavController(requireView())
                             .navigate(R.id.action_refresh_edit_detail, bundle)
                     }

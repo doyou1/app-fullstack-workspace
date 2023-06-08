@@ -38,7 +38,7 @@ class MainViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            val noteId = it.getLong(requireContext().getString(R.string.text_note_id), -1)
+            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
             handler.postDelayed({
                 lifecycleScope.launch(Dispatchers.IO) {
                     val list =

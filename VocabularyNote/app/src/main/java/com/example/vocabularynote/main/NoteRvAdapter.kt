@@ -64,13 +64,13 @@ class NoteRvAdapter(
                 when (parentViewType) {
                     Const.TYPE_EDIT -> {
                         val bundle = Bundle()
-                        bundle.putLong(context.getString(R.string.text_note_id), item.id)
+                        bundle.putLong(Const.TEXT_NOTE_ID, item.id)
                         Navigation.findNavController(binding.root)
                             .navigate(R.id.action_edit_to_edit_detail, bundle)
                     }
                     Const.TYPE_GAME -> {
                         val bundle = Bundle()
-                        bundle.putLong(context.getString(R.string.text_note_id), item.id)
+                        bundle.putLong(Const.TEXT_NOTE_ID, item.id)
                         Navigation.findNavController(binding.root)
                             .navigate(R.id.action_game_to_game_detail, bundle)
                     }
@@ -97,13 +97,13 @@ class NoteRvAdapter(
                     when (it.title) {
                         context.getString(R.string.text_edit) -> {
                             val bundle = Bundle()
-                            bundle.putLong(context.getString(R.string.text_note_id), item.id)
+                            bundle.putLong(Const.TEXT_NOTE_ID, item.id)
                             Navigation.findNavController(binding.root)
                                 .navigate(R.id.action_edit_or_game_to_add, bundle)
                         }
                         context.getString(R.string.text_view) -> {
                             val bundle = Bundle()
-                            bundle.putLong(context.getString(R.string.text_note_id), item.id)
+                            bundle.putLong(Const.TEXT_NOTE_ID, item.id)
                             Navigation.findNavController(binding.root)
                                 .navigate(R.id.action_edit_or_game_to_view, bundle)
                         }

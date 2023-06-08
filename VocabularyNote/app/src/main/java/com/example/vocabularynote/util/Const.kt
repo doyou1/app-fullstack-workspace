@@ -18,7 +18,8 @@ object Const {
     const val TEXT_KEY = "key"
     const val TEXT_VALUE = "value"
     const val TEXT_RESULT = "result"
-
+    const val TEXT_NOTE_ID = "noteId"
+    const val TEXT_SCALE_X = "scaleX"
     const val DELAY_SHOW_MSG = 1000
 
     val SELECT_LANGUAGE_LIST = listOf(
