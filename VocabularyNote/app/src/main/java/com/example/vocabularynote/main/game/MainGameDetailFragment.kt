@@ -47,14 +47,21 @@ class MainGameDetailFragment : Fragment() {
 
     private fun initUI() {
         binding.isSelectedExam = false
+        binding.isFlipRandom = false
+        binding.isExamRandom = false
         Glide.with(requireContext()).load(R.drawable.gif_temp1).into(binding.ivFlip)
         Glide.with(requireContext()).load(R.drawable.gif_temp2).into(binding.ivExam)
     }
 
     private fun setClickEvent() {
-        binding.swiRandom.setOnCheckedChangeListener { _, isChecked ->
-            binding.isRandom = isChecked
+        binding.swiFlipRandom.setOnCheckedChangeListener { _, isChecked ->
+            binding.isFlipRandom = isChecked
         }
+
+        binding.swiExamRandom.setOnCheckedChangeListener { _, isChecked ->
+            binding.isExamRandom = isChecked
+        }
+
         binding.btnStart.setOnClickListener {
             binding.isStart = true
             arguments?.let {
@@ -67,16 +74,24 @@ class MainGameDetailFragment : Fragment() {
                             )
                         lifecycleScope.launch(Dispatchers.Main) {
                             if (list.isEmpty()) {
-                                AppMsgUtil.showErrMsg(requireContext().getString(R.string.text_empty_item), requireActivity())
+                                AppMsgUtil.showErrMsg(
+                                    requireContext().getString(R.string.text_empty_item),
+                                    requireActivity()
+                                )
                                 refresh()
                                 return@launch
                             }
-                            val isRandom: Boolean? = binding.isRandom
+
+                            val isRandom: Boolean? =
+                                if (!(binding.isSelectedExam!!)) binding.isFlipRandom // select flip
+                                else binding.isExamRandom // select exam
+
                             if (isRandom != null && isRandom) {
                                 setViewPager(list.shuffled())
                             } else {
                                 setViewPager(list)
                             }
+
                         }
                     }
                 }, Const.DELAY_SHOW_UI)
@@ -109,7 +124,7 @@ class MainGameDetailFragment : Fragment() {
     }
 
     private fun onBackPressed() {
-        if(binding.viewPager.adapter != null) {
+        if (binding.viewPager.adapter != null) {
             refresh()
         } else {
             // Handle the back button event

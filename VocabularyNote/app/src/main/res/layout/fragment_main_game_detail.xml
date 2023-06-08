@@ -16,7 +16,11 @@
             type="Boolean" />
 
         <variable
-            name="isRandom"
+            name="isFlipRandom"
+            type="Boolean" />
+
+        <variable
+            name="isExamRandom"
             type="Boolean" />
 
         <variable
@@ -151,7 +155,7 @@
                                 app:layout_constraintTop_toBottomOf="@+id/iv_flip">
 
                                 <androidx.appcompat.widget.SwitchCompat
-                                    android:id="@+id/swi_random"
+                                    android:id="@+id/swi_flip_random"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/text_random"
@@ -209,7 +213,17 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHeight_percent="0.3"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/iv_exam" />
+                                app:layout_constraintTop_toBottomOf="@+id/iv_exam" >
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/swi_exam_random"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/text_random"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
