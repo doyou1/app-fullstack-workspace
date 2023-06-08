@@ -49,8 +49,8 @@ class MainGameDetailFragment : Fragment() {
         binding.isSelectedExam = false
         binding.isFlipRandom = false
         binding.isExamRandom = false
-        Glide.with(requireContext()).load(R.drawable.gif_temp1).into(binding.ivFlip)
-        Glide.with(requireContext()).load(R.drawable.gif_temp2).into(binding.ivExam)
+        Glide.with(requireContext()).load(R.drawable.image_flip).into(binding.ivFlip)
+        Glide.with(requireContext()).load(R.drawable.image_exam).into(binding.ivExam)
     }
 
     private fun setClickEvent() {
