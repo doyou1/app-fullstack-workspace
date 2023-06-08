@@ -41,7 +41,6 @@ class MainAddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         arguments?.let {
             val id = it.getLong(Const.TEXT_NOTE_ID, -1)
             if (id != -1L) {
@@ -52,7 +51,9 @@ class MainAddFragment : Fragment() {
         setBackPressEvent()
         setClickEvent()
         setSwitchOnChangedEvent()
-        setSelectLanguageSpinner()
+        handler.postDelayed({
+//            setSelectLanguageSpinner()
+        }, Const.DELAY_SHOW_UI)
     }
 
     private fun setClickEvent() {
