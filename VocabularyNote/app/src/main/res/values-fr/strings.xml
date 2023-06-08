@@ -54,4 +54,5 @@
     <string name="text_hint_email_subject">Subject: </string>
     <string name="text_hint_email_text">Text: </string>
     <string name="text_send">Send</string>
+    <string name="text_send_email_vaildate_fail">Please check the title entry and the content entry.</string>
 </resources>

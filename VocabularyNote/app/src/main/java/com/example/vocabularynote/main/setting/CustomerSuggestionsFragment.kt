@@ -3,15 +3,14 @@ package com.example.vocabularynote.main.setting
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentCustomerSuggestionsBinding
+import com.example.vocabularynote.util.AppMsgUtil
 import com.google.android.material.textfield.TextInputEditText
 
 
@@ -54,6 +53,8 @@ class CustomerSuggestionsFragment : Fragment() {
                 intent.putExtra(Intent.EXTRA_SUBJECT, binding.etSubject.text.toString()) // 메일 제목
                 intent.putExtra(Intent.EXTRA_TEXT, binding.etText.text.toString()) // 메일 내용
                 startActivity(intent)
+            } else {
+                AppMsgUtil.showErrMsg(requireContext().resources.getString(R.string.text_send_email_vaildate_fail), requireActivity())
             }
         }
     }
