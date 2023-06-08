@@ -16,5 +16,6 @@ class GameNoteExamVPAdapter(
     FragmentStateAdapter(fa) {
     private val list: MutableList<GameNoteItemExamViewModel> = _list.toMutableList()
     override fun getItemCount(): Int = list.size
-    override fun createFragment(position: Int): Fragment = GameNoteExamVPFragment(list[position], position, viewPager, itemCount, navController)
+    override fun createFragment(position: Int): Fragment =
+        GameNoteExamVPFragment(list[position], position, viewPager, itemCount, navController)
 }

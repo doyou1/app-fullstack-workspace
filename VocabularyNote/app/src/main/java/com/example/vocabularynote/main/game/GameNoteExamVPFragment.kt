@@ -21,7 +21,7 @@ class GameNoteExamVPFragment(
     private val viewPager: ViewPager2,
     private val itemCount: Int,
     private val navController: NavController
-    ) : Fragment() {
+) : Fragment() {
 
     private val TAG = this::class.java.simpleName
     private var _binding: FragmentGameNoteExamVpBinding? = null
@@ -59,7 +59,14 @@ class GameNoteExamVPFragment(
 
     private fun setListView(correct: String) {
         binding.listView.adapter =
-            GameNoteExamQuestionLVAdapter(item.questions, correct, position, viewPager, itemCount, ::refreshInCompleted)
+            GameNoteExamQuestionLVAdapter(
+                item.questions,
+                correct,
+                position,
+                viewPager,
+                itemCount,
+                ::refreshInCompleted
+            )
     }
 
     private fun refreshInCompleted() {

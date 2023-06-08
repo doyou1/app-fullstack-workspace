@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
-import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentGameNoteFlipVpBinding
 import com.example.vocabularynote.room.viewmodel.GameNoteItemFlipViewModel
 import com.example.vocabularynote.util.Const

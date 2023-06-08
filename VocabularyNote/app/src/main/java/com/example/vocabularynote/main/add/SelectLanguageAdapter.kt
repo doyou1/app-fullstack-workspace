@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import com.example.vocabularynote.databinding.SpinnerItemSelectLanguageBinding
 import com.example.vocabularynote.util.SelectLanguageItem
 
-class SelectLanguageAdapter(private val _list: List<SelectLanguageItem>): BaseAdapter() {
+class SelectLanguageAdapter(private val _list: List<SelectLanguageItem>) : BaseAdapter() {
     private val list = _list
 
     override fun getCount(): Int = list.size

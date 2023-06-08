@@ -47,7 +47,8 @@ class MainSettingFragment : Fragment() {
 
         }
         binding.btnCustomerSuggestions.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_setting_to_customer_suggestions)
+            Navigation.findNavController(requireView())
+                .navigate(R.id.action_setting_to_customer_suggestions)
         }
     }
 

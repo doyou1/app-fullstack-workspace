@@ -40,7 +40,7 @@ class FileUtil {
             } else return null
         }
 
-        fun makeExcel(list: List<NoteItem>) : XSSFWorkbook {
+        fun makeExcel(list: List<NoteItem>): XSSFWorkbook {
             val workbook = XSSFWorkbook()
             val sheet = workbook.createSheet(TEXT_RESULT)
             var rowIdx = 0
