@@ -36,6 +36,12 @@
         android:id="@+id/fragment_main_game_detail"
         android:name="com.example.vocabularynote.main.game.MainGameDetailFragment" />
 
+    <fragment
+        android:id="@+id/fragment_open_source"
+        android:name="com.example.vocabularynote.main.setting.OpenSourceFragment" />
+    <fragment
+        android:id="@+id/fragment_customer_suggestions"
+        android:name="com.example.vocabularynote.main.setting.CustomerSuggestionsFragment" />
     <action
         android:id="@+id/action_default_to_add"
         app:destination="@id/fragment_main_add" />
@@ -73,6 +79,13 @@
     <action
         android:id="@+id/action_edit_to_edit_detail"
         app:destination="@id/fragment_main_edit_detail" />
+
+    <action
+        android:id="@+id/action_setting_to_open_source"
+        app:destination="@id/fragment_open_source" />
+    <action
+        android:id="@+id/action_setting_to_customer_suggestions"
+        app:destination="@id/fragment_customer_suggestions" />
 
     <action
         android:id="@+id/action_refresh_edit_detail"

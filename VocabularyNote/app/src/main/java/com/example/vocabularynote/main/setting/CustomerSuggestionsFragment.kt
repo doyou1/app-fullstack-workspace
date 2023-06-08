@@ -7,12 +7,11 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.example.vocabularynote.R
-import com.example.vocabularynote.databinding.FragmentMainSettingBinding
+import com.example.vocabularynote.databinding.FragmentCustomerSuggestionsBinding
 
-class MainSettingFragment : Fragment() {
+class CustomerSuggestionsFragment : Fragment() {
 
-    private var _binding: FragmentMainSettingBinding? = null
+    private var _binding: FragmentCustomerSuggestionsBinding? = null
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
 
@@ -21,7 +20,7 @@ class MainSettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainSettingBinding.inflate(inflater, container, false)
+        _binding = FragmentCustomerSuggestionsBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -36,18 +35,6 @@ class MainSettingFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
-        }
-        binding.btnOpensourceLicense.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_setting_to_open_source)
-        }
-        binding.btnTermsAndConditions.setOnClickListener {
-
-        }
-        binding.btnPersonalInformationProcessingPolicy.setOnClickListener {
-
-        }
-        binding.btnCustomerSuggestions.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_setting_to_customer_suggestions)
         }
     }
 

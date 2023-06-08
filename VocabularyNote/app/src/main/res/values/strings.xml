@@ -51,4 +51,9 @@
     <string name="text_empty_item">item list is empty. please add item in edit note</string>
     <string name="text_select_equal_language">The key language and value language cannot be the same.</string>
     <string name="text_fail_import_excel">Fail to import excel!</string>
+    <string name="text_opensource_license">Open Source License</string>
+    <string name="text_opensource_license_detail"></string>
+    <string name="text_terms_and_conditions">Terms and Conditions</string>
+    <string name="text_personal_information_processing_policy">Personal information processing policy</string>
+    <string name="text_customer_suggestions">Customer Suggestions</string>
 </resources>

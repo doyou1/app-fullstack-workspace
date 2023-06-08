@@ -1,6 +1,8 @@
 package com.example.vocabularynote.main.setting
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,46 +10,53 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.vocabularynote.R
-import com.example.vocabularynote.databinding.FragmentMainSettingBinding
+import com.example.vocabularynote.databinding.FragmentOpenSourceBinding
+import com.example.vocabularynote.util.Const
+import java.io.ByteArrayOutputStream
 
-class MainSettingFragment : Fragment() {
+class OpenSourceFragment : Fragment() {
 
-    private var _binding: FragmentMainSettingBinding? = null
+    private var _binding: FragmentOpenSourceBinding? = null
     private val binding get() = _binding!!
     private val TAG = this::class.java.simpleName
+    private val handler = Handler(Looper.getMainLooper())
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainSettingBinding.inflate(inflater, container, false)
+        _binding = FragmentOpenSourceBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        handler.postDelayed({
+            setOpenSourceText()
+        }, Const.DELAY_SHOW_UI)
         setClickEvent()
         setBackPressEvent()
+    }
+
+    private fun setOpenSourceText() {
+        val inputStream = requireContext().resources.openRawResource(R.raw.license)
+        val baos = ByteArrayOutputStream()
+        var i: Int = inputStream.read()
+        while (i != -1) {
+            baos.write(i)
+            i = inputStream.read()
+        }
+        val result = baos.toString()
+        binding.tvOpenSource.text = result
     }
 
     private fun setClickEvent() {
         binding.btnBack.setOnClickListener {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
-        }
-        binding.btnOpensourceLicense.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_setting_to_open_source)
-        }
-        binding.btnTermsAndConditions.setOnClickListener {
-
-        }
-        binding.btnPersonalInformationProcessingPolicy.setOnClickListener {
-
-        }
-        binding.btnCustomerSuggestions.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_setting_to_customer_suggestions)
         }
     }
 
