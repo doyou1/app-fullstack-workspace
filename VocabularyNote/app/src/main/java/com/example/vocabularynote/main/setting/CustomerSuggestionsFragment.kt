@@ -2,6 +2,7 @@ package com.example.vocabularynote.main.setting
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,10 +48,12 @@ class CustomerSuggestionsFragment : Fragment() {
         binding.btnSend.setOnClickListener {
             if (isValidate()) {
                 val intent = Intent(Intent.ACTION_SEND)
-                intent.type = "*/*"
+                intent.type = "text/html"
                 intent.putExtra(
                     Intent.EXTRA_EMAIL,
-                    requireContext().resources.getString(R.string.text_developer_email)
+                    arrayOf(
+                        requireContext().resources.getString(R.string.text_developer_email)
+                    )
                 )
                 intent.putExtra(Intent.EXTRA_SUBJECT, binding.etSubject.text.toString()) // 메일 제목
                 intent.putExtra(Intent.EXTRA_TEXT, binding.etText.text.toString()) // 메일 내용
