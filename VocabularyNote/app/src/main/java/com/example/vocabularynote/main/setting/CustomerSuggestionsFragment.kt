@@ -1,13 +1,19 @@
 package com.example.vocabularynote.main.setting
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.example.vocabularynote.R
 import com.example.vocabularynote.databinding.FragmentCustomerSuggestionsBinding
+import com.google.android.material.textfield.TextInputEditText
+
 
 class CustomerSuggestionsFragment : Fragment() {
 
@@ -21,13 +27,13 @@ class CustomerSuggestionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCustomerSuggestionsBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setClickEvent()
+        aboutKeyboard()
         setBackPressEvent()
     }
 
@@ -36,6 +42,41 @@ class CustomerSuggestionsFragment : Fragment() {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
         }
+
+        binding.btnSend.setOnClickListener {
+            if (isValidate()) {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "*/*"
+                intent.putExtra(
+                    Intent.EXTRA_EMAIL,
+                    requireContext().resources.getString(R.string.text_developer_email)
+                )
+                intent.putExtra(Intent.EXTRA_SUBJECT, binding.etSubject.text.toString()) // 메일 제목
+                intent.putExtra(Intent.EXTRA_TEXT, binding.etText.text.toString()) // 메일 내용
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun isValidate(): Boolean {
+        val subject = binding.etSubject.text.toString()
+        val text = binding.etText.text.toString()
+        return (!subject.isNullOrEmpty()) && (!text.isNullOrEmpty())
+    }
+
+    private fun aboutKeyboard() {
+        binding.layoutWrap.setOnClickListener {
+            if (it !is TextInputEditText) {
+                hideKeyboard()
+            }
+        }
+    }
+
+    private fun hideKeyboard() {
+        val im =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        im.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+        requireActivity().currentFocus?.clearFocus()
     }
 
     private fun setBackPressEvent() {

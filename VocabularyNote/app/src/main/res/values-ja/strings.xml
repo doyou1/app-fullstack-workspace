@@ -51,4 +51,7 @@
     <string name="text_terms_and_conditions">利用規約</string>
     <string name="text_personal_information_processing_policy">個人情報処理方針</string>
     <string name="text_customer_suggestions">お客様からの提案</string>
+    <string name="text_hint_email_subject">題目: </string>
+    <string name="text_hint_email_text">内容: </string>
+    <string name="text_send">伝送</string>
 </resources>

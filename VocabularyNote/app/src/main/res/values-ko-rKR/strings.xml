@@ -51,4 +51,7 @@
     <string name="text_terms_and_conditions">이용약관</string>
     <string name="text_personal_information_processing_policy">개인정보처리방침</string>
     <string name="text_customer_suggestions">고객 제안</string>
+    <string name="text_hint_email_subject">제목: </string>
+    <string name="text_hint_email_text">내용: </string>
+    <string name="text_send">전송</string>
 </resources>
