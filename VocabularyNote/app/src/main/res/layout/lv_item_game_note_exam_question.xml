@@ -85,7 +85,7 @@
                         android:gravity="start|center_vertical"
                         android:lines="1"
                         android:text="@{question}"
-                        android:textColor="@{isCorrect ? @color/white : @color/teal_700}"
+                        android:textColor="@{isCorrect ? @color/white : @color/app_main_color}"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

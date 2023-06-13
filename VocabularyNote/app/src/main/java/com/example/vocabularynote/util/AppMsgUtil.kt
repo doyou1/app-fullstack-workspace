@@ -9,7 +9,7 @@ class AppMsgUtil {
     companion object {
         fun showMsg(text: String, activity: Activity) {
             val appMsg =
-                AppMsg.makeText(activity, text, AppMsg.Style(AppMsg.LENGTH_SHORT, R.color.teal_700))
+                AppMsg.makeText(activity, text, AppMsg.Style(AppMsg.LENGTH_SHORT, R.color.app_main_color))
             appMsg.duration = Const.DELAY_SHOW_MSG
             appMsg.show()
         }
