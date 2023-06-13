@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,9 +62,7 @@ class MainEditDetailFragment : Fragment() {
                             noteId
                         )
                     lifecycleScope.launch(Dispatchers.Main) {
-                        Log.e(TAG, "list: $list")
                         val sorted = list.sortedBy { id }
-                        Log.e(TAG, "sorted: $sorted")
                         setRecyclerView(sorted, noteId, maxId + 1, note)
                     }
                 }
@@ -82,7 +79,6 @@ class MainEditDetailFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             (binding.recyclerView.adapter as EditNoteRvAdapter).print()
             val result = (binding.recyclerView.adapter as EditNoteRvAdapter).getResult()
-            Log.e(TAG, "result: $result")
             lifecycleScope.launch(Dispatchers.IO) {
                 (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.insertNoteItemAll(result)
                 lifecycleScope.launch(Dispatchers.Main) {
@@ -132,7 +128,6 @@ class MainEditDetailFragment : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
 
         val converted = DataUtil.convertToNoteItemViewModel(list)
-        Log.e(TAG, "converted: $converted")
         binding.recyclerView.adapter = EditNoteRvAdapter(
             converted,
             noteId,
