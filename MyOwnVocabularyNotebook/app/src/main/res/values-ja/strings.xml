@@ -55,4 +55,5 @@
     <string name="text_hint_email_text">内容: </string>
     <string name="text_send">伝送</string>
     <string name="text_send_email_vaildate_fail">タイトル入力と内容入力を確認してください。</string>
+    <string name="text_privacy_policy">個人情報保護方針</string>
 </resources>

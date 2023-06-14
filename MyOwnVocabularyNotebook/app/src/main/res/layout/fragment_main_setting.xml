@@ -62,7 +62,7 @@
             app:layout_constraintWidth_percent="0.8">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btn_opensource_license"
+                android:id="@+id/btn_privacy_policy"
                 android:layout_width="0dp"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/cardview_light_background"
@@ -73,6 +73,43 @@
                 app:cardElevation="4dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toTopOf="@+id/btn_terms_and_conditions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_opensource_license"
+                app:layout_constraintVertical_bias="0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="@string/text_privacy_policy"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_opensource_license"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/cardview_light_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toTopOf="@+id/btn_privacy_policy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -107,14 +144,13 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:visibility="gone"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="4dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintBottom_toTopOf="@+id/btn_personal_information_processing_policy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_opensource_license">
+                app:layout_constraintTop_toBottomOf="@+id/btn_privacy_policy">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

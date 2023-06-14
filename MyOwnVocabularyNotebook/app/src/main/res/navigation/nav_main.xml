@@ -42,6 +42,15 @@
     <fragment
         android:id="@+id/fragment_customer_suggestions"
         android:name="com.jh.myownvocabularynotebook.main.setting.CustomerSuggestionsFragment" />
+
+    <fragment
+        android:id="@+id/fragment_web_view"
+        android:name="com.jh.myownvocabularynotebook.main.setting.WebViewFragment" />
+
+    <fragment
+        android:id="@+id/fragment_mark_down"
+        android:name="com.jh.myownvocabularynotebook.main.setting.MarkDownFragment" />
+
     <action
         android:id="@+id/action_default_to_add"
         app:destination="@id/fragment_main_add" />
@@ -81,6 +90,14 @@
         app:destination="@id/fragment_main_edit_detail" />
 
     <action
+        android:id="@+id/action_setting_to_web_view"
+        app:destination="@id/fragment_web_view" />
+
+    <action
+        android:id="@+id/action_setting_to_mark_down"
+        app:destination="@id/fragment_mark_down" />
+
+    <action
         android:id="@+id/action_setting_to_open_source"
         app:destination="@id/fragment_open_source" />
     <action
@@ -108,5 +125,6 @@
     <action
         android:id="@+id/action_game_to_game_detail"
         app:destination="@id/fragment_main_game_detail" />
+
 
 </navigation>

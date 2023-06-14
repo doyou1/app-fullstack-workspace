@@ -1,5 +1,7 @@
 package com.jh.myownvocabularynotebook.main.setting
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.jh.myownvocabularynotebook.R
 import com.jh.myownvocabularynotebook.databinding.FragmentMainSettingBinding
+import com.jh.myownvocabularynotebook.util.Const
 
 class MainSettingFragment : Fragment() {
 
@@ -37,11 +40,33 @@ class MainSettingFragment : Fragment() {
             // Handle the back button event
             Navigation.findNavController(requireView()).navigateUp()
         }
+
+        binding.btnPrivacyPolicy.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(Const.TEXT_URL, Const.URL_PRIVACY_POLICY)
+            if (isNetworkAvailable()) {
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_setting_to_web_view, bundle)
+            } else {
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_setting_to_mark_down, bundle)
+            }
+        }
+
         binding.btnOpensourceLicense.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_setting_to_open_source)
         }
-        binding.btnTermsAndConditions.setOnClickListener {
 
+        binding.btnTermsAndConditions.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(Const.TEXT_URL, Const.URL_TERMS_AND_CONDITIONS)
+            if (isNetworkAvailable()) {
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_setting_to_web_view, bundle)
+            } else {
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_setting_to_mark_down, bundle)
+            }
         }
         binding.btnPersonalInformationProcessingPolicy.setOnClickListener {
 
@@ -62,5 +87,16 @@ class MainSettingFragment : Fragment() {
                 }
             }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager: ConnectivityManager =
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        return if (connectivityManager.activeNetworkInfo != null) {
+            connectivityManager.activeNetworkInfo!!.isConnected
+        } else {
+            false
+        }
     }
 }
