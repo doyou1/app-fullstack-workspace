@@ -6,20 +6,17 @@ import com.jh.myownvocabularynotebook.room.entity.NoteItem
 
 @Dao
 interface NoteDao {
-
-
     @Query("SELECT * FROM Note")
     fun getNoteAll(): List<Note>
 
     @Query("SELECT * FROM Note WHERE id = :id")
     fun getNoteById(id: Long): Note
 
-    @Query("SELECT max(id) FROM NoteItem GROUP BY id")
+    @Query("SELECT max(id) FROM NoteItem")
     fun getNoteItemMaxId(): Long
 
     @Query("SELECT * FROM NoteItem WHERE noteId = :noteId")
     fun getNoteItemAllByNoteId(noteId: Long): List<NoteItem>
-
 
     @Insert
     fun insertNote(item: Note)
@@ -56,5 +53,8 @@ interface NoteDao {
 
     @Delete
     fun deleteNoteItemAll(item: List<NoteItem>)
+
+    @Query("DELETE FROM NoteItem WHERE noteId = :noteId and id not in (:ids)")
+    fun deleteNoteItemNotExist(ids: List<Long>, noteId: Long)
 
 }

@@ -16,5 +16,4 @@ class BaseApplication : Application() {
     val noteDao by lazy {
         db.noteDao()
     }
-
 }

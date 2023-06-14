@@ -13,9 +13,6 @@ import com.jh.myownvocabularynotebook.R
 import com.jh.myownvocabularynotebook.databinding.FragmentMarkDownBinding
 import com.jh.myownvocabularynotebook.util.Const
 import io.noties.markwon.Markwon
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.StringWriter
 
 class MarkDownFragment : Fragment() {
 

@@ -1,7 +1,5 @@
 package com.jh.myownvocabularynotebook.util
 
-import android.os.Bundle
-import androidx.navigation.Navigation
 import com.jh.myownvocabularynotebook.R
 
 object Const {
