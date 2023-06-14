@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -42,6 +43,7 @@ class WebViewFragment : Fragment() {
     private fun setWebView() {
         arguments?.let {
             val url = it.getString(Const.TEXT_URL)
+            binding.webView.webViewClient = WebViewClient()
             binding.webView.loadUrl(url!!)
         }
         binding.showUI = true

@@ -45,11 +45,17 @@ class MarkDownFragment : Fragment() {
     }
 
     private fun setMarkDown() {
-        val markwon = Markwon.create(requireContext())
-        markwon.setMarkdown(
-            binding.markDownView,
-            requireContext().resources.getString(R.string.text_privacy_policy_md)
-        )
+        arguments?.let {
+            val url = it.getString(Const.TEXT_URL)
+            val markwon = Markwon.create(requireContext())
+            val markdown = if (url!! == Const.URL_PRIVACY_POLICY) {
+                markwon.toMarkdown(requireContext().resources.getString(R.string.text_privacy_policy_md))
+            } else {
+                markwon.toMarkdown(requireContext().resources.getString(R.string.text_terms_and_conditions_md))
+            }
+            markwon.setParsedMarkdown(binding.markDownView, markdown)
+        }
+
         binding.showUI = true
     }
 

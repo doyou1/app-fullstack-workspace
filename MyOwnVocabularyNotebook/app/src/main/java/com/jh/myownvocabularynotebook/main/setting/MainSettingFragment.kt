@@ -25,7 +25,6 @@ class MainSettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainSettingBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
