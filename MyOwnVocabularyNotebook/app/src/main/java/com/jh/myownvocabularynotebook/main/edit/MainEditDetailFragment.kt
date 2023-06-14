@@ -20,10 +20,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
+import com.jh.myownvocabularynotebook.BaseApplication
 import com.jh.myownvocabularynotebook.R
 import com.jh.myownvocabularynotebook.databinding.FragmentMainEditDetailBinding
 import com.jh.myownvocabularynotebook.room.entity.Note
 import com.jh.myownvocabularynotebook.room.entity.NoteItem
+import com.jh.myownvocabularynotebook.room.viewmodel.NoteItemViewModel
 import com.jh.myownvocabularynotebook.util.AppMsgUtil
 import com.jh.myownvocabularynotebook.util.Const
 import com.jh.myownvocabularynotebook.util.DataUtil
@@ -45,25 +47,28 @@ class MainEditDetailFragment : Fragment() {
         return binding.root
     }
 
+    private var maxId: Long = -1
+    private var noteId: Long = -1
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            val noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
+            noteId = it.getLong(Const.TEXT_NOTE_ID, -1)
             handler.postDelayed({
                 lifecycleScope.launch(Dispatchers.IO) {
                     val list =
-                        (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.getNoteItemAllByNoteId(
+                        (requireActivity().application as BaseApplication).noteDao.getNoteItemAllByNoteId(
                             noteId
-                        )
-                    val maxId =
-                        (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.getNoteItemMaxId()
+                        ).toMutableList()
+                    maxId =
+                        (requireActivity().application as BaseApplication).noteDao.getNoteItemMaxId()
                     val note =
-                        (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.getNoteById(
+                        (requireActivity().application as BaseApplication).noteDao.getNoteById(
                             noteId
                         )
                     lifecycleScope.launch(Dispatchers.Main) {
                         val sorted = list.sortedBy { id }
-                        setRecyclerView(sorted, noteId, maxId + 1, note)
+                        setRecyclerView(sorted, noteId, note)
                     }
                 }
             }, Const.DELAY_SHOW_UI)
@@ -77,30 +82,35 @@ class MainEditDetailFragment : Fragment() {
 
     private fun setClickEvent() {
         binding.btnSave.setOnClickListener {
-            (binding.recyclerView.adapter as EditNoteRvAdapter).print()
-            val result = (binding.recyclerView.adapter as EditNoteRvAdapter).getResult()
+            val result = (binding.recyclerView.adapter as EditNoteRvAdapter).getResult(maxId)
+            val ids = arrayListOf<Long>()
+            for(item in result) {
+                ids.add(item.id)
+            }
+
             lifecycleScope.launch(Dispatchers.IO) {
-                (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.insertNoteItemAll(result)
+                (requireActivity().application as BaseApplication).noteDao.insertNoteItemAll(
+                    result
+                )
+                // remove when noteId not exist in result
+                (requireActivity().application as BaseApplication).noteDao.deleteNoteItemNotExist(
+                    ids,noteId
+                )
+
+
                 lifecycleScope.launch(Dispatchers.Main) {
                     AppMsgUtil.showMsg(
                         requireContext().getString(R.string.text_insert_note_item_success),
                         requireActivity()
                     )
                     arguments?.let {
-                        val noteId =
-                            it.getLong(Const.TEXT_NOTE_ID, -1)
-                        val bundle = Bundle()
-                        bundle.putLong(Const.TEXT_NOTE_ID, noteId)
-                        Navigation.findNavController(requireView())
-                            .navigate(R.id.action_refresh_edit_detail, bundle)
+                        maxId = result[result.size -1].id
                     }
                 }
             }
         }
         binding.btnItemAdd.setOnClickListener {
-            val newSize = (binding.recyclerView.adapter as EditNoteRvAdapter).addEditItem()
-            (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(newSize, 1)
-            moveToBottom()
+            addEmptyItem()
         }
         binding.btnImport.setOnClickListener {
             // android 13 above
@@ -120,20 +130,18 @@ class MainEditDetailFragment : Fragment() {
     private fun setRecyclerView(
         list: List<NoteItem>,
         noteId: Long,
-        nextId: Long,
         note: Note
     ) {
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerView.layoutManager = layoutManager
-
         val converted = DataUtil.convertToNoteItemViewModel(list)
         binding.recyclerView.adapter = EditNoteRvAdapter(
             converted,
             noteId,
-            nextId,
             note
         )
+        addEmptyItem()
         binding.showUI = true
         moveToBottom()
     }
@@ -199,15 +207,8 @@ class MainEditDetailFragment : Fragment() {
                                 takeFlags
                             )
                             FileUtil.readExcel(uri, requireContext())?.let { workbook ->
-                                DataUtil.convertExcelToItems(workbook)?.let { list ->
-                                    val newSize =
-                                        (binding.recyclerView.adapter as EditNoteRvAdapter).addAllEditItem(
-                                            DataUtil.convertToNoteItemViewModel(list)
-                                        )
-                                    (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeChanged(
-                                        newSize,
-                                        list.size
-                                    )
+                                DataUtil.convertExcelToItems(workbook)?.let { _list ->
+                                    addImportedItems(_list)
                                 }
                             }
                         } catch (e: Exception) {
@@ -226,5 +227,24 @@ class MainEditDetailFragment : Fragment() {
         binding.recyclerView.scrollToPosition(
             binding.recyclerView.adapter?.itemCount?.minus(1) ?: 0
         )
+    }
+
+    private fun addEmptyItem() {
+        (binding.recyclerView.adapter as EditNoteRvAdapter).list.add(NoteItemViewModel(noteId = noteId))
+        (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemInserted(
+            (binding.recyclerView.adapter as EditNoteRvAdapter).list.size - 1
+        )
+        moveToBottom()
+    }
+
+    private fun addImportedItems(_list: List<NoteItem>) {
+        val converted =
+            DataUtil.convertToNoteItemViewModel(_list)
+        (binding.recyclerView.adapter as EditNoteRvAdapter).list.addAll(converted)
+        (binding.recyclerView.adapter as EditNoteRvAdapter).notifyItemRangeInserted(
+            (binding.recyclerView.adapter as EditNoteRvAdapter).list.size - 1,
+            converted.size
+        )
+        moveToBottom()
     }
 }
