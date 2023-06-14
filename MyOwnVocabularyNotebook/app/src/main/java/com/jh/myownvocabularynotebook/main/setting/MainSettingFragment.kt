@@ -67,9 +67,6 @@ class MainSettingFragment : Fragment() {
                     .navigate(R.id.action_setting_to_mark_down, bundle)
             }
         }
-        binding.btnPersonalInformationProcessingPolicy.setOnClickListener {
-
-        }
         binding.btnCustomerSuggestions.setOnClickListener {
             Navigation.findNavController(requireView())
                 .navigate(R.id.action_setting_to_customer_suggestions)
