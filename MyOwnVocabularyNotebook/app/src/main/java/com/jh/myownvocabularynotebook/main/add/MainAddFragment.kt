@@ -60,36 +60,17 @@ class MainAddFragment : Fragment() {
             if (isValidate()) {
                 val title = binding.etTitle.text!!.toString()
                 val memo = binding.etMemo.text.toString()
-                val useTranslation = binding.swiUseTranslation.isChecked
-                var keyCountryCode = ""
-                var valueCountryCode = ""
-                if (useTranslation) {
-                    val keyId = binding.spinnerKey.selectedItemId
-                    val valueId = binding.spinnerValue.selectedItemId
-                    if (keyId == valueId) {
-                        AppMsgUtil.showErrMsg(
-                            requireContext().getString(R.string.text_select_equal_language),
-                            requireActivity()
-                        )
-                        return@setOnClickListener
-                    }
-                    keyCountryCode = Const.SELECT_LANGUAGE_LIST[keyId.toInt()].countryCode
-                    valueCountryCode = Const.SELECT_LANGUAGE_LIST[valueId.toInt()].countryCode
-                }
+
                 lifecycleScope.launch(Dispatchers.IO) {
                     if (prev != null) {
                         val item = Note(
                             prev!!.id,
                             title,
-                            memo,
-                            useTranslation,
-                            keyCountryCode,
-                            valueCountryCode
+                            memo
                         )
                         (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.updateNote(item)
                     } else {
-                        val item =
-                            Note(0, title, memo, useTranslation, keyCountryCode, valueCountryCode)
+                        val item = Note(0, title, memo)
                         (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.insertNote(item)
                     }
                     lifecycleScope.launch(Dispatchers.Main) {
@@ -123,28 +104,10 @@ class MainAddFragment : Fragment() {
                 lifecycleScope.launch(Dispatchers.Main) {
                     binding.etTitle.setText(item.title)
                     binding.etMemo.setText(item.memo)
-                    binding.swiUseTranslation.isChecked = item.useTranslation
-
-                    if (item.useTranslation) {
-                        binding.layoutSelectTranslationLanguage.visibility = View.VISIBLE
-                        val prevKeyIdx =
-                            Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.keyLanguage }[0].id.toInt()
-                        val prevValueIdx =
-                            Const.SELECT_LANGUAGE_LIST.filter { v -> v.countryCode == item.valueLanguage }[0].id.toInt()
-                        binding.spinnerKey.setSelection(prevKeyIdx)
-                        binding.spinnerValue.setSelection(prevValueIdx)
-                    }
                     prev = item
                 }
             }
         }, Const.DELAY_SHOW_UI)
-    }
-
-    private fun setSelectLanguageSpinner() {
-        binding.spinnerKey.adapter = SelectLanguageAdapter(Const.SELECT_LANGUAGE_LIST)
-        binding.spinnerKey.setSelection(1)
-        binding.spinnerValue.adapter = SelectLanguageAdapter(Const.SELECT_LANGUAGE_LIST)
-        binding.spinnerValue.setSelection(2)
     }
 
     private fun isValidate(): Boolean {
