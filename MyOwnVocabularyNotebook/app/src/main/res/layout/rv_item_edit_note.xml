@@ -78,6 +78,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="?attr/actionBarSize"
+                android:contentDescription="@string/content_description_btn_remove"
                 app:icon="@drawable/baseline_cancel_24"
                 app:iconGravity="textEnd"
                 app:iconTint="@color/black"
