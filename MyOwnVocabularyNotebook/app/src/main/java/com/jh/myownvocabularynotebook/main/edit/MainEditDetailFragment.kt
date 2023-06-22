@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,7 +85,7 @@ class MainEditDetailFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             val result = (binding.recyclerView.adapter as EditNoteRvAdapter).getResult(maxId)
             val ids = arrayListOf<Long>()
-            for(item in result) {
+            for (item in result) {
                 ids.add(item.id)
             }
 
@@ -94,7 +95,7 @@ class MainEditDetailFragment : Fragment() {
                 )
                 // remove when noteId not exist in result
                 (requireActivity().application as BaseApplication).noteDao.deleteNoteItemNotExist(
-                    ids,noteId
+                    ids, noteId
                 )
 
 
@@ -104,7 +105,7 @@ class MainEditDetailFragment : Fragment() {
                         requireActivity()
                     )
                     arguments?.let {
-                        maxId = result[result.size -1].id
+                        maxId = result[result.size - 1].id
                     }
                 }
             }
@@ -206,12 +207,24 @@ class MainEditDetailFragment : Fragment() {
                                 uri,
                                 takeFlags
                             )
-                            FileUtil.readExcel(uri, requireContext())?.let { workbook ->
-                                DataUtil.convertExcelToItems(workbook)?.let { _list ->
-                                    addImportedItems(_list)
+                            binding.showUI = false
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                FileUtil.readExcel(uri, requireContext())?.let { workbook ->
+                                    DataUtil.convertExcelToItems(workbook)?.let { _list ->
+                                        lifecycleScope.launch(Dispatchers.Main) {
+                                            addImportedItems(_list)
+                                            binding.showUI = true
+                                        }
+                                    }
                                 }
                             }
-                        } catch (e: Exception) {
+
+                            // 念のため
+                            handler.postDelayed({
+                                binding.showUI = true
+                            }, 3000L)
+
+                            } catch (e: Exception) {
                             e.printStackTrace()
                             AppMsgUtil.showErrMsg(
                                 requireContext().getString(R.string.text_fail_import_excel),

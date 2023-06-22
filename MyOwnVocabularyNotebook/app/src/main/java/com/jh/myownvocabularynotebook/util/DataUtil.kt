@@ -1,5 +1,6 @@
 package com.jh.myownvocabularynotebook.util
 
+import android.util.Log
 import com.jh.myownvocabularynotebook.room.entity.NoteItem
 import com.jh.myownvocabularynotebook.room.viewmodel.GameNoteItemExamViewModel
 import com.jh.myownvocabularynotebook.room.viewmodel.GameNoteItemFlipViewModel
@@ -10,6 +11,8 @@ import org.apache.poi.ss.usermodel.Workbook
 class DataUtil {
 
     companion object {
+
+        private val TAG = this::class.java.simpleName
 
         fun convertToNoteItemViewModel(list: List<NoteItem>): List<NoteItemViewModel> {
             val result = arrayListOf<NoteItemViewModel>()
@@ -95,10 +98,10 @@ class DataUtil {
                 val valueCellIdx = 1
                 for (i in 1..sheet.lastRowNum) {
                     val row = sheet.getRow(i)
-                    val key = row.getCell(keyCellIdx).toString()
-                    val value = row.getCell(valueCellIdx).toString()
-                    if (key.isNotEmpty() && value.isNotEmpty()) {
-                        result.add(NoteItem(key = key, value = value))
+                    row.getCell(keyCellIdx)?.let { key ->
+                        row.getCell(valueCellIdx)?.let { value ->
+                            result.add(NoteItem(key = key.toString(), value = value.toString()))
+                        }
                     }
                 }
                 result
