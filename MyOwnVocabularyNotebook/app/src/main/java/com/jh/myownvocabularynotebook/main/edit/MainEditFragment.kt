@@ -53,7 +53,8 @@ class MainEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         handler.postDelayed({
             lifecycleScope.launch(Dispatchers.IO) {
-                val list = (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.getNoteAll()
+                val list =
+                    (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.getNoteAll()
                 lifecycleScope.launch(Dispatchers.Main) {
                     setRecyclerView(list)
                 }
@@ -97,9 +98,11 @@ class MainEditFragment : Fragment() {
                             takeFlags
                         )
                         lifecycleScope.launch(Dispatchers.IO) {
+
                             val id = (binding.recyclerView.adapter as NoteRvAdapter).currentId
                             val title = (binding.recyclerView.adapter as NoteRvAdapter).currentTitle
-                            if (id != -1L && title != "") {
+
+                            if (id != -1L) {
                                 val list =
                                     (requireActivity().application as com.jh.myownvocabularynotebook.BaseApplication).noteDao.getNoteItemAllByNoteId(
                                         id

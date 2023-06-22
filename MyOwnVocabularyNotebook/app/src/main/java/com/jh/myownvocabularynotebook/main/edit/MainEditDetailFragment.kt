@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -210,7 +209,7 @@ class MainEditDetailFragment : Fragment() {
                             binding.showUI = false
                             lifecycleScope.launch(Dispatchers.IO) {
                                 FileUtil.readExcel(uri, requireContext())?.let { workbook ->
-                                    DataUtil.convertExcelToItems(workbook)?.let { _list ->
+                                    DataUtil.convertExcelToItems(workbook, noteId)?.let { _list ->
                                         lifecycleScope.launch(Dispatchers.Main) {
                                             addImportedItems(_list)
                                             binding.showUI = true

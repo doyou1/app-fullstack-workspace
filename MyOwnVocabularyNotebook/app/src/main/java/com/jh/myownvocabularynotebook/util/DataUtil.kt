@@ -88,7 +88,7 @@ class DataUtil {
             return result
         }
 
-        fun convertExcelToItems(workbook: Workbook): List<NoteItem>? {
+        fun convertExcelToItems(workbook: Workbook, noteId: Long): List<NoteItem>? {
             val sheet = workbook.getSheet(Const.TEXT_RESULT)
             val keyTitle = sheet.getRow(0).getCell(0).toString()
             val valueTitle = sheet.getRow(0).getCell(1).toString()
@@ -100,7 +100,13 @@ class DataUtil {
                     val row = sheet.getRow(i)
                     row.getCell(keyCellIdx)?.let { key ->
                         row.getCell(valueCellIdx)?.let { value ->
-                            result.add(NoteItem(key = key.toString(), value = value.toString()))
+                            result.add(
+                                NoteItem(
+                                    noteId = noteId,
+                                    key = key.toString(),
+                                    value = value.toString()
+                                )
+                            )
                         }
                     }
                 }
