@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintWidth_percent="0.25">
+                app:layout_constraintWidth_percent="0.3">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 app:layout_constraintStart_toEndOf="@+id/card_view_add"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintWidth_percent="0.25">
+                app:layout_constraintWidth_percent="0.3">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -110,7 +110,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/card_view_setting"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/card_view_add"
-                app:layout_constraintWidth_percent="0.25">
+                app:layout_constraintWidth_percent="0.3">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/card_view_game"
                 app:layout_constraintTop_toBottomOf="@+id/card_view_edit"
-                app:layout_constraintWidth_percent="0.25">
+                app:layout_constraintWidth_percent="0.3">
 
                 <TextView
                     android:layout_width="match_parent"
